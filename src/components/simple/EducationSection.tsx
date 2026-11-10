@@ -11,6 +11,7 @@ interface EducationSectionProps {
   certifications: Certification[];
 }
 
+// Single source of truth: reads directly from content/education.json via props
 export function EducationSection({ education, certifications }: EducationSectionProps) {
   const { lang, t } = useViewPreferences();
 

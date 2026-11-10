@@ -20,7 +20,7 @@ export function EducationApp({
       case 'in-progress':
         return (
           <Badge variant="warning" className="text-[10px]">
-            {lang === 'es' ? 'En curso / Etapa final' : 'In Progress'}
+            {lang === 'es' ? 'En curso / Etapa final' : 'In Progress / Final Stage'}
           </Badge>
         );
       case 'paused':

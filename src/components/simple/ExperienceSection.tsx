@@ -10,6 +10,7 @@ interface ExperienceSectionProps {
   experience: Experience[];
 }
 
+// Single source of truth: reads directly from content/experience.json via props
 export function ExperienceSection({ experience }: ExperienceSectionProps) {
   const { lang, t } = useViewPreferences();
 
