@@ -119,7 +119,7 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
                   className="inline-flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
                 >
                   <GithubIcon className="w-4 h-4" />
-                  <span>{lang === 'es' ? 'Ver Repositorio' : 'View Repository'}</span>
+                  <span>{lang === 'es' ? 'Repositorio' : 'Repository'}</span>
                 </a>
               )}
               {project.links.demo && (

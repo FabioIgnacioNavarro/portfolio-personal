@@ -5,6 +5,7 @@ import { Project } from '@/lib/schemas';
 import { useWindowManager } from '@/context/WindowManagerContext';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { FileCode, FolderOpen, ArrowRight } from 'lucide-react';
+import { GithubIcon } from '@/components/common/Icons';
 import { Badge } from '@/components/common/Badge';
 
 export function ProjectsFolderApp({ projects }: { projects: Project[] }) {
@@ -93,9 +94,22 @@ export function ProjectsFolderApp({ projects }: { projects: Project[] }) {
               </div>
 
               <div className="pt-2 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
-                <span className="text-[10px] text-slate-400 font-mono">
-                  {lang === 'es' ? 'Doble clic para abrir' : 'Double click to read'}
-                </span>
+                {p.links.repo ? (
+                  <a
+                    href={p.links.repo}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={(e) => e.stopPropagation()}
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+                  >
+                    <GithubIcon className="w-3.5 h-3.5" />
+                    <span>{lang === 'es' ? 'Repositorio' : 'Repository'}</span>
+                  </a>
+                ) : (
+                  <span className="text-[10px] text-slate-400 font-mono">
+                    {lang === 'es' ? 'Doble clic para abrir' : 'Double click to read'}
+                  </span>
+                )}
                 <button
                   onClick={(e) => {
                     e.stopPropagation();

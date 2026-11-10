@@ -93,10 +93,11 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                       href={project.links.repo}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                      aria-label="Código fuente"
+                      className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition-colors"
+                      aria-label={lang === 'es' ? 'Repositorio de código' : 'Code repository'}
                     >
-                      <GithubIcon className="w-4 h-4" />
+                      <GithubIcon className="w-3.5 h-3.5" />
+                      <span>{lang === 'es' ? 'Repositorio' : 'Repository'}</span>
                     </a>
                   )}
                   {project.links.demo && (

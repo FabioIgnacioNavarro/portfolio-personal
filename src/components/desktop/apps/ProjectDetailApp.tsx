@@ -82,7 +82,7 @@ export function ProjectDetailApp({ projects, activeSlug, onBackToFolder }: Proje
                 className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition-colors shadow-xs"
               >
                 <GithubIcon className="w-4 h-4" />
-                <span>{lang === 'es' ? 'Repositorio en GitHub' : 'GitHub Repository'}</span>
+                <span>{lang === 'es' ? 'Repositorio' : 'Repository'}</span>
               </a>
             )}
             {project.links.demo && (
