@@ -28,6 +28,7 @@ export function useResizable({
   onResize,
 }: UseResizableOptions) {
   const isResizingRef = useRef(false);
+  const rafIdRef = useRef<number | null>(null);
   const resizeStateRef = useRef<{
     direction: ResizeDirection;
     startX: number;
@@ -64,51 +65,65 @@ export function useResizable({
     (e: React.PointerEvent) => {
       if (!isResizingRef.current || !resizeStateRef.current || isMaximized) return;
 
-      const { direction, startX, startY, startWidth, startHeight, startPosX, startPosY } =
-        resizeStateRef.current;
+      const clientX = e.clientX;
+      const clientY = e.clientY;
 
-      const deltaX = e.clientX - startX;
-      const deltaY = e.clientY - startY;
+      if (rafIdRef.current !== null) return;
 
-      let newWidth = startWidth;
-      let newHeight = startHeight;
-      let newPosX = startPosX;
-      let newPosY = startPosY;
+      rafIdRef.current = requestAnimationFrame(() => {
+        rafIdRef.current = null;
+        if (!isResizingRef.current || !resizeStateRef.current) return;
 
-      // Horizontal resize
-      if (direction.includes('e')) {
-        newWidth = Math.max(minSize.width, startWidth + deltaX);
-      } else if (direction.includes('w')) {
-        const potentialWidth = startWidth - deltaX;
-        if (potentialWidth >= minSize.width) {
-          newWidth = potentialWidth;
-          newPosX = startPosX + deltaX;
-        } else {
-          newWidth = minSize.width;
-          newPosX = startPosX + (startWidth - minSize.width);
+        const { direction, startX, startY, startWidth, startHeight, startPosX, startPosY } =
+          resizeStateRef.current;
+
+        const deltaX = clientX - startX;
+        const deltaY = clientY - startY;
+
+        let newWidth = startWidth;
+        let newHeight = startHeight;
+        let newPosX = startPosX;
+        let newPosY = startPosY;
+
+        // Horizontal resize
+        if (direction.includes('e')) {
+          newWidth = Math.max(minSize.width, startWidth + deltaX);
+        } else if (direction.includes('w')) {
+          const potentialWidth = startWidth - deltaX;
+          if (potentialWidth >= minSize.width) {
+            newWidth = potentialWidth;
+            newPosX = startPosX + deltaX;
+          } else {
+            newWidth = minSize.width;
+            newPosX = startPosX + (startWidth - minSize.width);
+          }
         }
-      }
 
-      // Vertical resize
-      if (direction.includes('s')) {
-        newHeight = Math.max(minSize.height, startHeight + deltaY);
-      } else if (direction.includes('n')) {
-        const potentialHeight = startHeight - deltaY;
-        if (potentialHeight >= minSize.height) {
-          newHeight = potentialHeight;
-          newPosY = startPosY + deltaY;
-        } else {
-          newHeight = minSize.height;
-          newPosY = startPosY + (startHeight - minSize.height);
+        // Vertical resize
+        if (direction.includes('s')) {
+          newHeight = Math.max(minSize.height, startHeight + deltaY);
+        } else if (direction.includes('n')) {
+          const potentialHeight = startHeight - deltaY;
+          if (potentialHeight >= minSize.height) {
+            newHeight = potentialHeight;
+            newPosY = startPosY + deltaY;
+          } else {
+            newHeight = minSize.height;
+            newPosY = startPosY + (startHeight - minSize.height);
+          }
         }
-      }
 
-      onResize({ width: newWidth, height: newHeight }, { x: newPosX, y: newPosY });
+        onResize({ width: newWidth, height: newHeight }, { x: newPosX, y: newPosY });
+      });
     },
     [minSize, isMaximized, onResize],
   );
 
   const handlePointerUp = useCallback((e: React.PointerEvent) => {
+    if (rafIdRef.current !== null) {
+      cancelAnimationFrame(rafIdRef.current);
+      rafIdRef.current = null;
+    }
     if (isResizingRef.current) {
       isResizingRef.current = false;
       resizeStateRef.current = null;

@@ -120,7 +120,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
               zIndex,
             }
       }
-      className={`flex flex-col bg-white dark:bg-slate-900 border transition-shadow duration-150 select-none ${
+      className={`flex flex-col bg-white dark:bg-slate-900 border select-none ${
         isMaximized ? 'rounded-none border-0' : 'rounded-xl shadow-2xl'
       } ${
         isActive
@@ -193,7 +193,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
       </div>
 
       {/* Window Body */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 bg-slate-50/50 dark:bg-slate-950/40 select-text">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 bg-slate-50 dark:bg-slate-950 select-text overscroll-contain">
         {children}
       </div>
 

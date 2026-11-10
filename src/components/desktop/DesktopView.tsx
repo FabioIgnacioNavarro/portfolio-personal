@@ -102,63 +102,79 @@ export function DesktopView({ content }: DesktopViewProps) {
       {/* Windows Layer */}
       <div className="absolute inset-0 pb-12 pointer-events-none [&>*]:pointer-events-auto">
         {/* 1. About Window */}
-        <Window windowState={windows.about} iconNode={<User className="w-4 h-4" />}>
-          <AboutApp profile={content.profile} />
-        </Window>
+        {windows.about.isOpen && (
+          <Window windowState={windows.about} iconNode={<User className="w-4 h-4" />}>
+            <AboutApp profile={content.profile} />
+          </Window>
+        )}
 
         {/* 2. Projects Folder Window */}
-        <Window
-          windowState={windows.projects}
-          iconNode={<Folder className="w-4 h-4 text-amber-500" />}
-        >
-          <ProjectsFolderApp projects={content.projects} />
-        </Window>
+        {windows.projects.isOpen && (
+          <Window
+            windowState={windows.projects}
+            iconNode={<Folder className="w-4 h-4 text-amber-500" />}
+          >
+            <ProjectsFolderApp projects={content.projects} />
+          </Window>
+        )}
 
         {/* 3. Project Detail Window */}
-        <Window
-          windowState={windows['project-detail']}
-          iconNode={<FileCode className="w-4 h-4 text-blue-500" />}
-        >
-          <ProjectDetailApp
-            projects={content.projects}
-            activeSlug={windows['project-detail'].activeProjectSlug}
-            onBackToFolder={() => openWindow('projects')}
-          />
-        </Window>
+        {windows['project-detail'].isOpen && (
+          <Window
+            windowState={windows['project-detail']}
+            iconNode={<FileCode className="w-4 h-4 text-blue-500" />}
+          >
+            <ProjectDetailApp
+              projects={content.projects}
+              activeSlug={windows['project-detail'].activeProjectSlug}
+              onBackToFolder={() => openWindow('projects')}
+            />
+          </Window>
+        )}
 
         {/* 4. Experience Window */}
-        <Window
-          windowState={windows.experience}
-          iconNode={<Briefcase className="w-4 h-4 text-emerald-500" />}
-        >
-          <ExperienceApp experience={content.experience} />
-        </Window>
+        {windows.experience.isOpen && (
+          <Window
+            windowState={windows.experience}
+            iconNode={<Briefcase className="w-4 h-4 text-emerald-500" />}
+          >
+            <ExperienceApp experience={content.experience} />
+          </Window>
+        )}
 
         {/* 5. Skills Window */}
-        <Window windowState={windows.skills} iconNode={<Cpu className="w-4 h-4 text-purple-500" />}>
-          <SkillsApp skills={content.skills} />
-        </Window>
+        {windows.skills.isOpen && (
+          <Window windowState={windows.skills} iconNode={<Cpu className="w-4 h-4 text-purple-500" />}>
+            <SkillsApp skills={content.skills} />
+          </Window>
+        )}
 
         {/* 6. Education Window */}
-        <Window
-          windowState={windows.education}
-          iconNode={<GraduationCap className="w-4 h-4 text-indigo-500" />}
-        >
-          <EducationApp education={content.education} certifications={content.certifications} />
-        </Window>
+        {windows.education.isOpen && (
+          <Window
+            windowState={windows.education}
+            iconNode={<GraduationCap className="w-4 h-4 text-indigo-500" />}
+          >
+            <EducationApp education={content.education} certifications={content.certifications} />
+          </Window>
+        )}
 
         {/* 7. Contact Window */}
-        <Window windowState={windows.contact} iconNode={<Mail className="w-4 h-4 text-rose-500" />}>
-          <ContactApp profile={content.profile} />
-        </Window>
+        {windows.contact.isOpen && (
+          <Window windowState={windows.contact} iconNode={<Mail className="w-4 h-4 text-rose-500" />}>
+            <ContactApp profile={content.profile} />
+          </Window>
+        )}
 
         {/* 8. Terminal Window */}
-        <Window
-          windowState={windows.terminal}
-          iconNode={<Terminal className="w-4 h-4 text-teal-500" />}
-        >
-          <TerminalApp content={content} />
-        </Window>
+        {windows.terminal.isOpen && (
+          <Window
+            windowState={windows.terminal}
+            iconNode={<Terminal className="w-4 h-4 text-teal-500" />}
+          >
+            <TerminalApp content={content} />
+          </Window>
+        )}
       </div>
 
       {/* Bottom Taskbar */}

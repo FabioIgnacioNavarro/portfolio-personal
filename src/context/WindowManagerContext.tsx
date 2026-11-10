@@ -180,20 +180,23 @@ export function WindowManagerProvider({ children }: { children: React.ReactNode 
   }, []);
 
   const focusWindow = useCallback((id: WindowId) => {
-    highestZIndexRef.current += 1;
-    const nextZ = highestZIndexRef.current;
-    setWindows((prevWindows) => {
-      if (!prevWindows[id]) return prevWindows;
-      return {
-        ...prevWindows,
-        [id]: {
-          ...prevWindows[id],
-          zIndex: nextZ,
-          isMinimized: false,
-        },
-      };
+    setActiveWindowId((prevActive) => {
+      if (prevActive === id) return prevActive;
+      highestZIndexRef.current += 1;
+      const nextZ = highestZIndexRef.current;
+      setWindows((prevWindows) => {
+        if (!prevWindows[id]) return prevWindows;
+        return {
+          ...prevWindows,
+          [id]: {
+            ...prevWindows[id],
+            zIndex: nextZ,
+            isMinimized: false,
+          },
+        };
+      });
+      return id;
     });
-    setActiveWindowId(id);
   }, []);
 
   const openWindow = useCallback((id: WindowId, options?: { projectSlug?: string }) => {

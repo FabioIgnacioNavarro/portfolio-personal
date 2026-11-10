@@ -25,10 +25,7 @@ interface TaskbarProps {
   profile: Profile;
 }
 
-export function Taskbar({ profile }: TaskbarProps) {
-  const { windows, activeWindowId, focusWindow, minimizeWindow } = useWindowManager();
-  const { lang, setLang, theme, toggleTheme, setMode, t } = useViewPreferences();
-  const [startMenuOpen, setStartMenuOpen] = useState(false);
+function SystemClock({ lang }: { lang: 'es' | 'en' }) {
   const [time, setTime] = useState<string>('');
 
   useEffect(() => {
@@ -47,6 +44,18 @@ export function Taskbar({ profile }: TaskbarProps) {
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
   }, [lang]);
+
+  return (
+    <div className="hidden sm:flex items-center px-2 py-1 rounded-lg text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
+      {time}
+    </div>
+  );
+}
+
+export function Taskbar({ profile }: TaskbarProps) {
+  const { windows, activeWindowId, focusWindow, minimizeWindow } = useWindowManager();
+  const { lang, setLang, theme, toggleTheme, setMode, t } = useViewPreferences();
+  const [startMenuOpen, setStartMenuOpen] = useState(false);
 
   const getWindowIcon = (id: WindowId) => {
     switch (id) {
@@ -168,9 +177,7 @@ export function Taskbar({ profile }: TaskbarProps) {
           </button>
 
           {/* Clock */}
-          <div className="hidden sm:flex items-center px-2 py-1 rounded-lg text-xs font-mono font-medium text-slate-700 dark:text-slate-300">
-            {time}
-          </div>
+          <SystemClock lang={lang} />
         </div>
       </nav>
     </>

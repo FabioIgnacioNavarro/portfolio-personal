@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Project } from '@/lib/schemas';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { renderMarkdown } from '@/lib/markdown';
@@ -19,10 +19,10 @@ export function ProjectDetailApp({ projects, activeSlug, onBackToFolder }: Proje
 
   const project = projects.find((p) => p.id === activeSlug) || projects[0];
 
-  if (!project) return null;
+  const caseStudyMd = project ? (lang === 'es' ? project.caseStudy.es : project.caseStudy.en) : '';
+  const renderedHtml = useMemo(() => renderMarkdown(caseStudyMd), [caseStudyMd]);
 
-  const caseStudyMd = lang === 'es' ? project.caseStudy.es : project.caseStudy.en;
-  const renderedHtml = renderMarkdown(caseStudyMd);
+  if (!project) return null;
 
   return (
     <div className="space-y-6 max-w-3xl mx-auto">

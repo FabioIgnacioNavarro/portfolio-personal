@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useMemo } from 'react';
 import { Project } from '@/lib/schemas';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { renderMarkdown } from '@/lib/markdown';
@@ -35,23 +35,29 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
     };
   }, [project, onClose]);
 
-  if (!project) return null;
+  const caseStudyMd = project ? (lang === 'es' ? project.caseStudy.es : project.caseStudy.en) : '';
+  const renderedHtml = useMemo(() => renderMarkdown(caseStudyMd), [caseStudyMd]);
 
-  const caseStudyMd = lang === 'es' ? project.caseStudy.es : project.caseStudy.en;
-  const renderedHtml = renderMarkdown(caseStudyMd);
+  if (!project) return null;
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-slate-900/70 backdrop-blur-sm animate-in fade-in duration-200"
-      onClick={onClose}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-project-title"
     >
+      {/* High-performance darkened backdrop - separated from dialog to prevent scroll repaints */}
+      <div
+        className="fixed inset-0 bg-slate-950/75 transition-opacity"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+
       <div
         ref={modalRef}
         onClick={(e) => e.stopPropagation()}
-        className="bg-white dark:bg-slate-900 w-full max-w-3xl max-h-[90vh] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden animate-in zoom-in-95 duration-200"
+        className="relative z-10 bg-white dark:bg-slate-900 w-full max-w-3xl max-h-[90vh] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden"
       >
         {/* Modal Header */}
         <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex items-start justify-between gap-4">
@@ -88,7 +94,7 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
         </div>
 
         {/* Modal Scrollable Body */}
-        <div className="p-6 overflow-y-auto space-y-6">
+        <div className="p-6 overflow-y-auto space-y-6 overscroll-contain">
           {/* Summary */}
           <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200/60 dark:border-slate-800 text-sm sm:text-base text-slate-700 dark:text-slate-300">
             {t(project.summary)}

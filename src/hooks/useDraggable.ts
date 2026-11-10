@@ -19,6 +19,7 @@ export function useDraggable({
   onMaximizeToggle,
 }: UseDraggableOptions) {
   const isDraggingRef = useRef(false);
+  const rafIdRef = useRef<number | null>(null);
   const dragStartRef = useRef<{
     pointerX: number;
     pointerY: number;
@@ -60,25 +61,39 @@ export function useDraggable({
     (e: React.PointerEvent) => {
       if (!isDraggingRef.current || isMaximized) return;
 
-      const deltaX = e.clientX - dragStartRef.current.pointerX;
-      const deltaY = e.clientY - dragStartRef.current.pointerY;
+      const clientX = e.clientX;
+      const clientY = e.clientY;
 
-      // Clamp so window title bar cannot be completely dragged off-screen
-      const newX = Math.max(
-        -200,
-        Math.min(window.innerWidth - 100, dragStartRef.current.windowX + deltaX),
-      );
-      const newY = Math.max(
-        0,
-        Math.min(window.innerHeight - 100, dragStartRef.current.windowY + deltaY),
-      );
+      if (rafIdRef.current !== null) return;
 
-      onPositionChange({ x: newX, y: newY });
+      rafIdRef.current = requestAnimationFrame(() => {
+        rafIdRef.current = null;
+        if (!isDraggingRef.current) return;
+
+        const deltaX = clientX - dragStartRef.current.pointerX;
+        const deltaY = clientY - dragStartRef.current.pointerY;
+
+        // Clamp so window title bar cannot be completely dragged off-screen
+        const newX = Math.max(
+          -200,
+          Math.min(window.innerWidth - 100, dragStartRef.current.windowX + deltaX),
+        );
+        const newY = Math.max(
+          0,
+          Math.min(window.innerHeight - 100, dragStartRef.current.windowY + deltaY),
+        );
+
+        onPositionChange({ x: newX, y: newY });
+      });
     },
     [onPositionChange, isMaximized],
   );
 
   const handlePointerUp = useCallback((e: React.PointerEvent) => {
+    if (rafIdRef.current !== null) {
+      cancelAnimationFrame(rafIdRef.current);
+      rafIdRef.current = null;
+    }
     if (isDraggingRef.current) {
       isDraggingRef.current = false;
       try {
