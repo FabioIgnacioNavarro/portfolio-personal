@@ -1,0 +1,22 @@
+[
+  {
+    "id": "informatorio-django",
+    "name": {
+      "es": "Informatorio Nivel 2 - Desarrollo Web con Django",
+      "en": "Informatorio Level 2 - Web Development with Django"
+    },
+    "issuer": "Gobierno de la Provincia del Chaco / Informatorio",
+    "issueDate": "2023",
+    "credentialUrl": ""
+  },
+  {
+    "id": "english-b2-cert",
+    "name": {
+      "es": "Certificación de Inglés Nivel B2 (Intermedio Alto / Profesional)",
+      "en": "B2 English Certification (Upper-Intermediate / Professional)"
+    },
+    "issuer": "UNNE / Entidad Evaluadora de Idiomas",
+    "issueDate": "2023",
+    "credentialUrl": ""
+  }
+]

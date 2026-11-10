@@ -1,0 +1,32 @@
+{
+  "id": "comercial-management",
+  "title": {
+    "es": "Sistema Integral de Gestión Comercial para Distribuidora",
+    "en": "Commercial Distribution Management System"
+  },
+  "summary": {
+    "es": "Plataforma integral para una distribuidora familiar: backend con Node.js y TypeScript sobre PostgreSQL/Supabase, panel administrativo web en React y app móvil de preventa/stock con React Native y Expo.",
+    "en": "Comprehensive management platform for a family distribution business: Node.js and TypeScript backend over PostgreSQL/Supabase, React web admin dashboard, and mobile field sales/stock app with React Native and Expo."
+  },
+  "role": {
+    "es": "Full Stack Lead & Arquitecto de Software",
+    "en": "Full Stack Lead & Software Architect"
+  },
+  "status": "in-progress",
+  "technologies": [
+    "TypeScript",
+    "Node.js",
+    "PostgreSQL",
+    "Supabase",
+    "React",
+    "React Native",
+    "Expo",
+    "ADRs"
+  ],
+  "links": {
+    "repo": "",
+    "demo": ""
+  },
+  "screenshots": [],
+  "featured": true
+}
