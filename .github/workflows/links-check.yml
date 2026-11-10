@@ -1,0 +1,30 @@
+name: Broken Links Audit
+
+on:
+  schedule:
+    - cron: '0 12 * * 1' # Runs every Monday at 12:00 UTC
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  check-links:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 12.18.0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Verify Content Schemas and URLs
+        run: pnpm test
