@@ -92,7 +92,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
             href={profile.links.github}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Perfil de GitHub"
+            aria-label={lang === 'es' ? 'Perfil de GitHub' : 'GitHub profile'}
             className="p-2 rounded-lg hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           >
             <GithubIcon className="w-5 h-5" />
@@ -101,14 +101,14 @@ export function HeroSection({ profile }: HeroSectionProps) {
             href={profile.links.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Perfil de LinkedIn"
+            aria-label={lang === 'es' ? 'Perfil de LinkedIn' : 'LinkedIn profile'}
             className="p-2 rounded-lg hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           >
             <LinkedinIcon className="w-5 h-5" />
           </a>
           <a
             href={`mailto:${profile.links.email}`}
-            aria-label="Enviar correo electrónico"
+            aria-label={lang === 'es' ? 'Enviar correo electrónico' : 'Send email'}
             className="p-2 rounded-lg hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           >
             <Mail className="w-5 h-5" />

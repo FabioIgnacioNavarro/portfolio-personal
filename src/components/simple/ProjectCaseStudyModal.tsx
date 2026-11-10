@@ -86,7 +86,7 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
 
           <button
             onClick={onClose}
-            aria-label="Cerrar modal"
+            aria-label={lang === 'es' ? 'Cerrar modal' : 'Close modal'}
             className="p-2 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           >
             <X className="w-5 h-5" />

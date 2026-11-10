@@ -147,7 +147,7 @@ export function TerminalApp({ content }: { content: PortfolioContent }) {
           onKeyDown={handleKeyDown}
           autoFocus
           className="flex-1 bg-transparent text-slate-100 outline-none border-none p-0 focus:ring-0 font-mono text-xs sm:text-sm"
-          aria-label="Entrada de comandos de la terminal"
+          aria-label={lang === 'es' ? 'Entrada de comandos de la terminal' : 'Terminal command input'}
         />
       </form>
       <div ref={bottomRef} />

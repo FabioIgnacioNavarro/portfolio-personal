@@ -12,11 +12,12 @@ interface ViewPreferencesContextType {
   setLang: (lang: Language) => void;
   mode: ViewMode;
   setMode: (mode: ViewMode) => void;
+  isTransitioning: boolean;
   theme: Theme;
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
   toggleLang: () => void;
-  t: (text: LocalizedText | undefined) => string;
+  t: (text: LocalizedText | string | null | undefined) => string;
 }
 
 const ViewPreferencesContext = createContext<ViewPreferencesContextType | undefined>(undefined);
@@ -26,6 +27,7 @@ export function ViewPreferencesProvider({ children }: { children: React.ReactNod
   const [mode, setModeState] = useState<ViewMode>('simple');
   const [theme, setThemeState] = useState<Theme>('light');
   const [isHydrated, setIsHydrated] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
     // 1. Language detection
@@ -88,8 +90,18 @@ export function ViewPreferencesProvider({ children }: { children: React.ReactNod
   };
 
   const setMode = (newMode: ViewMode) => {
-    setModeState(newMode);
-    localStorage.setItem('portfolio-mode', newMode);
+    if (newMode === mode) return;
+    if (newMode === 'simple' && mode === 'desktop') {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setModeState(newMode);
+        localStorage.setItem('portfolio-mode', newMode);
+        setIsTransitioning(false);
+      }, 200);
+    } else {
+      setModeState(newMode);
+      localStorage.setItem('portfolio-mode', newMode);
+    }
   };
 
   const setTheme = (newTheme: Theme) => {
@@ -106,8 +118,9 @@ export function ViewPreferencesProvider({ children }: { children: React.ReactNod
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
-  const t = (text: LocalizedText | undefined): string => {
+  const t = (text: LocalizedText | string | null | undefined): string => {
     if (!text) return '';
+    if (typeof text === 'string') return text;
     return text[lang] || text.es || '';
   };
 
@@ -118,6 +131,7 @@ export function ViewPreferencesProvider({ children }: { children: React.ReactNod
         setLang,
         mode,
         setMode,
+        isTransitioning,
         theme,
         setTheme,
         toggleTheme,

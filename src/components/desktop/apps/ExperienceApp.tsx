@@ -16,7 +16,7 @@ export function ExperienceApp({ experience }: { experience: Experience[] }) {
           ? lang === 'es'
             ? 'Actualidad'
             : 'Present'
-          : item.endDate;
+          : t(item.endDate);
 
         return (
           <div
@@ -28,7 +28,7 @@ export function ExperienceApp({ experience }: { experience: Experience[] }) {
               <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-slate-400">
                 <Calendar className="w-3.5 h-3.5" />
                 <span>
-                  {item.startDate} — {endDateDisplay}
+                  {t(item.startDate)} — {endDateDisplay}
                 </span>
               </div>
             </div>

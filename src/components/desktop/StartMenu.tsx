@@ -79,7 +79,7 @@ export function StartMenu({ isOpen, onClose, profile }: StartMenuProps) {
     },
     {
       id: 'terminal',
-      label: { es: 'Terminal Simulada', en: 'Terminal CLI' },
+      label: { es: 'Terminal', en: 'Terminal' },
       icon: <Terminal className="w-4 h-4 text-teal-500" />,
     },
   ];
@@ -94,7 +94,7 @@ export function StartMenu({ isOpen, onClose, profile }: StartMenuProps) {
   return (
     <div
       ref={menuRef}
-      className="absolute bottom-14 left-2 w-80 sm:w-96 rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-800 shadow-2xl z-50 overflow-hidden animate-in slide-in-from-bottom-2 duration-150"
+      className="absolute bottom-14 left-2 w-80 sm:w-96 rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-800 shadow-2xl z-50 overflow-hidden animate-start-menu"
     >
       {/* Top Banner with Profile Header */}
       <div className="p-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex items-center justify-between">
@@ -110,7 +110,7 @@ export function StartMenu({ isOpen, onClose, profile }: StartMenuProps) {
 
         <button
           onClick={onClose}
-          aria-label="Cerrar menú de inicio"
+          aria-label={lang === 'es' ? 'Cerrar menú de inicio' : 'Close start menu'}
           className="p-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-colors"
         >
           <X className="w-4 h-4" />

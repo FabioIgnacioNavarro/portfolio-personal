@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { PortfolioContent } from '@/lib/content';
 import { useWindowManager, WindowId } from '@/context/WindowManagerContext';
+import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { DesktopIcon } from './DesktopIcon';
 import { Window } from './Window';
 import { Taskbar } from './Taskbar';
@@ -31,6 +32,7 @@ interface DesktopViewProps {
 
 export function DesktopView({ content }: DesktopViewProps) {
   const { windows, openWindow } = useWindowManager();
+  const { isTransitioning } = useViewPreferences();
   const [selectedIcon, setSelectedIcon] = useState<WindowId | null>(null);
 
   const desktopIcons: {
@@ -78,7 +80,9 @@ export function DesktopView({ content }: DesktopViewProps) {
   return (
     <div
       onClick={() => setSelectedIcon(null)}
-      className="relative w-screen h-screen overflow-hidden select-none pb-12 bg-slate-950"
+      className={`relative w-screen h-screen overflow-hidden select-none pb-12 bg-slate-950 transition-opacity duration-200 ${
+        isTransitioning ? 'opacity-0 pointer-events-none' : 'opacity-100'
+      }`}
     >
       {/* Desktop Wallpaper (Unsplash: Brown rock formation under blue sky) */}
       <div

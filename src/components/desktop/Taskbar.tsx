@@ -6,9 +6,7 @@ import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { Profile } from '@/lib/schemas';
 import { StartMenu } from './StartMenu';
 import {
-  Sparkles,
-  Sun,
-  Moon,
+  Power,
   Globe,
   FileText,
   User,
@@ -54,7 +52,7 @@ function SystemClock({ lang }: { lang: 'es' | 'en' }) {
 
 export function Taskbar({ profile }: TaskbarProps) {
   const { windows, activeWindowId, focusWindow, minimizeWindow } = useWindowManager();
-  const { lang, setLang, theme, toggleTheme, setMode, t } = useViewPreferences();
+  const { lang, setLang, setMode, t } = useViewPreferences();
   const [startMenuOpen, setStartMenuOpen] = useState(false);
 
   const getWindowIcon = (id: WindowId) => {
@@ -94,14 +92,14 @@ export function Taskbar({ profile }: TaskbarProps) {
       <StartMenu isOpen={startMenuOpen} onClose={() => setStartMenuOpen(false)} profile={profile} />
 
       <nav
-        aria-label="Barra de tareas del escritorio"
+        aria-label={lang === 'es' ? 'Barra de tareas del escritorio' : 'Desktop taskbar'}
         className="fixed bottom-0 left-0 right-0 h-12 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-t border-slate-200/80 dark:border-slate-800/80 px-2 sm:px-3 flex items-center justify-between gap-2 shadow-lg select-none"
       >
         {/* Left: Start Button */}
         <div className="flex items-center gap-2">
           <button
             onClick={() => setStartMenuOpen(!startMenuOpen)}
-            aria-label="Abrir menú de inicio"
+            aria-label={lang === 'es' ? 'Abrir menú de inicio' : 'Open start menu'}
             aria-expanded={startMenuOpen}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-xl font-bold text-xs transition-all ${
               startMenuOpen
@@ -109,8 +107,7 @@ export function Taskbar({ profile }: TaskbarProps) {
                 : 'bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100'
             }`}
           >
-            <span className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse"></span>
-            <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+            <Power className="w-3.5 h-3.5 text-rose-500 dark:text-rose-400" />
             <span className="tracking-tight">{lang === 'es' ? 'Inicio' : 'Start'}</span>
           </button>
         </div>
@@ -144,8 +141,8 @@ export function Taskbar({ profile }: TaskbarProps) {
           <button
             onClick={() => setMode('simple')}
             title={lang === 'es' ? 'Cambiar a Modo Simple' : 'Switch to Simple Mode'}
-            aria-label="Cambiar a Modo Simple"
-            className="flex items-center gap-1 px-2 py-1 text-xs font-semibold rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-colors"
+            aria-label={lang === 'es' ? 'Cambiar a Modo Simple' : 'Switch to Simple Mode'}
+            className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-colors"
           >
             <FileText className="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" />
             <span className="hidden sm:inline">Simple</span>
@@ -154,26 +151,12 @@ export function Taskbar({ profile }: TaskbarProps) {
           {/* Language Toggle */}
           <button
             onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
-            aria-label={`Cambiar idioma (${lang.toUpperCase()})`}
+            aria-label={lang === 'es' ? 'Cambiar idioma a Inglés' : 'Switch language to Spanish'}
             title={`Cambiar idioma (${lang.toUpperCase()})`}
             className="flex items-center gap-1 px-2 py-1 text-xs font-bold rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-colors"
           >
             <Globe className="w-3.5 h-3.5 text-blue-500" />
             <span>{lang.toUpperCase()}</span>
-          </button>
-
-          {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            aria-label={theme === 'dark' ? 'Activar tema claro' : 'Activar tema oscuro'}
-            title={theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro'}
-            className="p-1.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-colors"
-          >
-            {theme === 'dark' ? (
-              <Sun className="w-3.5 h-3.5 text-amber-400" />
-            ) : (
-              <Moon className="w-3.5 h-3.5 text-slate-600" />
-            )}
           </button>
 
           {/* Clock */}

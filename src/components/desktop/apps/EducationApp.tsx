@@ -61,7 +61,7 @@ export function EducationApp({
                   <span className="flex items-center gap-1 text-[11px] text-slate-500 dark:text-slate-400">
                     <Calendar className="w-3 h-3" />
                     <span>
-                      {item.startDate} {item.endDate ? `— ${item.endDate}` : ''}
+                      {t(item.startDate)} {item.endDate ? `— ${t(item.endDate)}` : ''}
                     </span>
                   </span>
                 </div>

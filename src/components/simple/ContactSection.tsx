@@ -49,7 +49,11 @@ export function ContactSection({ profile }: ContactSectionProps) {
             <button
               onClick={copyEmail}
               className="inline-flex items-center gap-2 px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 font-medium text-sm transition-colors shadow-sm"
-              aria-label="Copiar correo electrónico al portapapeles"
+              aria-label={
+                lang === 'es'
+                  ? 'Copiar correo electrónico al portapapeles'
+                  : 'Copy email to clipboard'
+              }
             >
               {copied ? (
                 <Check className="w-4 h-4 text-emerald-500" />

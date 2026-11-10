@@ -35,7 +35,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
     updateSize,
     activeWindowId,
   } = useWindowManager();
-  const { t } = useViewPreferences();
+  const { t, lang } = useViewPreferences();
 
   const isActive = activeWindowId === id;
 
@@ -178,7 +178,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
                 e.stopPropagation();
                 minimizeWindow(id);
               }}
-              aria-label="Minimizar ventana"
+              aria-label={lang === 'es' ? 'Minimizar ventana' : 'Minimize window'}
               className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 hover:text-slate-800 dark:hover:text-white transition-colors"
             >
               <Minus className="w-3.5 h-3.5" />
@@ -190,7 +190,15 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
                 e.stopPropagation();
                 toggleMaximize(id);
               }}
-              aria-label={isMaximized ? 'Restaurar ventana' : 'Maximizar ventana'}
+              aria-label={
+                isMaximized
+                  ? lang === 'es'
+                    ? 'Restaurar ventana'
+                    : 'Restore window'
+                  : lang === 'es'
+                    ? 'Maximizar ventana'
+                    : 'Maximize window'
+              }
               className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 hover:text-slate-800 dark:hover:text-white transition-colors"
             >
               {isMaximized ? <Copy className="w-3 h-3" /> : <Square className="w-3 h-3" />}
@@ -202,7 +210,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
                 e.stopPropagation();
                 closeWindow(id);
               }}
-              aria-label="Cerrar ventana"
+              aria-label={lang === 'es' ? 'Cerrar ventana' : 'Close window'}
               className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-rose-500 hover:text-white text-slate-500 transition-colors"
             >
               <X className="w-3.5 h-3.5" />

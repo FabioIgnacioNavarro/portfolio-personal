@@ -2,14 +2,14 @@
 
 import React, { useState } from 'react';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
-import { Monitor, FileText, Sun, Moon, Globe, Menu, X } from 'lucide-react';
+import { Monitor, FileText, Globe, Menu, X } from 'lucide-react';
 
 interface HeaderProps {
   onDesktopModeSelect?: () => void;
 }
 
 export function Header({ onDesktopModeSelect }: HeaderProps) {
-  const { lang, setLang, mode, setMode, theme, toggleTheme } = useViewPreferences();
+  const { lang, setLang, mode, setMode } = useViewPreferences();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
@@ -41,7 +41,10 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
         </a>
 
         {/* Desktop Nav Links */}
-        <nav className="hidden md:flex items-center gap-6" aria-label="Navegación principal">
+        <nav
+          className="hidden md:flex items-center gap-6"
+          aria-label={lang === 'es' ? 'Navegación principal' : 'Main navigation'}
+        >
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -59,11 +62,11 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
           <div
             className="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 rounded-lg border border-slate-200 dark:border-slate-700"
             role="group"
-            aria-label="Selector de modo de visualización"
+            aria-label={lang === 'es' ? 'Selector de modo de visualización' : 'View mode selector'}
           >
             <button
               onClick={() => handleModeChange('simple')}
-              aria-label="Modo Simple (Lectura rápida)"
+              aria-label={lang === 'es' ? 'Modo Simple (Lectura rápida)' : 'Simple Mode (Fast Reading)'}
               title={lang === 'es' ? 'Modo Simple (Lectura rápida)' : 'Simple Mode (Fast Reading)'}
               className={`flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md transition-all ${
                 mode === 'simple'
@@ -76,9 +79,11 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
             </button>
             <button
               onClick={() => handleModeChange('desktop')}
-              aria-label="Modo Escritorio interactivo"
+              aria-label={
+                lang === 'es' ? 'Modo Escritorio interactivo' : 'Interactive Desktop Mode'
+              }
               title={
-                lang === 'es' ? 'Modo Escritorio interactivo' : 'Desktop Mode (Interactive OS)'
+                lang === 'es' ? 'Modo Escritorio interactivo' : 'Interactive Desktop Mode'
               }
               className={`flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md transition-all ${
                 mode === 'desktop'
@@ -94,7 +99,7 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
           {/* Language Toggle */}
           <button
             onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
-            aria-label={`Cambiar idioma a ${lang === 'es' ? 'Inglés' : 'Español'}`}
+            aria-label={lang === 'es' ? 'Cambiar idioma a Inglés' : 'Switch language to Spanish'}
             title={`Cambiar idioma (${lang.toUpperCase()})`}
             className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           >
@@ -102,25 +107,11 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
             <span>{lang.toUpperCase()}</span>
           </button>
 
-          {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            aria-label={theme === 'dark' ? 'Activar tema claro' : 'Activar tema oscuro'}
-            title={theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro'}
-            className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-          >
-            {theme === 'dark' ? (
-              <Sun className="w-4 h-4 text-amber-400" />
-            ) : (
-              <Moon className="w-4 h-4 text-slate-600" />
-            )}
-          </button>
-
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300"
-            aria-label="Abrir menú de navegación"
+            aria-label={lang === 'es' ? 'Abrir menú de navegación' : 'Open navigation menu'}
             aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}

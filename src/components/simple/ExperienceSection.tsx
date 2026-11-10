@@ -37,7 +37,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
               ? lang === 'es'
                 ? 'Actualidad'
                 : 'Present'
-              : item.endDate;
+              : t(item.endDate);
 
             return (
               <div key={item.id} className="relative pl-9 sm:pl-10">
@@ -52,7 +52,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                     <div className="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
                       <Calendar className="w-3.5 h-3.5 text-slate-400" />
                       <span>
-                        {item.startDate} — {endDateDisplay}
+                        {t(item.startDate)} — {endDateDisplay}
                       </span>
                     </div>
                   </div>

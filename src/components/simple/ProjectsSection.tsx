@@ -106,7 +106,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="p-1.5 rounded-lg text-slate-500 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                      aria-label="Demo en vivo"
+                      aria-label={lang === 'es' ? 'Demo en vivo' : 'Live demo'}
                     >
                       <ExternalLink className="w-4 h-4" />
                     </a>

@@ -54,16 +54,17 @@ test.describe('Simple Mode & Dual-Language Navigation', () => {
     await expect(modal).not.toBeVisible();
   });
 
-  test('allows toggling theme between light and dark', async ({ page }) => {
+  test('allows switching from Simple Mode to Desktop Mode', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
 
-    // Target specifically the theme button by aria-label
-    const themeBtn = page.locator('button[aria-label*="tema"]');
-    await expect(themeBtn).toBeVisible();
-    await themeBtn.click();
+    // Find Desktop button in mode selector
+    const desktopBtn = page.locator('button:has-text("Desktop")');
+    await expect(desktopBtn).toBeVisible();
+    await desktopBtn.click();
 
-    const isDark = await page.evaluate(() => document.documentElement.classList.contains('dark'));
-    expect(typeof isDark).toBe('boolean');
+    // Verify Desktop Mode elements are rendered
+    const taskbar = page.locator('nav[aria-label*="Barra de tareas"], nav[aria-label*="taskbar"]');
+    await expect(taskbar).toBeVisible();
   });
 });

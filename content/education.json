@@ -7,11 +7,14 @@
       "en": "Associate Degree in Computer Programming"
     },
     "status": "in-progress",
-    "startDate": "2022",
-    "endDate": "TODO (Egreso previsto)",
+    "startDate": "2025",
+    "endDate": {
+      "es": "Diciembre 2026 (En 1 mes)",
+      "en": "December 2026 (In 1 month)"
+    },
     "description": {
-      "es": "Etapa final de la carrera. Formación práctica enfocada en estructuras de datos, programación orientada a objetos, bases de datos relacionales y desarrollo de software.",
-      "en": "Final stage of the degree. Practical training focused on data structures, object-oriented programming, relational databases, and software engineering."
+      "es": "Etapa final de la carrera con egreso previsto para dentro de un mes (Diciembre 2026). Formación práctica enfocada en estructuras de datos, programación orientada a objetos, bases de datos relacionales y desarrollo de software.",
+      "en": "Final stage of the degree with graduation next month (December 2026). Practical training focused on data structures, object-oriented programming, relational databases, and software engineering."
     }
   },
   {
@@ -22,7 +25,7 @@
       "en": "Information Systems Engineering"
     },
     "status": "paused",
-    "startDate": "2020",
+    "startDate": "2023",
     "endDate": null,
     "description": {
       "es": "Segundo año cursado y aprobado (en pausa para priorizar la finalización de la Tecnicatura). Bases sólidas en álgebra, algoritmos, arquitectura de computadoras y análisis de sistemas.",
@@ -36,12 +39,12 @@
       "es": "Trayecto Formativo Integral en Lengua Inglesa (5 años)",
       "en": "Comprehensive English Language Program (5 years)"
     },
-    "status": "completed",
-    "startDate": "2018",
-    "endDate": "2023",
+    "status": "in-progress",
+    "startDate": "2023",
+    "endDate": "2027",
     "description": {
-      "es": "Cinco años de formación intensiva en comprensión lectora, producción escrita, conversación fluida y terminología técnica internacional.",
-      "en": "Five years of intensive training in reading comprehension, written production, fluent conversation, and international technical terminology."
+      "es": "Formación intensiva de 5 años iniciada en 2023 con finalización prevista para el próximo año (2027). Comprensión lectora, producción escrita, conversación fluida y terminología técnica internacional.",
+      "en": "5-year intensive training started in 2023 with expected completion next year (2027). Reading comprehension, written production, fluent conversation, and international technical terminology."
     }
   }
 ]

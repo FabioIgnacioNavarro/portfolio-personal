@@ -62,7 +62,9 @@ export function executeTerminalCommand(
 
     case 'about':
       return {
-        text: `${content.profile.name} — ${content.profile.role[lang]}\n${content.profile.headline[lang]}\n\n${content.profile.summary[lang]}\nUbicación: ${content.profile.location[lang]}`,
+        text: `${content.profile.name} — ${content.profile.role[lang]}\n${content.profile.headline[lang]}\n\n${content.profile.summary[lang]}\n${
+          lang === 'es' ? 'Ubicación' : 'Location'
+        }: ${content.profile.location[lang]}`,
       };
 
     case 'projects':
@@ -70,7 +72,11 @@ export function executeTerminalCommand(
         text: content.projects
           .map(
             (p, idx) =>
-              `[${idx + 1}] ${p.title[lang]} (${p.status})\n    Stack: ${p.technologies.join(', ')}\n    Slug: ${p.id} (Usa 'open ${p.id}' para ver caso)`,
+              `[${idx + 1}] ${p.title[lang]} (${p.status})\n    Stack: ${p.technologies.join(', ')}\n    Slug: ${p.id} (${
+                lang === 'es'
+                  ? `Usa 'open ${p.id}' para ver caso`
+                  : `Use 'open ${p.id}' to view case study`
+              })`,
           )
           .join('\n\n'),
       };
@@ -86,10 +92,13 @@ export function executeTerminalCommand(
       return {
         text: content.experience
           .map(
-            (e) =>
-              `${e.role[lang]} @ ${e.company} (${e.startDate} — ${
-                e.isCurrent ? (lang === 'es' ? 'Actualidad' : 'Present') : e.endDate
-              })\n${e.description[lang]}`,
+            (e) => {
+              const startStr = typeof e.startDate === 'object' ? e.startDate[lang] : e.startDate;
+              const endStr = e.isCurrent
+                ? (lang === 'es' ? 'Actualidad' : 'Present')
+                : (typeof e.endDate === 'object' && e.endDate ? e.endDate[lang] : e.endDate);
+              return `${e.role[lang]} @ ${e.company} (${startStr} — ${endStr})\n${e.description[lang]}`;
+            },
           )
           .join('\n\n'),
       };
@@ -97,11 +106,14 @@ export function executeTerminalCommand(
     case 'education':
       return {
         text: [
-          'EDUCACIÓN:',
+          lang === 'es' ? 'EDUCACIÓN:' : 'EDUCATION:',
           ...content.education.map(
-            (edu) => `  * ${edu.degree[lang]} — ${edu.institution} (${edu.startDate})`,
+            (edu) => {
+              const startStr = typeof edu.startDate === 'object' ? edu.startDate[lang] : edu.startDate;
+              return `  * ${edu.degree[lang]} — ${edu.institution} (${startStr})`;
+            },
           ),
-          '\nCERTIFICACIONES:',
+          lang === 'es' ? '\nCERTIFICACIONES:' : '\nCERTIFICATIONS:',
           ...content.certifications.map(
             (c) => `  * ${c.name[lang]} — ${c.issuer} (${c.issueDate})`,
           ),

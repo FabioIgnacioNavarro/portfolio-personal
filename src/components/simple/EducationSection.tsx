@@ -64,7 +64,7 @@ export function EducationSection({ education, certifications }: EducationSection
                     <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
                       <Calendar className="w-3.5 h-3.5" />
                       <span>
-                        {item.startDate} {item.endDate ? `— ${item.endDate}` : ''}
+                        {t(item.startDate)} {item.endDate ? `— ${t(item.endDate)}` : ''}
                       </span>
                     </div>
                   </div>
