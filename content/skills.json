@@ -2,15 +2,30 @@
   {
     "id": "backend",
     "category": {
-      "es": "Backend",
-      "en": "Backend"
+      "es": "Backend & Microservicios",
+      "en": "Backend & Microservices"
     },
     "skills": [
       { "name": "Python", "highlight": true },
       { "name": "Django", "highlight": true },
       { "name": "Django REST Framework", "highlight": true },
-      { "name": "Node.js", "highlight": true },
-      { "name": "TypeScript", "highlight": true }
+      { "name": "Node.js (LTS)", "highlight": true },
+      { "name": "TypeScript", "highlight": true },
+      { "name": "Microservicios", "highlight": true }
+    ]
+  },
+  {
+    "id": "architecture-observability",
+    "category": {
+      "es": "Arquitectura & Observabilidad",
+      "en": "Architecture & Observability"
+    },
+    "skills": [
+      { "name": "Arquitectura Hexagonal", "highlight": true },
+      { "name": "OpenTelemetry & W3C Trace", "highlight": true },
+      { "name": "Jaeger Distributed Tracing", "highlight": true },
+      { "name": "OIDC / JWKS & RBAC", "highlight": true },
+      { "name": "Architecture Decision Records (ADRs)", "highlight": true }
     ]
   },
   {
@@ -30,13 +45,14 @@
   {
     "id": "databases-cloud",
     "category": {
-      "es": "Bases de Datos & Cloud",
-      "en": "Databases & Cloud"
+      "es": "Bases de Datos & DevOps",
+      "en": "Databases & DevOps"
     },
     "skills": [
       { "name": "PostgreSQL", "highlight": true },
       { "name": "Supabase", "highlight": true },
-      { "name": "Docker", "highlight": true }
+      { "name": "Docker & Docker Compose", "highlight": true },
+      { "name": "Nginx Reverse Proxy", "highlight": false }
     ]
   },
   {
@@ -48,8 +64,8 @@
     "skills": [
       { "name": "Git & GitHub", "highlight": true },
       { "name": "RESTful API Design", "highlight": true },
-      { "name": "Architecture Decision Records (ADRs)", "highlight": true },
-      { "name": "Documentación Técnica", "highlight": false },
+      { "name": "Playwright & Vitest", "highlight": true },
+      { "name": "Pruebas de Carga", "highlight": false },
       { "name": "Scrum / Kanban", "highlight": false }
     ]
   }

@@ -125,7 +125,10 @@ export function ViewPreferencesProvider({ children }: { children: React.ReactNod
         t,
       }}
     >
-      <div className={isHydrated ? 'opacity-100 transition-opacity duration-150' : 'opacity-90'}>
+      <div
+        data-hydrated={isHydrated}
+        className={isHydrated ? 'opacity-100 transition-opacity duration-150' : 'opacity-90'}
+      >
         {children}
       </div>
     </ViewPreferencesContext.Provider>
