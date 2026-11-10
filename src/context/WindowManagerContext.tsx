@@ -30,6 +30,7 @@ export interface WindowState {
   icon: WindowIconType;
   isOpen: boolean;
   isMinimized: boolean;
+  isMinimizing?: boolean;
   isMaximized: boolean;
   zIndex: number;
   position: { x: number; y: number };
@@ -192,6 +193,7 @@ export function WindowManagerProvider({ children }: { children: React.ReactNode 
             ...prevWindows[id],
             zIndex: nextZ,
             isMinimized: false,
+            isMinimizing: false,
           },
         };
       });
@@ -212,6 +214,7 @@ export function WindowManagerProvider({ children }: { children: React.ReactNode 
           ...current,
           isOpen: true,
           isMinimized: false,
+          isMinimizing: false,
           zIndex: nextZ,
           activeProjectSlug: options?.projectSlug ?? current.activeProjectSlug,
         },
@@ -231,6 +234,7 @@ export function WindowManagerProvider({ children }: { children: React.ReactNode 
             ...current,
             isOpen: false,
             isMinimized: false,
+            isMinimizing: false,
             isMaximized: false,
           },
         };
@@ -247,18 +251,34 @@ export function WindowManagerProvider({ children }: { children: React.ReactNode 
     (id: WindowId) => {
       setWindows((prev) => {
         const current = prev[id];
-        if (!current) return prev;
+        if (!current || current.isMinimized || current.isMinimizing) return prev;
         return {
           ...prev,
           [id]: {
             ...current,
-            isMinimized: true,
+            isMinimizing: true,
           },
         };
       });
+
       if (activeWindowId === id) {
         setActiveWindowId(null);
       }
+
+      setTimeout(() => {
+        setWindows((prev) => {
+          const current = prev[id];
+          if (!current || !current.isMinimizing) return prev;
+          return {
+            ...prev,
+            [id]: {
+              ...current,
+              isMinimized: true,
+              isMinimizing: false,
+            },
+          };
+        });
+      }, 180);
     },
     [activeWindowId],
   );
@@ -287,6 +307,7 @@ export function WindowManagerProvider({ children }: { children: React.ReactNode 
           ...current,
           isMaximized: false,
           isMinimized: false,
+          isMinimizing: false,
         },
       };
     });

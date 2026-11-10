@@ -14,8 +14,18 @@ interface WindowProps {
 }
 
 export function Window({ windowState, iconNode, children }: WindowProps) {
-  const { id, title, isMaximized, isMinimized, isOpen, zIndex, position, size, minSize } =
-    windowState;
+  const {
+    id,
+    title,
+    isMaximized,
+    isMinimized,
+    isMinimizing,
+    isOpen,
+    zIndex,
+    position,
+    size,
+    minSize,
+  } = windowState;
   const {
     focusWindow,
     closeWindow,
@@ -55,7 +65,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
     onResize: (newSize, newPos) => updateSize(id, newSize, newPos),
   });
 
-  if (!isOpen || isMinimized) return null;
+  if (!isOpen || (isMinimized && !isMinimizing)) return null;
 
   const resizeHandles: ResizeDirection[] = ['n', 's', 'e', 'w', 'ne', 'nw', 'se', 'sw'];
 
@@ -120,85 +130,95 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
               zIndex,
             }
       }
-      className={`flex flex-col bg-white dark:bg-slate-900 border select-none ${
-        isMaximized ? 'rounded-none border-0' : 'rounded-xl shadow-2xl'
-      } ${
-        isActive
-          ? 'border-blue-500/70 dark:border-blue-400/60 shadow-blue-900/20 ring-1 ring-blue-500/40'
-          : 'border-slate-300 dark:border-slate-800 opacity-95'
-      }`}
+      className="select-none"
     >
-      {/* Title Bar */}
+      {/* Animated Inner Window Frame */}
       <div
-        onPointerDown={handlePointerDown}
-        onPointerMove={onDragMove}
-        onPointerUp={onDragUp}
-        onDoubleClick={handleDoubleClick}
-        className={`h-10 px-3 flex items-center justify-between border-b cursor-grab active:cursor-grabbing transition-colors ${
-          isMaximized ? 'rounded-none' : 'rounded-t-xl'
+        className={`w-full h-full flex flex-col bg-white dark:bg-slate-900 border ${
+          isMaximized ? 'rounded-none border-0' : 'rounded-xl shadow-2xl'
         } ${
           isActive
-            ? 'bg-slate-100 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700'
-            : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800'
+            ? 'border-blue-500/70 dark:border-blue-400/60 shadow-blue-900/20 ring-1 ring-blue-500/40'
+            : 'border-slate-300 dark:border-slate-800 opacity-95'
+        } ${
+          isMinimizing
+            ? 'animate-window-minimize pointer-events-none'
+            : 'animate-window-open'
         }`}
       >
-        {/* Left: Icon and Title */}
-        <div className="flex items-center gap-2 overflow-hidden">
-          {iconNode && (
-            <span className="w-4 h-4 shrink-0 text-blue-600 dark:text-blue-400">{iconNode}</span>
-          )}
-          <span className="text-xs sm:text-sm font-semibold truncate text-slate-800 dark:text-slate-100">
-            {t(title)}
-          </span>
+        {/* Title Bar */}
+        <div
+          onPointerDown={handlePointerDown}
+          onPointerMove={onDragMove}
+          onPointerUp={onDragUp}
+          onDoubleClick={handleDoubleClick}
+          className={`h-10 px-3 flex items-center justify-between border-b cursor-grab active:cursor-grabbing transition-colors shrink-0 ${
+            isMaximized ? 'rounded-none' : 'rounded-t-xl'
+          } ${
+            isActive
+              ? 'bg-slate-100 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700'
+              : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800'
+          }`}
+        >
+          {/* Left: Icon and Title */}
+          <div className="flex items-center gap-2 overflow-hidden">
+            {iconNode && (
+              <span className="w-4 h-4 shrink-0 text-blue-600 dark:text-blue-400">{iconNode}</span>
+            )}
+            <span className="text-xs sm:text-sm font-semibold truncate text-slate-800 dark:text-slate-100">
+              {t(title)}
+            </span>
+          </div>
+
+          {/* Right: Window Controls */}
+          <div className="flex items-center gap-1 shrink-0 ml-2">
+            {/* Minimize */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                minimizeWindow(id);
+              }}
+              aria-label="Minimizar ventana"
+              className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 hover:text-slate-800 dark:hover:text-white transition-colors"
+            >
+              <Minus className="w-3.5 h-3.5" />
+            </button>
+
+            {/* Maximize / Restore */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleMaximize(id);
+              }}
+              aria-label={isMaximized ? 'Restaurar ventana' : 'Maximizar ventana'}
+              className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 hover:text-slate-800 dark:hover:text-white transition-colors"
+            >
+              {isMaximized ? <Copy className="w-3 h-3" /> : <Square className="w-3 h-3" />}
+            </button>
+
+            {/* Close */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                closeWindow(id);
+              }}
+              aria-label="Cerrar ventana"
+              className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-rose-500 hover:text-white text-slate-500 transition-colors"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
 
-        {/* Right: Window Controls */}
-        <div className="flex items-center gap-1 shrink-0 ml-2">
-          {/* Minimize */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              minimizeWindow(id);
-            }}
-            aria-label="Minimizar ventana"
-            className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 hover:text-slate-800 dark:hover:text-white transition-colors"
-          >
-            <Minus className="w-3.5 h-3.5" />
-          </button>
-
-          {/* Maximize / Restore */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              toggleMaximize(id);
-            }}
-            aria-label={isMaximized ? 'Restaurar ventana' : 'Maximizar ventana'}
-            className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 hover:text-slate-800 dark:hover:text-white transition-colors"
-          >
-            {isMaximized ? <Copy className="w-3 h-3" /> : <Square className="w-3 h-3" />}
-          </button>
-
-          {/* Close */}
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              closeWindow(id);
-            }}
-            aria-label="Cerrar ventana"
-            className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-rose-500 hover:text-white text-slate-500 transition-colors"
-          >
-            <X className="w-3.5 h-3.5" />
-          </button>
+        {/* Window Body */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 bg-slate-50 dark:bg-slate-950 select-text overscroll-contain">
+          {children}
         </div>
-      </div>
-
-      {/* Window Body */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 bg-slate-50 dark:bg-slate-950 select-text overscroll-contain">
-        {children}
       </div>
 
       {/* Resize Handles (8 directions) */}
       {!isMaximized &&
+        !isMinimizing &&
         resizeHandles.map((dir) => (
           <div
             key={dir}

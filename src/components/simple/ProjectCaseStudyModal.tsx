@@ -57,7 +57,7 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
       <div
         ref={modalRef}
         onClick={(e) => e.stopPropagation()}
-        className="relative z-10 bg-white dark:bg-slate-900 w-full max-w-3xl max-h-[90vh] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden"
+        className="relative z-10 bg-white dark:bg-slate-900 w-full max-w-3xl max-h-[90vh] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden animate-modal-open"
       >
         {/* Modal Header */}
         <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex items-start justify-between gap-4">

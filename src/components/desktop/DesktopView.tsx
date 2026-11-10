@@ -78,12 +78,23 @@ export function DesktopView({ content }: DesktopViewProps) {
   return (
     <div
       onClick={() => setSelectedIcon(null)}
-      className="relative w-screen h-screen overflow-hidden bg-gradient-to-br from-slate-100 via-slate-200 to-blue-100 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950 select-none pb-12"
-      style={{
-        backgroundImage: `radial-gradient(circle at 1px 1px, rgba(100, 116, 139, 0.15) 1px, transparent 0)`,
-        backgroundSize: '24px 24px',
-      }}
+      className="relative w-screen h-screen overflow-hidden select-none pb-12 bg-slate-950"
     >
+      {/* Desktop Wallpaper (Unsplash: Brown rock formation under blue sky) */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-300"
+        style={{
+          backgroundImage: `url('/images/wallpaper.jpg')`,
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Subtle overlay for legibility & contrast in light and dark modes */}
+      <div
+        className="absolute inset-0 bg-black/15 dark:bg-black/35 pointer-events-none"
+        aria-hidden="true"
+      />
+
       {/* Desktop Icons Area */}
       <div className="absolute top-4 left-4 grid grid-flow-col grid-rows-5 gap-2 z-10">
         {desktopIcons.map((item) => (

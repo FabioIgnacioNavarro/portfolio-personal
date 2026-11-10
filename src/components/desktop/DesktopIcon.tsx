@@ -45,14 +45,14 @@ export function DesktopIcon({ id, label, icon, isSelected = false, onSelect }: D
       aria-label={t(label)}
       className={`group w-24 sm:w-28 p-2.5 flex flex-col items-center gap-1.5 rounded-xl cursor-pointer text-center select-none transition-all outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
         isSelected
-          ? 'bg-blue-500/20 dark:bg-blue-500/30 ring-1 ring-blue-500/50 backdrop-blur-xs'
-          : 'hover:bg-slate-200/50 dark:hover:bg-slate-800/50 hover:backdrop-blur-xs'
+          ? 'bg-blue-600/40 ring-1 ring-blue-300 shadow-sm'
+          : 'hover:bg-white/15'
       }`}
     >
-      <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-xl bg-gradient-to-b from-white/90 to-slate-100/90 dark:from-slate-800/90 dark:to-slate-900/90 shadow-md border border-slate-200/60 dark:border-slate-700/60 group-hover:scale-105 transition-transform text-blue-600 dark:text-blue-400">
+      <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-xl bg-gradient-to-b from-white/95 to-slate-100/90 dark:from-slate-800/95 dark:to-slate-900/90 shadow-md border border-white/40 dark:border-slate-700/60 group-hover:scale-105 transition-transform text-blue-600 dark:text-blue-400">
         {icon}
       </div>
-      <span className="text-xs font-medium text-slate-800 dark:text-slate-100 line-clamp-2 px-1 rounded drop-shadow-xs leading-tight">
+      <span className="text-xs font-semibold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)] line-clamp-2 px-1 rounded leading-tight">
         {t(label)}
       </span>
     </button>
