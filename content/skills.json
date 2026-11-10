@@ -1,0 +1,72 @@
+[
+  {
+    "id": "backend",
+    "category": {
+      "es": "Backend & Microservicios",
+      "en": "Backend & Microservices"
+    },
+    "skills": [
+      { "name": "Python", "highlight": true },
+      { "name": "Django", "highlight": true },
+      { "name": "Django REST Framework", "highlight": true },
+      { "name": "Node.js (LTS)", "highlight": true },
+      { "name": "TypeScript", "highlight": true },
+      { "name": "Microservicios", "highlight": true }
+    ]
+  },
+  {
+    "id": "architecture-observability",
+    "category": {
+      "es": "Arquitectura & Observabilidad",
+      "en": "Architecture & Observability"
+    },
+    "skills": [
+      { "name": "Arquitectura Hexagonal", "highlight": true },
+      { "name": "OpenTelemetry & W3C Trace", "highlight": true },
+      { "name": "Jaeger Distributed Tracing", "highlight": true },
+      { "name": "OIDC / JWKS & RBAC", "highlight": true },
+      { "name": "Architecture Decision Records (ADRs)", "highlight": true }
+    ]
+  },
+  {
+    "id": "frontend-mobile",
+    "category": {
+      "es": "Frontend & Mobile",
+      "en": "Frontend & Mobile"
+    },
+    "skills": [
+      { "name": "React", "highlight": true },
+      { "name": "React Native", "highlight": true },
+      { "name": "Expo", "highlight": false },
+      { "name": "Tailwind CSS", "highlight": true },
+      { "name": "HTML5 & CSS3", "highlight": false }
+    ]
+  },
+  {
+    "id": "databases-cloud",
+    "category": {
+      "es": "Bases de Datos & DevOps",
+      "en": "Databases & DevOps"
+    },
+    "skills": [
+      { "name": "PostgreSQL", "highlight": true },
+      { "name": "Supabase", "highlight": true },
+      { "name": "Docker & Docker Compose", "highlight": true },
+      { "name": "Nginx Reverse Proxy", "highlight": false }
+    ]
+  },
+  {
+    "id": "tools-practices",
+    "category": {
+      "es": "Herramientas & Prácticas",
+      "en": "Tools & Engineering Practices"
+    },
+    "skills": [
+      { "name": "Git & GitHub", "highlight": true },
+      { "name": "RESTful API Design", "highlight": true },
+      { "name": "Playwright & Vitest", "highlight": true },
+      { "name": "Pruebas de Carga", "highlight": false },
+      { "name": "Scrum / Kanban", "highlight": false }
+    ]
+  }
+]

@@ -1,0 +1,34 @@
+{
+  "id": "realtime-travel-platform",
+  "title": {
+    "es": "Plataforma de Microservicios para Viajes en Tiempo Real",
+    "en": "Real-Time Travel Platform with Microservices & Hexagonal Architecture"
+  },
+  "summary": {
+    "es": "Sistema backend distribuido de alta concurrencia con Arquitectura Hexagonal, microservicios en Node.js 22 LTS y TypeScript, base de datos PostgreSQL, observabilidad distribuida completa (OpenTelemetry + Jaeger) y autenticación OIDC/JWKS con RBAC.",
+    "en": "High-concurrency distributed backend system built with Hexagonal Architecture, Node.js 22 LTS & TypeScript microservices, PostgreSQL, full distributed observability (OpenTelemetry + Jaeger), and OIDC/JWKS authentication with RBAC."
+  },
+  "role": {
+    "es": "Backend Engineer & Co-Autor de Arquitectura",
+    "en": "Backend Engineer & Architecture Co-Author"
+  },
+  "status": "completed",
+  "technologies": [
+    "TypeScript",
+    "Node.js 22",
+    "Arquitectura Hexagonal",
+    "PostgreSQL",
+    "OpenTelemetry",
+    "Jaeger",
+    "Docker Compose",
+    "Nginx",
+    "RBAC & JWKS",
+    "Playwright"
+  ],
+  "links": {
+    "repo": "https://github.com/FabioIgnacioNavarro/repo-appweb-viajes-grupo1",
+    "demo": ""
+  },
+  "screenshots": [],
+  "featured": true
+}

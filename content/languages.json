@@ -1,0 +1,32 @@
+[
+  {
+    "id": "es",
+    "language": {
+      "es": "Español",
+      "en": "Spanish"
+    },
+    "proficiency": {
+      "es": "Nativo",
+      "en": "Native"
+    },
+    "details": {
+      "es": "Lengua materna. Excelente comunicación oral y redacción técnica.",
+      "en": "Native speaker. Excellent verbal communication and technical writing."
+    }
+  },
+  {
+    "id": "en",
+    "language": {
+      "es": "Inglés",
+      "en": "English"
+    },
+    "proficiency": {
+      "es": "B2 Profesional / Intermedio Alto (Certificado)",
+      "en": "B2 Professional / Upper-Intermediate (Certified)"
+    },
+    "details": {
+      "es": "Capacidad fluida para comunicarse con equipos internacionales, lectura y redacción de documentación técnica, y trabajo colaborativo remoto.",
+      "en": "Fluent communication with international teams, writing and reading complex technical documentation, and remote collaborative workflows."
+    }
+  }
+]

@@ -1,0 +1,66 @@
+[
+  {
+    "id": "ministerio-educacion",
+    "company": "Ministerio de Educación - Dpto. de Estadísticas Educativas",
+    "role": {
+      "es": "Desarrollador Django",
+      "en": "Django Developer"
+    },
+    "startDate": "TODO (Confirmar fecha de inicio)",
+    "endDate": null,
+    "isCurrent": true,
+    "description": {
+      "es": "Desarrollo y mantenimiento de sistemas internos para la gestión y análisis de estadísticas educativas del sector público.",
+      "en": "Development and maintenance of internal systems for managing and analyzing public educational statistics."
+    },
+    "achievements": [
+      {
+        "es": "Desarrollo y mantenimiento de módulos del sistema con Python y Django.",
+        "en": "Development and maintenance of system core modules using Python and Django."
+      },
+      {
+        "es": "Diseño e implementación de modelos de datos relacionales en PostgreSQL.",
+        "en": "Design and implementation of relational data models in PostgreSQL."
+      },
+      {
+        "es": "Construcción de APIs REST robustas utilizando Django REST Framework (DRF).",
+        "en": "Construction of robust RESTful APIs using Django REST Framework (DRF)."
+      },
+      {
+        "es": "Relevamiento de requerimientos con usuarios finales y elaboración de documentación técnica.",
+        "en": "Requirements gathering with stakeholders and creation of comprehensive technical documentation."
+      },
+      {
+        "es": "Contenerización de entornos de desarrollo y despliegue con Docker.",
+        "en": "Containerization of development and deployment environments using Docker."
+      }
+    ],
+    "technologies": ["Python", "Django", "Django REST Framework", "PostgreSQL", "Docker", "Git"]
+  },
+  {
+    "id": "game-localization",
+    "company": "Proyectos Independientes",
+    "role": {
+      "es": "Especialista en Traducción y Localización de Videojuegos",
+      "en": "Video Game Translation & Localization Specialist"
+    },
+    "startDate": "2023",
+    "endDate": "2025",
+    "isCurrent": false,
+    "description": {
+      "es": "Traducción, adaptación cultural y control de calidad lingüístico para proyectos independientes de videojuegos.",
+      "en": "Translation, cultural adaptation, and linguistic QA for independent video game projects."
+    },
+    "achievements": [
+      {
+        "es": "Adaptación contextual de diálogos, interfaces de usuario y documentación técnica entre inglés y español.",
+        "en": "Contextual adaptation of dialogues, user interfaces, and technical documentation between English and Spanish."
+      },
+      {
+        "es": "Mantenimiento de glosarios y consistencia terminológica en proyectos colaborativos.",
+        "en": "Maintenance of glossaries and terminological consistency across collaborative projects."
+      }
+    ],
+    "technologies": ["Localization", "QA Lingüístico", "English B2", "Spanish Native"]
+  }
+]

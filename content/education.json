@@ -1,0 +1,47 @@
+[
+  {
+    "id": "utn-tup",
+    "institution": "Universidad Tecnológica Nacional (UTN FRRe)",
+    "degree": {
+      "es": "Tecnicatura Universitaria en Programación",
+      "en": "Associate Degree in Computer Programming"
+    },
+    "status": "in-progress",
+    "startDate": "2022",
+    "endDate": "TODO (Egreso previsto)",
+    "description": {
+      "es": "Etapa final de la carrera. Formación práctica enfocada en estructuras de datos, programación orientada a objetos, bases de datos relacionales y desarrollo de software.",
+      "en": "Final stage of the degree. Practical training focused on data structures, object-oriented programming, relational databases, and software engineering."
+    }
+  },
+  {
+    "id": "utn-isi",
+    "institution": "Universidad Tecnológica Nacional (UTN FRRe)",
+    "degree": {
+      "es": "Ingeniería en Sistemas de Información",
+      "en": "Information Systems Engineering"
+    },
+    "status": "paused",
+    "startDate": "2020",
+    "endDate": null,
+    "description": {
+      "es": "Segundo año cursado y aprobado (en pausa para priorizar la finalización de la Tecnicatura). Bases sólidas en álgebra, algoritmos, arquitectura de computadoras y análisis de sistemas.",
+      "en": "Completed second year (currently paused to prioritize the completion of the Associate Degree). Solid grounding in algebra, algorithms, computer architecture, and systems analysis."
+    }
+  },
+  {
+    "id": "unne-english",
+    "institution": "Universidad Nacional del Nordeste (UNNE)",
+    "degree": {
+      "es": "Trayecto Formativo Integral en Lengua Inglesa (5 años)",
+      "en": "Comprehensive English Language Program (5 years)"
+    },
+    "status": "completed",
+    "startDate": "2018",
+    "endDate": "2023",
+    "description": {
+      "es": "Cinco años de formación intensiva en comprensión lectora, producción escrita, conversación fluida y terminología técnica internacional.",
+      "en": "Five years of intensive training in reading comprehension, written production, fluent conversation, and international technical terminology."
+    }
+  }
+]
