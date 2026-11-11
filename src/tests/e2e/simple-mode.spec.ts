@@ -65,6 +65,27 @@ test.describe('Simple Mode, Accessibility, SEO & Dual-Language Navigation', () =
     const sitemapRes = await request.get('/sitemap.xml');
     expect(sitemapRes.status()).toBe(200);
     expect(await sitemapRes.text()).toContain('<urlset');
+
+    // Verificar que los enlaces reales de CV en ambos idiomas devuelvan un PDF válido
+    await page.goto('/?lang=es');
+    const cvEsHref = await page
+      .getByRole('link', { name: 'Descargar CV' })
+      .first()
+      .getAttribute('href');
+    expect(cvEsHref).toBeTruthy();
+    const cvEsRes = await request.get(cvEsHref!);
+    expect(cvEsRes.status()).toBe(200);
+    expect(cvEsRes.headers()['content-type']).toContain('application/pdf');
+
+    await page.goto('/?lang=en');
+    const cvEnHref = await page
+      .getByRole('link', { name: 'Download Resume' })
+      .first()
+      .getAttribute('href');
+    expect(cvEnHref).toBeTruthy();
+    const cvEnRes = await request.get(cvEnHref!);
+    expect(cvEnRes.status()).toBe(200);
+    expect(cvEnRes.headers()['content-type']).toContain('application/pdf');
   });
 
   test('opens and closes project case study modal', async ({ page }) => {
