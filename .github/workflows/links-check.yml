@@ -2,8 +2,8 @@ name: Broken Links Audit
 
 on:
   schedule:
-    - cron: '0 12 * * 1' # Runs every Monday at 12:00 UTC
-  workflow_dispatch: # Allows manual trigger from GitHub UI
+    - cron: '0 12 * * 1' # Se ejecuta todos los lunes a las 12:00 UTC
+  workflow_dispatch: # Permite ejecución manual desde la interfaz de GitHub
 
 jobs:
   check-links:

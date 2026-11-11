@@ -85,7 +85,7 @@ export function useResizable({
         let newPosX = startPosX;
         let newPosY = startPosY;
 
-        // Horizontal resize
+        // Redimensionamiento horizontal
         if (direction.includes('e')) {
           newWidth = Math.max(minSize.width, startWidth + deltaX);
         } else if (direction.includes('w')) {
@@ -99,7 +99,7 @@ export function useResizable({
           }
         }
 
-        // Vertical resize
+        // Redimensionamiento vertical
         if (direction.includes('s')) {
           newHeight = Math.max(minSize.height, startHeight + deltaY);
         } else if (direction.includes('n')) {
@@ -130,7 +130,7 @@ export function useResizable({
       try {
         e.currentTarget.releasePointerCapture(e.pointerId);
       } catch {
-        // Ignore
+        // Ignorar si la captura ya fue liberada
       }
     }
   }, []);

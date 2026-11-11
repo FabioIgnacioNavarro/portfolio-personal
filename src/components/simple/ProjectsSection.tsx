@@ -41,7 +41,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
               className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm hover:shadow-md hover:border-blue-300 dark:hover:border-blue-700 transition-all flex flex-col justify-between"
             >
               <div>
-                {/* Header status & role */}
+                {/* Estado y rol en encabezado */}
                 <div className="flex items-center justify-between gap-2 mb-3">
                   <Badge variant={project.status === 'completed' ? 'primary' : 'warning'}>
                     {project.status === 'completed'
@@ -57,17 +57,17 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                   </span>
                 </div>
 
-                {/* Title */}
+                {/* Título */}
                 <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 leading-snug">
                   {t(project.title)}
                 </h3>
 
-                {/* Summary */}
+                {/* Resumen */}
                 <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
                   {t(project.summary)}
                 </p>
 
-                {/* Tech badges */}
+                {/* Etiquetas de tecnologías */}
                 <div className="flex flex-wrap gap-1.5 mb-6">
                   {project.technologies.map((tech) => (
                     <Badge key={tech} variant="secondary">
@@ -77,7 +77,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                 </div>
               </div>
 
-              {/* Bottom Actions */}
+              {/* Acciones inferiores */}
               <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3">
                 <button
                   onClick={() => setSelectedProject(project)}
@@ -118,7 +118,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
         </div>
       </div>
 
-      {/* Case Study Modal */}
+      {/* Modal de caso de estudio */}
       <ProjectCaseStudyModal project={selectedProject} onClose={() => setSelectedProject(null)} />
     </section>
   );

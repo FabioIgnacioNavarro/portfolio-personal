@@ -35,7 +35,7 @@ export function ContactApp({ profile }: { profile: Profile }) {
         </p>
       </div>
 
-      {/* Copy email action */}
+      {/* Acción para copiar correo electrónico */}
       <div className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs flex flex-col sm:flex-row items-center justify-between gap-3">
         <span className="font-mono text-xs font-semibold text-slate-800 dark:text-slate-200 truncate">
           {profile.links.email}
@@ -61,7 +61,7 @@ export function ContactApp({ profile }: { profile: Profile }) {
         </button>
       </div>
 
-      {/* Social and CV buttons */}
+      {/* Botones de redes y descarga de CV */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-2">
         <a
           href={profile.links.linkedin}

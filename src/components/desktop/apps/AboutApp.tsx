@@ -13,7 +13,7 @@ export function AboutApp({ profile }: { profile: Profile }) {
 
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
-      {/* Top Profile Card */}
+      {/* Tarjeta superior de perfil */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 pb-6 border-b border-slate-200 dark:border-slate-800">
         <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center font-bold text-2xl shadow-md shrink-0">
           FN
@@ -37,7 +37,7 @@ export function AboutApp({ profile }: { profile: Profile }) {
         </div>
       </div>
 
-      {/* Tech Stack Headline */}
+      {/* Stack tecnológico principal */}
       <div>
         <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
           {lang === 'es' ? 'Stack Principal:' : 'Core Stack:'}
@@ -47,7 +47,7 @@ export function AboutApp({ profile }: { profile: Profile }) {
         </div>
       </div>
 
-      {/* Bio / Summary */}
+      {/* Biografía / Resumen */}
       <div>
         <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
           {lang === 'es' ? 'Resumen Profesional:' : 'Professional Summary:'}
@@ -57,7 +57,7 @@ export function AboutApp({ profile }: { profile: Profile }) {
         </p>
       </div>
 
-      {/* Quick Action Buttons */}
+      {/* Botones de acción rápida */}
       <div className="pt-4 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center gap-3">
         <a
           href={cvHref}

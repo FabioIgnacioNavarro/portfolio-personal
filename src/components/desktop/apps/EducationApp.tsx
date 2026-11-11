@@ -40,7 +40,7 @@ export function EducationApp({
 
   return (
     <div className="space-y-6">
-      {/* Education */}
+      {/* Educación */}
       <div>
         <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3">
           {lang === 'es' ? 'Formación Académica' : 'Academic Background'}
@@ -81,7 +81,7 @@ export function EducationApp({
         </div>
       </div>
 
-      {/* Certifications */}
+      {/* Certificaciones */}
       <div>
         <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3 flex items-center gap-1.5">
           <Award className="w-4 h-4 text-amber-500" />

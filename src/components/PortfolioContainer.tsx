@@ -22,7 +22,7 @@ interface PortfolioContainerProps {
 export function PortfolioContainer({ content }: PortfolioContainerProps) {
   const { mode } = useViewPreferences();
 
-  // Desktop Mode View
+  // Vista de Modo Escritorio
   if (mode === 'desktop') {
     return (
       <WindowManagerProvider>
@@ -31,7 +31,7 @@ export function PortfolioContainer({ content }: PortfolioContainerProps) {
     );
   }
 
-  // Simple Mode View (Linear, accessible, default for mobile and reduced-motion)
+  // Vista de Modo Simple (lineal, accesible y predeterminada para móvil o movimiento reducido)
   return (
     <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
       <Header />

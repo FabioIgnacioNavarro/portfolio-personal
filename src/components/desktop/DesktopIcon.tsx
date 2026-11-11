@@ -23,7 +23,7 @@ export function DesktopIcon({ id, label, icon, isSelected = false, onSelect }: D
 
   const handleClick = () => {
     onSelect?.();
-    // On touch / mobile screens, open on single tap
+    // En pantallas táctiles o móviles, abrir con un solo toque
     if (typeof window !== 'undefined' && window.innerWidth < 768) {
       handleOpen();
     }

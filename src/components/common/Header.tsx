@@ -31,7 +31,7 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md transition-colors">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        {/* Brand / Logo */}
+        {/* Marca / Logo */}
         <a
           href="#about"
           className="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2 hover:opacity-80 transition-opacity"
@@ -40,7 +40,7 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
           <span>Fabio Ignacio Navarro</span>
         </a>
 
-        {/* Desktop Nav Links */}
+        {/* Enlaces de navegación en escritorio */}
         <nav
           className="hidden md:flex items-center gap-6"
           aria-label={lang === 'es' ? 'Navegación principal' : 'Main navigation'}
@@ -56,9 +56,9 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
           ))}
         </nav>
 
-        {/* Global Controls */}
+        {/* Controles globales */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Mode Switcher */}
+          {/* Selector de modo */}
           <div
             className="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 rounded-lg border border-slate-200 dark:border-slate-700"
             role="group"
@@ -96,7 +96,7 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
             </button>
           </div>
 
-          {/* Language Toggle */}
+          {/* Selector de idioma */}
           <button
             onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
             aria-label={lang === 'es' ? 'Cambiar idioma a Inglés' : 'Switch language to Spanish'}
@@ -107,7 +107,7 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
             <span>{lang.toUpperCase()}</span>
           </button>
 
-          {/* Mobile Menu Button */}
+          {/* Botón de menú móvil */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300"
@@ -119,7 +119,7 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
         </div>
       </div>
 
-      {/* Mobile Nav Dropdown */}
+      {/* Menú desplegable en móvil */}
       {mobileMenuOpen && (
         <div className="md:hidden border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 pt-2 pb-4 space-y-1">
           {navLinks.map((link) => (

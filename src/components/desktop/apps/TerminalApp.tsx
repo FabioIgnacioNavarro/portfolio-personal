@@ -65,7 +65,7 @@ export function TerminalApp({ content }: { content: PortfolioContent }) {
       }
       if (result.action.type === 'open-window' && result.action.payload) {
         const target = result.action.payload;
-        // Check if target is a project slug
+        // Verifica si el destino corresponde al identificador de un proyecto
         const isProject = content.projects.some((p) => p.id === target);
         if (isProject) {
           openWindow('project-detail', { projectSlug: target });

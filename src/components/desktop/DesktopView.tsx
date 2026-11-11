@@ -84,7 +84,7 @@ export function DesktopView({ content }: DesktopViewProps) {
         isTransitioning ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >
-      {/* Desktop Wallpaper (Unsplash: Brown rock formation under blue sky) */}
+      {/* Fondo de pantalla del escritorio (Unsplash: formación rocosa marrón bajo el cielo azul) */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-300"
         style={{
@@ -93,13 +93,13 @@ export function DesktopView({ content }: DesktopViewProps) {
         aria-hidden="true"
       />
 
-      {/* Subtle overlay for legibility & contrast in light and dark modes */}
+      {/* Superposición sutil para legibilidad y contraste en modo claro y oscuro */}
       <div
         className="absolute inset-0 bg-black/15 dark:bg-black/35 pointer-events-none"
         aria-hidden="true"
       />
 
-      {/* Desktop Icons Area */}
+      {/* Área de íconos del escritorio */}
       <div className="absolute top-4 left-4 grid grid-flow-col grid-rows-5 gap-2 z-10">
         {desktopIcons.map((item) => (
           <div key={item.id} onClick={(e) => e.stopPropagation()}>
@@ -114,16 +114,16 @@ export function DesktopView({ content }: DesktopViewProps) {
         ))}
       </div>
 
-      {/* Windows Layer */}
+      {/* Capa de ventanas */}
       <div className="absolute inset-0 pb-12 pointer-events-none [&>*]:pointer-events-auto">
-        {/* 1. About Window */}
+        {/* 1. Ventana Sobre mí */}
         {windows.about.isOpen && (
           <Window windowState={windows.about} iconNode={<User className="w-4 h-4" />}>
             <AboutApp profile={content.profile} />
           </Window>
         )}
 
-        {/* 2. Projects Folder Window */}
+        {/* 2. Ventana Carpeta de Proyectos */}
         {windows.projects.isOpen && (
           <Window
             windowState={windows.projects}
@@ -133,7 +133,7 @@ export function DesktopView({ content }: DesktopViewProps) {
           </Window>
         )}
 
-        {/* 3. Project Detail Window */}
+        {/* 3. Ventana Detalle de Proyecto */}
         {windows['project-detail'].isOpen && (
           <Window
             windowState={windows['project-detail']}
@@ -147,7 +147,7 @@ export function DesktopView({ content }: DesktopViewProps) {
           </Window>
         )}
 
-        {/* 4. Experience Window */}
+        {/* 4. Ventana de Experiencia */}
         {windows.experience.isOpen && (
           <Window
             windowState={windows.experience}
@@ -157,14 +157,14 @@ export function DesktopView({ content }: DesktopViewProps) {
           </Window>
         )}
 
-        {/* 5. Skills Window */}
+        {/* 5. Ventana de Habilidades */}
         {windows.skills.isOpen && (
           <Window windowState={windows.skills} iconNode={<Cpu className="w-4 h-4 text-purple-500" />}>
             <SkillsApp skills={content.skills} />
           </Window>
         )}
 
-        {/* 6. Education Window */}
+        {/* 6. Ventana de Educación */}
         {windows.education.isOpen && (
           <Window
             windowState={windows.education}
@@ -174,14 +174,14 @@ export function DesktopView({ content }: DesktopViewProps) {
           </Window>
         )}
 
-        {/* 7. Contact Window */}
+        {/* 7. Ventana de Contacto */}
         {windows.contact.isOpen && (
           <Window windowState={windows.contact} iconNode={<Mail className="w-4 h-4 text-rose-500" />}>
             <ContactApp profile={content.profile} />
           </Window>
         )}
 
-        {/* 8. Terminal Window */}
+        {/* 8. Ventana de Terminal */}
         {windows.terminal.isOpen && (
           <Window
             windowState={windows.terminal}
@@ -192,7 +192,7 @@ export function DesktopView({ content }: DesktopViewProps) {
         )}
       </div>
 
-      {/* Bottom Taskbar */}
+      {/* Barra de tareas inferior */}
       <Taskbar profile={content.profile} />
     </div>
   );

@@ -47,7 +47,7 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
       aria-modal="true"
       aria-labelledby="modal-project-title"
     >
-      {/* High-performance darkened backdrop - separated from dialog to prevent scroll repaints */}
+      {/* Fondo oscurecido de alto rendimiento: separado del diálogo para evitar repintados al scrollear */}
       <div
         className="fixed inset-0 bg-slate-950/75 transition-opacity"
         onClick={onClose}
@@ -59,7 +59,7 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
         onClick={(e) => e.stopPropagation()}
         className="relative z-10 bg-white dark:bg-slate-900 w-full max-w-3xl max-h-[90vh] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden animate-modal-open"
       >
-        {/* Modal Header */}
+        {/* Encabezado del modal */}
         <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex items-start justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 mb-2">
@@ -93,14 +93,14 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
           </button>
         </div>
 
-        {/* Modal Scrollable Body */}
+        {/* Cuerpo desplazable del modal */}
         <div className="p-6 overflow-y-auto space-y-6 overscroll-contain">
-          {/* Summary */}
+          {/* Resumen */}
           <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200/60 dark:border-slate-800 text-sm sm:text-base text-slate-700 dark:text-slate-300">
             {t(project.summary)}
           </div>
 
-          {/* Tech stack */}
+          {/* Stack tecnológico */}
           <div>
             <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
               {lang === 'es' ? 'Tecnologías utilizadas:' : 'Technologies used:'}
@@ -114,7 +114,7 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
             </div>
           </div>
 
-          {/* Links if available */}
+          {/* Enlaces si están disponibles */}
           {(project.links.repo || project.links.demo) && (
             <div className="flex items-center gap-3">
               {project.links.repo && (
@@ -142,7 +142,7 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
             </div>
           )}
 
-          {/* Rendered Case Study Markdown */}
+          {/* Caso de estudio renderizado desde Markdown */}
           <div className="border-t border-slate-200 dark:border-slate-800 pt-6">
             <h4 className="text-sm font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-4 flex items-center gap-2">
               <CheckCircle className="w-4 h-4" />
@@ -157,7 +157,7 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
           </div>
         </div>
 
-        {/* Modal Footer */}
+        {/* Pie del modal */}
         <div className="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex justify-end">
           <button
             onClick={onClose}

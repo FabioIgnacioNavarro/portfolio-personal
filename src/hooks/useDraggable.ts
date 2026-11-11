@@ -34,10 +34,10 @@ export function useDraggable({
 
   const handlePointerDown = useCallback(
     (e: React.PointerEvent) => {
-      // Only drag with primary mouse button / touch
+      // Solo arrastrar con el botón principal del mouse o toque táctil
       if (e.button !== 0 || isMaximized) return;
 
-      // Don't drag if clicking buttons or interactive elements inside title bar
+      // No arrastrar si se hace clic en botones o elementos interactivos de la barra de título
       const target = e.target as HTMLElement;
       if (target.closest('button') || target.closest('a') || target.closest('input')) {
         return;
@@ -73,7 +73,7 @@ export function useDraggable({
         const deltaX = clientX - dragStartRef.current.pointerX;
         const deltaY = clientY - dragStartRef.current.pointerY;
 
-        // Clamp so window title bar cannot be completely dragged off-screen
+        // Limitar las coordenadas para que la barra de título no salga completamente de la pantalla
         const newX = Math.max(
           -200,
           Math.min(window.innerWidth - 100, dragStartRef.current.windowX + deltaX),
@@ -99,7 +99,7 @@ export function useDraggable({
       try {
         e.currentTarget.releasePointerCapture(e.pointerId);
       } catch {
-        // Pointer capture may have already been released
+        // La captura de puntero puede haberse liberado previamente
       }
     }
   }, []);

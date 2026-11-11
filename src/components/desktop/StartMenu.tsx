@@ -96,7 +96,7 @@ export function StartMenu({ isOpen, onClose, profile }: StartMenuProps) {
       ref={menuRef}
       className="absolute bottom-14 left-2 w-80 sm:w-96 rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-800 shadow-2xl z-50 overflow-hidden animate-start-menu"
     >
-      {/* Top Banner with Profile Header */}
+      {/* Encabezado superior con datos del perfil */}
       <div className="p-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 rounded-full bg-white/20 border border-white/40 flex items-center justify-center font-bold text-lg">
@@ -117,7 +117,7 @@ export function StartMenu({ isOpen, onClose, profile }: StartMenuProps) {
         </button>
       </div>
 
-      {/* Applications List */}
+      {/* Lista de aplicaciones */}
       <div className="p-3">
         <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2 py-1 block">
           {lang === 'es' ? 'Aplicaciones del Sistema' : 'System Applications'}
@@ -138,7 +138,7 @@ export function StartMenu({ isOpen, onClose, profile }: StartMenuProps) {
         </div>
       </div>
 
-      {/* Quick Footer Actions */}
+      {/* Acciones rápidas del pie */}
       <div className="p-3 bg-slate-50 dark:bg-slate-950/60 border-t border-slate-200/80 dark:border-slate-800 flex items-center justify-between gap-2">
         <div className="flex items-center gap-1">
           <a

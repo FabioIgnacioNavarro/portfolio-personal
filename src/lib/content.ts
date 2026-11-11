@@ -78,31 +78,31 @@ function parseAndValidate<T>(
 export function loadPortfolioContent(customContentDir?: string): PortfolioContent {
   const contentDir = customContentDir || path.join(process.cwd(), 'content');
 
-  // 1. Profile
+  // 1. Perfil
   const profilePath = path.join(contentDir, 'profile.json');
   const profile = parseAndValidate(profilePath, ProfileSchema);
 
-  // 2. Experience
+  // 2. Experiencia laboral
   const experiencePath = path.join(contentDir, 'experience.json');
   const experience = parseAndValidate(experiencePath, ExperienceListSchema);
 
-  // 3. Education
+  // 3. Educación
   const educationPath = path.join(contentDir, 'education.json');
   const education = parseAndValidate(educationPath, EducationListSchema);
 
-  // 4. Certifications
+  // 4. Certificaciones
   const certificationsPath = path.join(contentDir, 'certifications.json');
   const certifications = parseAndValidate(certificationsPath, CertificationListSchema);
 
-  // 5. Skills
+  // 5. Habilidades técnicas
   const skillsPath = path.join(contentDir, 'skills.json');
   const skills = parseAndValidate(skillsPath, SkillCategoryListSchema);
 
-  // 6. Languages
+  // 6. Idiomas
   const languagesPath = path.join(contentDir, 'languages.json');
   const languages = parseAndValidate(languagesPath, LanguageListSchema);
 
-  // 7. Projects
+  // 7. Proyectos
   const projectsDir = path.join(contentDir, 'projects');
   const projects: Project[] = [];
 

@@ -95,7 +95,7 @@ export function Taskbar({ profile }: TaskbarProps) {
         aria-label={lang === 'es' ? 'Barra de tareas del escritorio' : 'Desktop taskbar'}
         className="fixed bottom-0 left-0 right-0 h-12 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-t border-slate-200/80 dark:border-slate-800/80 px-2 sm:px-3 flex items-center justify-between gap-2 shadow-lg select-none"
       >
-        {/* Left: Start Button */}
+        {/* Izquierda: Botón Inicio */}
         <div className="flex items-center gap-2">
           <button
             onClick={() => setStartMenuOpen(!startMenuOpen)}
@@ -112,7 +112,7 @@ export function Taskbar({ profile }: TaskbarProps) {
           </button>
         </div>
 
-        {/* Center: Open Window Tabs */}
+        {/* Centro: Pestañas de ventanas abiertas */}
         <div className="flex-1 flex items-center gap-1.5 overflow-x-auto px-2 no-scrollbar">
           {openWindows.map((w) => {
             const isActive = activeWindowId === w.id && !w.isMinimized;
@@ -135,9 +135,9 @@ export function Taskbar({ profile }: TaskbarProps) {
           })}
         </div>
 
-        {/* Right: System Tray */}
+        {/* Derecha: Bandeja del sistema */}
         <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-          {/* Switch to Simple Mode button */}
+          {/* Botón para cambiar a Modo Simple */}
           <button
             onClick={() => setMode('simple')}
             title={lang === 'es' ? 'Cambiar a Modo Simple' : 'Switch to Simple Mode'}
@@ -148,7 +148,7 @@ export function Taskbar({ profile }: TaskbarProps) {
             <span className="hidden sm:inline">Simple</span>
           </button>
 
-          {/* Language Toggle */}
+          {/* Selector de idioma */}
           <button
             onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
             aria-label={lang === 'es' ? 'Cambiar idioma a Inglés' : 'Switch language to Spanish'}
@@ -159,7 +159,7 @@ export function Taskbar({ profile }: TaskbarProps) {
             <span>{lang.toUpperCase()}</span>
           </button>
 
-          {/* Clock */}
+          {/* Reloj */}
           <SystemClock lang={lang} />
         </div>
       </nav>

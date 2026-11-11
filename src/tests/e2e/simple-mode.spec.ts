@@ -4,24 +4,24 @@ test.describe('Simple Mode & Dual-Language Navigation', () => {
   test('renders initial profile and switches language dynamically', async ({ page }) => {
     await page.goto('/');
 
-    // Wait for client hydration
+    // Esperar a que el cliente complete la hidratación
     await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
 
-    // Check title
+    // Verificar el título de la página
     await expect(page).toHaveTitle(/Fabio Ignacio Navarro/);
 
-    // Initial heading
+    // Verificar el encabezado inicial
     const heading = page.locator('h1');
     await expect(heading).toContainText('Fabio Ignacio Navarro');
 
-    // Language toggle test
+    // Prueba del selector de idioma
     const langButton = page.locator('button[title*="Cambiar idioma"]');
     await expect(langButton).toBeVisible();
 
-    // Click language toggle button
+    // Hacer clic en el botón de cambio de idioma
     await langButton.click();
 
-    // Verify language toggled
+    // Verificar que el idioma haya cambiado
     const newText = await langButton.textContent();
     if (newText?.includes('EN')) {
       await expect(page.locator('text=Work Experience')).toBeVisible();
@@ -36,19 +36,19 @@ test.describe('Simple Mode & Dual-Language Navigation', () => {
     await page.goto('/');
     await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
 
-    // Find "Ver caso de estudio" or "Read case study" button
+    // Buscar el botón "Ver caso de estudio" o "Read case study"
     const caseStudyBtn = page
       .locator('button:has-text("caso de estudio"), button:has-text("case study")')
       .first();
     await expect(caseStudyBtn).toBeVisible();
     await caseStudyBtn.click();
 
-    // Verify modal is open
+    // Verificar que el modal esté abierto
     const modal = page.locator('div[role="dialog"]');
     await expect(modal).toBeVisible();
     await expect(modal).toContainText(/Problema|Problem/);
 
-    // Close via Close button
+    // Cerrar usando el botón Cerrar
     const closeBtn = modal.locator('button:has-text("Cerrar"), button:has-text("Close")');
     await closeBtn.click();
     await expect(modal).not.toBeVisible();
@@ -58,12 +58,12 @@ test.describe('Simple Mode & Dual-Language Navigation', () => {
     await page.goto('/');
     await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
 
-    // Find Desktop button in mode selector
+    // Buscar el botón Desktop en el selector de modo
     const desktopBtn = page.locator('button:has-text("Desktop")');
     await expect(desktopBtn).toBeVisible();
     await desktopBtn.click();
 
-    // Verify Desktop Mode elements are rendered
+    // Verificar que se rendericen los elementos del Modo Escritorio
     const taskbar = page.locator('nav[aria-label*="Barra de tareas"], nav[aria-label*="taskbar"]');
     await expect(taskbar).toBeVisible();
   });

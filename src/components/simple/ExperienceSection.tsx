@@ -10,7 +10,7 @@ interface ExperienceSectionProps {
   experience: Experience[];
 }
 
-// Single source of truth: reads directly from content/experience.json via props
+// Única fuente de verdad: lee directamente desde content/experience.json mediante props
 export function ExperienceSection({ experience }: ExperienceSectionProps) {
   const { lang, t } = useViewPreferences();
 
@@ -42,7 +42,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
 
             return (
               <div key={item.id} className="relative pl-9 sm:pl-10">
-                {/* Timeline node */}
+                {/* Nodo de la línea de tiempo */}
                 <span className="absolute left-1.5 top-1.5 -translate-x-1/2 w-4 h-4 rounded-full border-2 border-blue-600 bg-white dark:bg-slate-900"></span>
 
                 <div className="bg-white dark:bg-slate-900 p-5 sm:p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm hover:border-blue-300 dark:hover:border-blue-800 transition-colors">
@@ -66,7 +66,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                     {t(item.description)}
                   </p>
 
-                  {/* Achievements */}
+                  {/* Logros */}
                   {item.achievements.length > 0 && (
                     <div className="mb-4 space-y-2">
                       <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">
@@ -83,7 +83,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                     </div>
                   )}
 
-                  {/* Tech stack badges */}
+                  {/* Etiquetas del stack tecnológico */}
                   <div className="flex flex-wrap gap-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
                     {item.technologies.map((tech) => (
                       <Badge key={tech} variant="secondary">

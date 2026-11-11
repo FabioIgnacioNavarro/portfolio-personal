@@ -26,7 +26,7 @@ export function ProjectDetailApp({ projects, activeSlug, onBackToFolder }: Proje
 
   return (
     <div className="space-y-6 max-w-3xl mx-auto">
-      {/* Top action bar */}
+      {/* Barra de acciones superior */}
       {onBackToFolder && (
         <button
           onClick={onBackToFolder}
@@ -37,7 +37,7 @@ export function ProjectDetailApp({ projects, activeSlug, onBackToFolder }: Proje
         </button>
       )}
 
-      {/* Header Info */}
+      {/* Información del encabezado */}
       <div className="space-y-2 pb-4 border-b border-slate-200 dark:border-slate-800">
         <div className="flex items-center gap-2">
           <Badge variant={project.status === 'completed' ? 'primary' : 'warning'}>
@@ -62,7 +62,7 @@ export function ProjectDetailApp({ projects, activeSlug, onBackToFolder }: Proje
           {t(project.summary)}
         </p>
 
-        {/* Tech stack */}
+        {/* Stack tecnológico */}
         <div className="flex flex-wrap gap-1.5 pt-2">
           {project.technologies.map((tech) => (
             <Badge key={tech} variant="secondary">
@@ -71,7 +71,7 @@ export function ProjectDetailApp({ projects, activeSlug, onBackToFolder }: Proje
           ))}
         </div>
 
-        {/* Links */}
+        {/* Enlaces */}
         {(project.links.repo || project.links.demo) && (
           <div className="flex items-center gap-3 pt-3">
             {project.links.repo && (
@@ -100,7 +100,7 @@ export function ProjectDetailApp({ projects, activeSlug, onBackToFolder }: Proje
         )}
       </div>
 
-      {/* Case Study Section */}
+      {/* Sección de Caso de Estudio */}
       <div>
         <h3 className="text-sm font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-4 flex items-center gap-2">
           <CheckCircle className="w-4 h-4" />

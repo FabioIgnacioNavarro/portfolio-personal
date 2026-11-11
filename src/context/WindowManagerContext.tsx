@@ -164,7 +164,7 @@ export function WindowManagerProvider({ children }: { children: React.ReactNode 
   const [activeWindowId, setActiveWindowId] = useState<WindowId | null>('about');
   const highestZIndexRef = useRef(15);
 
-  // Responsive adjustments on client mount
+  // Ajustes responsivos al montar en el cliente
   useEffect(() => {
     if (typeof window !== 'undefined' && window.innerWidth < 768) {
       setWindows((prev) => ({
@@ -240,7 +240,7 @@ export function WindowManagerProvider({ children }: { children: React.ReactNode 
         };
       });
       if (activeWindowId === id) {
-        // Select next visible window with highest zIndex
+        // Limpiar el foco activo al cerrar la ventana actual
         setActiveWindowId(null);
       }
     },

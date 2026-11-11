@@ -39,7 +39,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
 
   const isActive = activeWindowId === id;
 
-  // Draggable Hook
+  // Hook para arrastrar la ventana
   const {
     handlePointerDown,
     handlePointerMove: onDragMove,
@@ -52,7 +52,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
     onMaximizeToggle: () => toggleMaximize(id),
   });
 
-  // Resizable Hook
+  // Hook para redimensionar la ventana
   const {
     startResize,
     handlePointerMove: onResizeMove,
@@ -119,7 +119,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
               top: 0,
               left: 0,
               right: 0,
-              bottom: 48, // space for taskbar
+              bottom: 48, // Espacio reservado para la barra de tareas
               zIndex,
             }
           : {
@@ -132,7 +132,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
       }
       className="select-none"
     >
-      {/* Animated Inner Window Frame */}
+      {/* Marco interior animado de la ventana */}
       <div
         className={`w-full h-full flex flex-col bg-white dark:bg-slate-900 border ${
           isMaximized ? 'rounded-none border-0' : 'rounded-xl shadow-2xl'
@@ -146,7 +146,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
             : 'animate-window-open'
         }`}
       >
-        {/* Title Bar */}
+        {/* Barra de título */}
         <div
           onPointerDown={handlePointerDown}
           onPointerMove={onDragMove}
@@ -160,7 +160,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
               : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800'
           }`}
         >
-          {/* Left: Icon and Title */}
+          {/* Izquierda: Ícono y título */}
           <div className="flex items-center gap-2 overflow-hidden">
             {iconNode && (
               <span className="w-4 h-4 shrink-0 text-blue-600 dark:text-blue-400">{iconNode}</span>
@@ -170,9 +170,9 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
             </span>
           </div>
 
-          {/* Right: Window Controls */}
+          {/* Derecha: Controles de ventana */}
           <div className="flex items-center gap-1 shrink-0 ml-2">
-            {/* Minimize */}
+            {/* Minimizar */}
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -184,7 +184,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
               <Minus className="w-3.5 h-3.5" />
             </button>
 
-            {/* Maximize / Restore */}
+            {/* Maximizar / Restaurar */}
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -204,7 +204,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
               {isMaximized ? <Copy className="w-3 h-3" /> : <Square className="w-3 h-3" />}
             </button>
 
-            {/* Close */}
+            {/* Cerrar */}
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -218,13 +218,13 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
           </div>
         </div>
 
-        {/* Window Body */}
+        {/* Cuerpo de la ventana */}
         <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 bg-slate-50 dark:bg-slate-950 select-text overscroll-contain">
           {children}
         </div>
       </div>
 
-      {/* Resize Handles (8 directions) */}
+      {/* Controladores de redimensionamiento (8 direcciones) */}
       {!isMaximized &&
         !isMinimizing &&
         resizeHandles.map((dir) => (
