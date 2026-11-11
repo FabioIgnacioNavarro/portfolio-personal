@@ -40,15 +40,16 @@ export function ContactSection({ profile }: ContactSectionProps) {
           <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-8">
             <a
               href={`mailto:${profile.links.email}`}
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             >
               <Mail className="w-4 h-4" />
               <span>{lang === 'es' ? 'Enviar Correo' : 'Send Email'}</span>
             </a>
 
             <button
+              type="button"
               onClick={copyEmail}
-              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 font-medium text-sm transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 font-medium text-sm transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
               aria-label={
                 lang === 'es'
                   ? 'Copiar correo electrónico al portapapeles'
@@ -69,19 +70,19 @@ export function ContactSection({ profile }: ContactSectionProps) {
               href={cvHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700 font-medium text-sm transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 px-4 py-3 rounded-xl border border-slate-700 bg-slate-800 text-slate-200 hover:bg-slate-700 font-medium text-sm transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             >
               <Download className="w-4 h-4" />
               <span>{lang === 'es' ? 'Descargar CV' : 'Download CV'}</span>
             </a>
           </div>
 
-          <div className="flex items-center justify-center gap-6 pt-6 border-t border-slate-200/60 dark:border-slate-800 text-slate-600 dark:text-slate-400">
+          <div className="flex items-center justify-center gap-6 pt-6 border-t border-slate-800 text-slate-400">
             <a
               href={profile.links.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-medium hover:text-blue-400 transition-colors rounded-md px-1 py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             >
               <LinkedinIcon className="w-4 h-4" />
               <span>LinkedIn</span>
@@ -90,7 +91,7 @@ export function ContactSection({ profile }: ContactSectionProps) {
               href={profile.links.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium hover:text-slate-900 dark:hover:text-white transition-colors"
+              className="inline-flex items-center gap-2 text-sm font-medium hover:text-white transition-colors rounded-md px-1 py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             >
               <GithubIcon className="w-4 h-4" />
               <span>GitHub</span>

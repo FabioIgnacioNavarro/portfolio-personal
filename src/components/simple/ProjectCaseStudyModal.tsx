@@ -102,7 +102,7 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
 
           {/* Stack tecnológico */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
+            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
               {lang === 'es' ? 'Tecnologías utilizadas:' : 'Technologies used:'}
             </h4>
             <div className="flex flex-wrap gap-1.5">

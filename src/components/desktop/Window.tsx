@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { WindowState, useWindowManager } from '@/context/WindowManagerContext';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { useDraggable } from '@/hooks/useDraggable';
@@ -38,6 +38,20 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
   const { t, lang } = useViewPreferences();
 
   const isActive = activeWindowId === id;
+
+  // Permite cerrar la ventana activa con Escape aunque el foco esté en barra de título o contenido
+  useEffect(() => {
+    if (!isOpen || isMinimized || !isActive) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        closeWindow(id);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [id, isOpen, isMinimized, isActive, closeWindow]);
 
   // Hook para arrastrar la ventana
   const {
@@ -111,6 +125,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
     <div
       role="dialog"
       aria-label={t(title)}
+      tabIndex={-1}
       onPointerDown={() => focusWindow(id)}
       style={
         isMaximized
@@ -130,7 +145,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
               zIndex,
             }
       }
-      className="select-none"
+      className="select-none outline-none"
     >
       {/* Marco interior animado de la ventana */}
       <div
@@ -174,18 +189,20 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
           <div className="flex items-center gap-1 shrink-0 ml-2">
             {/* Minimizar */}
             <button
+              type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 minimizeWindow(id);
               }}
               aria-label={lang === 'es' ? 'Minimizar ventana' : 'Minimize window'}
-              className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 hover:text-slate-800 dark:hover:text-white transition-colors"
+              className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-slate-700 text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             >
               <Minus className="w-3.5 h-3.5" />
             </button>
 
             {/* Maximizar / Restaurar */}
             <button
+              type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 toggleMaximize(id);
@@ -199,19 +216,20 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
                     ? 'Maximizar ventana'
                     : 'Maximize window'
               }
-              className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 hover:text-slate-800 dark:hover:text-white transition-colors"
+              className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-slate-700 text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             >
               {isMaximized ? <Copy className="w-3 h-3" /> : <Square className="w-3 h-3" />}
             </button>
 
             {/* Cerrar */}
             <button
+              type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 closeWindow(id);
               }}
               aria-label={lang === 'es' ? 'Cerrar ventana' : 'Close window'}
-              className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-rose-500 hover:text-white text-slate-500 transition-colors"
+              className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-rose-500 hover:text-white text-slate-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
             >
               <X className="w-3.5 h-3.5" />
             </button>

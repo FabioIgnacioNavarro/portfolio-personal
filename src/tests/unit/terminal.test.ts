@@ -30,10 +30,15 @@ describe('Terminal Command Interpreter', () => {
     expect(res.action?.payload).toBe('projects');
   });
 
-  it('handles theme command', () => {
-    const res = executeTerminalCommand('theme dark', content, 'es');
-    expect(res.action?.type).toBe('set-theme');
-    expect(res.action?.payload).toBe('dark');
+  it('rejects removed theme command in dark-only mode', () => {
+    const res = executeTerminalCommand('theme light', content, 'es');
+    expect(res.isError).toBe(true);
+    expect(res.action).toBeUndefined();
+  });
+
+  it('reports updated Next.js runtime in neofetch command', () => {
+    const res = executeTerminalCommand('neofetch', content, 'es');
+    expect(res.text).toContain('Next.js 16');
   });
 
   it('handles lang command', () => {

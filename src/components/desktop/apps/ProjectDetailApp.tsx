@@ -30,7 +30,7 @@ export function ProjectDetailApp({ projects, activeSlug, onBackToFolder }: Proje
       {onBackToFolder && (
         <button
           onClick={onBackToFolder}
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200"
+          className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-slate-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 rounded-md"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>{lang === 'es' ? 'Volver al explorador' : 'Back to projects folder'}</span>

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { PortfolioContent } from '@/lib/content';
 import { useWindowManager, WindowId } from '@/context/WindowManagerContext';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
@@ -84,20 +85,21 @@ export function DesktopView({ content }: DesktopViewProps) {
         isTransitioning ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >
-      {/* Fondo de pantalla del escritorio (Unsplash: formación rocosa marrón bajo el cielo azul) */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-300"
-        style={{
-          backgroundImage: `url('/images/wallpaper.jpg')`,
-        }}
-        aria-hidden="true"
-      />
+      {/* Fondo de pantalla optimizado con next/image (AVIF/WebP automático) */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <Image
+          src="/images/wallpaper.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          quality={75}
+          className="object-cover object-center"
+        />
+      </div>
 
-      {/* Superposición sutil para legibilidad y contraste en modo claro y oscuro */}
-      <div
-        className="absolute inset-0 bg-black/15 dark:bg-black/35 pointer-events-none"
-        aria-hidden="true"
-      />
+      {/* Superposición oscura fija para legibilidad y contraste */}
+      <div className="absolute inset-0 bg-black/35 pointer-events-none" aria-hidden="true" />
 
       {/* Área de íconos del escritorio */}
       <div className="absolute top-4 left-4 grid grid-flow-col grid-rows-5 gap-2 z-10">

@@ -1,11 +1,23 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Simple Mode & Dual-Language Navigation', () => {
-  test('renders initial profile and switches language dynamically', async ({ page }) => {
+test.describe('Simple Mode, Accessibility, SEO & Dual-Language Navigation', () => {
+  test('renders initial profile in dark-only mode with animated background and switches language dynamically', async ({
+    page,
+  }) => {
     await page.goto('/');
 
     // Esperar a que el cliente complete la hidratación
     await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
+
+    // Verificar apariencia única en modo oscuro fija en <html>
+    await expect(page.locator('html')).toHaveClass(/dark/);
+
+    // Verificar fondo ambiental animado en Modo Simple
+    await expect(page.getByTestId('simple-background')).toBeVisible();
+
+    // Verificar enlace de salto accesible al contenido principal
+    const skipLink = page.locator('a[href="#main-content"]');
+    await expect(skipLink).toHaveCount(1);
 
     // Verificar el título de la página
     await expect(page).toHaveTitle(/Fabio Ignacio Navarro/);
@@ -14,22 +26,45 @@ test.describe('Simple Mode & Dual-Language Navigation', () => {
     const heading = page.locator('h1');
     await expect(heading).toContainText('Fabio Ignacio Navarro');
 
-    // Prueba del selector de idioma
-    const langButton = page.locator('button[title*="Cambiar idioma"]');
+    // Prueba del selector de idioma y sincronización de <html lang>
+    const langButton = page.locator(
+      'header button[aria-label*="idioma"], header button[aria-label*="language"]',
+    );
     await expect(langButton).toBeVisible();
 
-    // Hacer clic en el botón de cambio de idioma
+    const initialText = await langButton.textContent();
     await langButton.click();
 
-    // Verificar que el idioma haya cambiado
     const newText = await langButton.textContent();
+    expect(newText).not.toBe(initialText);
+
     if (newText?.includes('EN')) {
+      await expect(page.locator('html')).toHaveAttribute('lang', 'en');
       await expect(page.locator('text=Work Experience')).toBeVisible();
       await expect(page.locator('text=Featured Projects')).toBeVisible();
     } else {
+      await expect(page.locator('html')).toHaveAttribute('lang', 'es');
       await expect(page.locator('text=Experiencia Laboral')).toBeVisible();
       await expect(page.locator('text=Proyectos Destacados')).toBeVisible();
     }
+  });
+
+  test('exposes Open Graph metadata, JSON-LD, robots.txt and sitemap.xml', async ({
+    page,
+    request,
+  }) => {
+    await page.goto('/');
+
+    await expect(page.locator('meta[property="og:image"]')).toHaveCount(1);
+    await expect(page.locator('script[type="application/ld+json"]')).toHaveCount(1);
+
+    const robotsRes = await request.get('/robots.txt');
+    expect(robotsRes.status()).toBe(200);
+    expect(await robotsRes.text()).toContain('Sitemap:');
+
+    const sitemapRes = await request.get('/sitemap.xml');
+    expect(sitemapRes.status()).toBe(200);
+    expect(await sitemapRes.text()).toContain('<urlset');
   });
 
   test('opens and closes project case study modal', async ({ page }) => {

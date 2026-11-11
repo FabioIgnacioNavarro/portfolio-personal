@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useWindowManager, WindowId } from '@/context/WindowManagerContext';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { Profile } from '@/lib/schemas';
@@ -54,6 +54,7 @@ export function Taskbar({ profile }: TaskbarProps) {
   const { windows, activeWindowId, focusWindow, minimizeWindow } = useWindowManager();
   const { lang, setLang, setMode, t } = useViewPreferences();
   const [startMenuOpen, setStartMenuOpen] = useState(false);
+  const startButtonRef = useRef<HTMLButtonElement>(null);
 
   const getWindowIcon = (id: WindowId) => {
     switch (id) {
@@ -89,22 +90,29 @@ export function Taskbar({ profile }: TaskbarProps) {
 
   return (
     <>
-      <StartMenu isOpen={startMenuOpen} onClose={() => setStartMenuOpen(false)} profile={profile} />
+      <StartMenu
+        isOpen={startMenuOpen}
+        onClose={() => setStartMenuOpen(false)}
+        profile={profile}
+        returnFocusRef={startButtonRef}
+      />
 
       <nav
         aria-label={lang === 'es' ? 'Barra de tareas del escritorio' : 'Desktop taskbar'}
-        className="fixed bottom-0 left-0 right-0 h-12 z-40 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-t border-slate-200/80 dark:border-slate-800/80 px-2 sm:px-3 flex items-center justify-between gap-2 shadow-lg select-none"
+        className="fixed bottom-0 left-0 right-0 h-12 z-40 bg-slate-900/85 backdrop-blur-md border-t border-slate-800/80 px-2 sm:px-3 flex items-center justify-between gap-2 shadow-lg select-none"
       >
         {/* Izquierda: Botón Inicio */}
         <div className="flex items-center gap-2">
           <button
+            ref={startButtonRef}
+            type="button"
             onClick={() => setStartMenuOpen(!startMenuOpen)}
             aria-label={lang === 'es' ? 'Abrir menú de inicio' : 'Open start menu'}
             aria-expanded={startMenuOpen}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-xl font-bold text-xs transition-all ${
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-xl font-bold text-xs transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
               startMenuOpen
                 ? 'bg-blue-600 text-white shadow-sm ring-2 ring-blue-400'
-                : 'bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-100'
+                : 'bg-slate-800 hover:bg-slate-700 text-slate-100'
             }`}
           >
             <Power className="w-3.5 h-3.5 text-rose-500 dark:text-rose-400" />
@@ -150,10 +158,15 @@ export function Taskbar({ profile }: TaskbarProps) {
 
           {/* Selector de idioma */}
           <button
+            type="button"
             onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
             aria-label={lang === 'es' ? 'Cambiar idioma a Inglés' : 'Switch language to Spanish'}
-            title={`Cambiar idioma (${lang.toUpperCase()})`}
-            className="flex items-center gap-1 px-2 py-1 text-xs font-bold rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 transition-colors"
+            title={
+              lang === 'es'
+                ? `Cambiar idioma (${lang.toUpperCase()})`
+                : `Switch language (${lang.toUpperCase()})`
+            }
+            className="flex items-center gap-1 px-2 py-1 text-xs font-bold rounded-lg text-slate-300 hover:bg-slate-800 border border-slate-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
           >
             <Globe className="w-3.5 h-3.5 text-blue-500" />
             <span>{lang.toUpperCase()}</span>

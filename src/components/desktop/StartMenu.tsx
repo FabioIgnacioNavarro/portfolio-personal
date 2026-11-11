@@ -22,27 +22,43 @@ interface StartMenuProps {
   isOpen: boolean;
   onClose: () => void;
   profile: Profile;
+  returnFocusRef?: React.RefObject<HTMLButtonElement | null>;
 }
 
-export function StartMenu({ isOpen, onClose, profile }: StartMenuProps) {
+export function StartMenu({ isOpen, onClose, profile, returnFocusRef }: StartMenuProps) {
   const { openWindow } = useWindowManager();
   const { lang, t, setMode } = useViewPreferences();
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleOutsideClick = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+    if (!isOpen) return;
+
+    const handleOutsideClick = (e: PointerEvent) => {
+      const target = e.target as Node;
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(target) &&
+        !returnFocusRef?.current?.contains(target)
+      ) {
         onClose();
       }
     };
 
-    if (isOpen) {
-      document.addEventListener('pointerdown', handleOutsideClick);
-    }
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.stopPropagation();
+        onClose();
+        returnFocusRef?.current?.focus();
+      }
+    };
+
+    document.addEventListener('pointerdown', handleOutsideClick);
+    window.addEventListener('keydown', handleKeyDown, true);
     return () => {
       document.removeEventListener('pointerdown', handleOutsideClick);
+      window.removeEventListener('keydown', handleKeyDown, true);
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, returnFocusRef]);
 
   if (!isOpen) return null;
 
@@ -109,9 +125,13 @@ export function StartMenu({ isOpen, onClose, profile }: StartMenuProps) {
         </div>
 
         <button
-          onClick={onClose}
+          type="button"
+          onClick={() => {
+            onClose();
+            returnFocusRef?.current?.focus();
+          }}
           aria-label={lang === 'es' ? 'Cerrar menú de inicio' : 'Close start menu'}
-          className="p-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+          className="p-1 rounded-lg text-white/80 hover:text-white hover:bg-white/10 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
         >
           <X className="w-4 h-4" />
         </button>
@@ -119,7 +139,7 @@ export function StartMenu({ isOpen, onClose, profile }: StartMenuProps) {
 
       {/* Lista de aplicaciones */}
       <div className="p-3">
-        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2 py-1 block">
+        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-2 py-1 block">
           {lang === 'es' ? 'Aplicaciones del Sistema' : 'System Applications'}
         </span>
         <div className="space-y-1 mt-1">
