@@ -53,7 +53,11 @@ export function PortfolioContainer({ content }: PortfolioContainerProps) {
       <SimpleBackground />
       <Header />
 
-      <main className="relative z-10 flex-1 outline-none" id="main-content" tabIndex={-1}>
+      <main
+        className="relative z-10 flex-1 outline-none py-6 sm:py-8"
+        id="main-content"
+        tabIndex={-1}
+      >
         <HeroSection profile={content.profile} />
         <ExperienceSection experience={content.experience} />
         <ProjectsSection projects={content.projects} />
