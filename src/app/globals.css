@@ -1,19 +1,13 @@
 @import 'tailwindcss';
 
-@layer base {
-  :root {
-    --background: #f8fafc;
-    --foreground: #0f172a;
-    --card: #ffffff;
-    --card-foreground: #0f172a;
-    --muted: #f1f5f9;
-    --muted-foreground: #64748b;
-    --border: #e2e8f0;
-    --primary: #2563eb;
-    --primary-foreground: #ffffff;
-  }
+/* Habilita las variantes dark: de Tailwind v4 basadas en la clase .dark fija */
+@custom-variant dark (&:where(.dark, .dark *));
 
+@layer base {
+  /* Apariencia única en modo oscuro para todo el sitio y controles nativos */
+  :root,
   .dark {
+    color-scheme: dark;
     --background: #090d16;
     --foreground: #f8fafc;
     --card: #111827;
@@ -39,10 +33,71 @@
       Cantarell,
       sans-serif;
     min-height: 100vh;
-    transition:
-      background-color 0.2s ease,
-      color 0.2s ease;
   }
+
+  /* Barra de desplazamiento coherente con la paleta oscura */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(71, 85, 105, 0.7) transparent;
+  }
+}
+
+/* Fondo ambiental animado en modo simple (únicamente transform y opacity en GPU) */
+@keyframes auroraDriftOne {
+  0% {
+    transform: translate3d(-6%, -4%, 0) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    transform: translate3d(8%, 6%, 0) scale(1.08);
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(-2%, 10%, 0) scale(0.96);
+    opacity: 0.85;
+  }
+}
+
+@keyframes auroraDriftTwo {
+  0% {
+    transform: translate3d(6%, 4%, 0) scale(1.04);
+    opacity: 0.75;
+  }
+  50% {
+    transform: translate3d(-8%, -6%, 0) scale(0.95);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate3d(4%, -8%, 0) scale(1.06);
+    opacity: 0.8;
+  }
+}
+
+@keyframes auroraDriftThree {
+  0% {
+    transform: translate3d(0%, 4%, 0) scale(0.98);
+    opacity: 0.65;
+  }
+  50% {
+    transform: translate3d(-6%, -4%, 0) scale(1.06);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(6%, 2%, 0) scale(1);
+    opacity: 0.7;
+  }
+}
+
+.animate-aurora-1 {
+  animation: auroraDriftOne 32s ease-in-out infinite alternate;
+}
+
+.animate-aurora-2 {
+  animation: auroraDriftTwo 40s ease-in-out infinite alternate;
+}
+
+.animate-aurora-3 {
+  animation: auroraDriftThree 36s ease-in-out infinite alternate;
 }
 
 @keyframes windowOpen {
@@ -109,12 +164,20 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .animate-aurora-1,
+  .animate-aurora-2,
+  .animate-aurora-3,
   .animate-window-open,
   .animate-window-minimize,
   .animate-modal-open,
   .animate-start-menu {
     animation: none !important;
-    opacity: 1 !important;
     transform: none !important;
+  }
+
+  .animate-window-open,
+  .animate-modal-open,
+  .animate-start-menu {
+    opacity: 1 !important;
   }
 }
