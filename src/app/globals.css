@@ -105,6 +105,30 @@
   transform-origin: bottom left;
 }
 
+/* Luz de borde interactiva estilo Modo IA que sigue el cursor, adaptada a la paleta nocturna */
+.ai-spotlight-layer {
+  background: linear-gradient(
+    125deg,
+    #e0f2fe 0%,
+    #38bdf8 26%,
+    #3b82f6 55%,
+    #818cf8 82%,
+    #38bdf8 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    115px circle at var(--mx, 50%) var(--my, 50%),
+    #000 18%,
+    rgba(0, 0, 0, 0.55) 48%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    115px circle at var(--mx, 50%) var(--my, 50%),
+    #000 18%,
+    rgba(0, 0, 0, 0.55) 48%,
+    transparent 100%
+  );
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-window-open,
   .animate-window-minimize,
@@ -112,6 +136,10 @@
   .animate-start-menu {
     animation: none !important;
     transform: none !important;
+  }
+
+  .ai-spotlight-layer {
+    transition: none !important;
   }
 
   .animate-window-open,

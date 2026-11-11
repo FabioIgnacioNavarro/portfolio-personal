@@ -104,10 +104,20 @@ test.describe('Simple Mode, Accessibility, SEO & Dual-Language Navigation', () =
     await expect(caseStudyBtn).toBeVisible();
     await caseStudyBtn.click();
 
-    // Verificar que el modal esté abierto
+    // Verificar que el modal esté abierto, centrado y quepa completo en pantalla
     const modal = page.locator('div[role="dialog"]');
     await expect(modal).toBeVisible();
     await expect(modal).toContainText(/Problema|Problem/);
+    const modalFitsViewport = await modal.locator('.animate-modal-open').evaluate((el) => {
+      const rect = el.getBoundingClientRect();
+      return (
+        rect.top >= 0 &&
+        rect.bottom <= window.innerHeight &&
+        rect.left >= 0 &&
+        rect.right <= window.innerWidth
+      );
+    });
+    expect(modalFitsViewport).toBe(true);
 
     // Cerrar usando el botón Cerrar
     const closeBtn = modal.locator('button:has-text("Cerrar"), button:has-text("Close")');

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useRef, useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import { Project } from '@/lib/schemas';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { renderMarkdown } from '@/lib/markdown';
@@ -38,18 +39,18 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
   const caseStudyMd = project ? (lang === 'es' ? project.caseStudy.es : project.caseStudy.en) : '';
   const renderedHtml = useMemo(() => renderMarkdown(caseStudyMd), [caseStudyMd]);
 
-  if (!project) return null;
+  if (!project || typeof document === 'undefined') return null;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6"
+      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6"
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-project-title"
     >
-      {/* Fondo oscurecido de alto rendimiento: separado del diálogo para evitar repintados al scrollear */}
+      {/* Fondo oscurecido de alto rendimiento: renderizado por portal directo en body para no verse afectado por transforms ancestros */}
       <div
-        className="fixed inset-0 bg-slate-950/75 transition-opacity"
+        className="fixed inset-0 bg-slate-950/80 transition-opacity"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -57,13 +58,16 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
       <div
         ref={modalRef}
         onClick={(e) => e.stopPropagation()}
-        className="relative z-10 bg-white dark:bg-slate-900 w-full max-w-3xl max-h-[90vh] rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 flex flex-col overflow-hidden animate-modal-open"
+        className="relative z-10 bg-slate-900 w-full max-w-3xl max-h-[min(84dvh,760px)] rounded-2xl shadow-2xl border border-slate-800 flex flex-col overflow-hidden animate-modal-open"
       >
-        {/* Encabezado del modal */}
-        <div className="p-6 border-b border-slate-200 dark:border-slate-800 flex items-start justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <Badge variant={project.status === 'completed' ? 'primary' : 'warning'}>
+        {/* Encabezado fijo del modal */}
+        <div className="shrink-0 p-4 sm:p-5 border-b border-slate-800 flex items-start justify-between gap-4">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2 mb-2">
+              <Badge
+                variant={project.status === 'completed' ? 'primary' : 'warning'}
+                className="whitespace-nowrap shrink-0"
+              >
                 {project.status === 'completed'
                   ? lang === 'es'
                     ? 'Completado'
@@ -72,29 +76,25 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
                     ? 'En Desarrollo'
                     : 'In Progress'}
               </Badge>
-              <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                {t(project.role)}
-              </span>
+              <span className="text-xs text-slate-400 font-medium">{t(project.role)}</span>
             </div>
-            <h3
-              id="modal-project-title"
-              className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white"
-            >
+            <h3 id="modal-project-title" className="text-lg sm:text-2xl font-bold text-white">
               {t(project.title)}
             </h3>
           </div>
 
           <button
+            type="button"
             onClick={onClose}
             aria-label={lang === 'es' ? 'Cerrar modal' : 'Close modal'}
-            className="p-2 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            className="p-2 rounded-lg text-slate-400 hover:text-slate-200 hover:bg-slate-800 transition-colors shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
-        {/* Cuerpo desplazable del modal */}
-        <div className="p-6 overflow-y-auto space-y-6 overscroll-contain">
+        {/* Cuerpo desplazable del modal acotado al alto de pantalla */}
+        <div className="flex-1 min-h-0 p-4 sm:p-6 overflow-y-auto space-y-6 overscroll-contain">
           {/* Resumen */}
           <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200/60 dark:border-slate-800 text-sm sm:text-base text-slate-700 dark:text-slate-300">
             {t(project.summary)}
@@ -157,16 +157,18 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
           </div>
         </div>
 
-        {/* Pie del modal */}
-        <div className="p-4 sm:p-5 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 flex justify-end">
+        {/* Pie fijo del modal */}
+        <div className="shrink-0 p-4 border-t border-slate-800 bg-slate-900/80 flex justify-end">
           <button
+            type="button"
             onClick={onClose}
-            className="px-4 py-2 rounded-lg bg-slate-200 dark:bg-slate-800 hover:bg-slate-300 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-medium text-sm transition-colors"
+            className="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             {lang === 'es' ? 'Cerrar' : 'Close'}
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

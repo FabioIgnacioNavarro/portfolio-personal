@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { Profile } from '@/lib/schemas';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { Mail, Download, MapPin, ArrowRight } from 'lucide-react';
@@ -10,6 +10,59 @@ import { SectionPanel } from './SectionPanel';
 
 interface HeroSectionProps {
   profile: Profile;
+}
+
+interface HeroActionButtonProps {
+  href: string;
+  variant?: 'primary' | 'secondary';
+  external?: boolean;
+  children: React.ReactNode;
+}
+
+// Botón con borde luminoso reactivo al puntero inspirado en Modo IA y adaptado a la paleta nocturna
+function HeroActionButton({
+  href,
+  variant = 'secondary',
+  external = false,
+  children,
+}: HeroActionButtonProps) {
+  const linkRef = useRef<HTMLAnchorElement | null>(null);
+
+  const updateSpotlightPosition = (e: React.PointerEvent<HTMLAnchorElement>) => {
+    const el = linkRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    el.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+    el.style.setProperty('--my', `${e.clientY - rect.top}px`);
+  };
+
+  const baseBorderClass = variant === 'primary' ? 'bg-blue-400/40' : 'bg-slate-700/90';
+  const innerClassName =
+    variant === 'primary'
+      ? 'bg-gradient-to-b from-blue-600 to-blue-700 text-white group-hover:from-blue-500 group-hover:to-blue-600'
+      : 'bg-slate-950/95 text-slate-100 group-hover:bg-slate-900';
+
+  return (
+    <a
+      ref={linkRef}
+      href={href}
+      target={external ? '_blank' : undefined}
+      rel={external ? 'noopener noreferrer' : undefined}
+      onPointerEnter={updateSpotlightPosition}
+      onPointerMove={updateSpotlightPosition}
+      className={`group relative inline-flex items-center justify-center overflow-hidden rounded-[10px] p-[2px] shadow-sm transition-[transform,box-shadow] duration-150 hover:-translate-y-0.5 hover:shadow-[0_0_20px_-6px_rgba(56,189,248,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 ${baseBorderClass}`}
+    >
+      <span
+        aria-hidden="true"
+        className="ai-spotlight-layer pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-visible:opacity-100"
+      />
+      <span
+        className={`relative z-10 inline-flex items-center gap-2 rounded-[8px] px-5 py-2.5 text-sm font-medium transition-colors ${innerClassName}`}
+      >
+        {children}
+      </span>
+    </a>
+  );
 }
 
 export function HeroSection({ profile }: HeroSectionProps) {
@@ -53,31 +106,20 @@ export function HeroSection({ profile }: HeroSectionProps) {
 
       {/* Botones de acción principales */}
       <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-8">
-        <a
-          href="#projects"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm transition-colors shadow-sm focus-visible:outline-2 focus-visible:outline-blue-600"
-        >
+        <HeroActionButton href="#projects" variant="primary">
           <span>{lang === 'es' ? 'Ver proyectos' : 'View projects'}</span>
-          <ArrowRight className="w-4 h-4" />
-        </a>
+          <ArrowRight className="w-4 h-4 transition-transform duration-150 group-hover:translate-x-0.5" />
+        </HeroActionButton>
 
-        <a
-          href={cvHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-slate-700 bg-slate-900/90 text-slate-200 hover:bg-slate-800 font-medium text-sm transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
-        >
+        <HeroActionButton href={cvHref} external>
           <Download className="w-4 h-4" />
           <span>{lang === 'es' ? 'Descargar CV' : 'Download Resume'}</span>
-        </a>
+        </HeroActionButton>
 
-        <a
-          href={`mailto:${profile.links.email}`}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-slate-700 bg-slate-900/90 text-slate-200 hover:bg-slate-800 font-medium text-sm transition-colors shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
-        >
+        <HeroActionButton href={`mailto:${profile.links.email}`}>
           <Mail className="w-4 h-4" />
           <span>{lang === 'es' ? 'Contactar' : 'Contact me'}</span>
-        </a>
+        </HeroActionButton>
       </div>
 
       {/* Redes sociales y enlaces de contacto */}
