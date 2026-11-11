@@ -12,8 +12,13 @@ test.describe('Simple Mode, Accessibility, SEO & Dual-Language Navigation', () =
     // Verificar apariencia única en modo oscuro fija en <html>
     await expect(page.locator('html')).toHaveClass(/dark/);
 
-    // Verificar fondo ambiental animado en Modo Simple
-    await expect(page.getByTestId('simple-background')).toBeVisible();
+    // Verificar fondo ambiental animado en Modo Simple (imagen WebP cargada)
+    const simpleBg = page.getByTestId('simple-background');
+    await expect(simpleBg).toBeVisible();
+    const bgLoaded = await simpleBg
+      .locator('img')
+      .evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0);
+    expect(bgLoaded).toBe(true);
 
     // Verificar enlace de salto accesible al contenido principal
     const skipLink = page.locator('a[href="#main-content"]');
