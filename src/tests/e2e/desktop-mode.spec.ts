@@ -117,7 +117,9 @@ test.describe('Desktop Mode (PC Navegable & Window Manager)', () => {
     await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
 
     // Abrir el Menú Inicio y cerrarlo con Escape
-    const startBtn = page.locator('nav[aria-label*="Barra de tareas"] button[aria-label*="inicio"]');
+    const startBtn = page.locator(
+      'nav[aria-label*="Barra de tareas"] button[aria-label*="inicio"]',
+    );
     await startBtn.click();
     await expect(page.locator('text=Aplicaciones del Sistema')).toBeVisible();
 
@@ -133,5 +135,34 @@ test.describe('Desktop Mode (PC Navegable & Window Manager)', () => {
     await expect(aboutWindow).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(aboutWindow).not.toBeVisible();
+  });
+
+  test('opens trash bin from bottom-right corner and reads easter_egg.txt', async ({ page }) => {
+    await page.goto('/?mode=desktop&lang=es');
+    await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
+
+    const trashBtn = page.locator('button[aria-label="Papelera"]');
+    await expect(trashBtn).toBeVisible();
+
+    const isBottomRight = await trashBtn.evaluate((el) => {
+      const rect = el.getBoundingClientRect();
+      return rect.right > window.innerWidth * 0.6 && rect.bottom > window.innerHeight * 0.6;
+    });
+    expect(isBottomRight).toBe(true);
+
+    const trashWindow = page.locator('div[role="dialog"][aria-label*="Papelera"]');
+    await trashBtn.click();
+    if (!(await trashWindow.isVisible())) {
+      await trashBtn.press('Enter');
+    }
+
+    await expect(trashWindow).toBeVisible();
+    await expect(trashWindow).toContainText('easter_egg.txt');
+
+    const openFileBtn = trashWindow.getByRole('button', { name: 'Abrir', exact: true });
+    await openFileBtn.click();
+    await expect(trashWindow).toContainText(
+      'Bueno no se que poner acá, pero me gustaría mostrar algo interesante o curioso',
+    );
   });
 });

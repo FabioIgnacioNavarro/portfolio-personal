@@ -16,6 +16,7 @@ import { SkillsApp } from './apps/SkillsApp';
 import { EducationApp } from './apps/EducationApp';
 import { ContactApp } from './apps/ContactApp';
 import { TerminalApp } from './apps/TerminalApp';
+import { TrashApp } from './apps/TrashApp';
 import {
   User,
   Folder,
@@ -25,6 +26,7 @@ import {
   Mail,
   Terminal,
   FileCode,
+  Trash2,
 } from 'lucide-react';
 
 interface DesktopViewProps {
@@ -116,6 +118,17 @@ export function DesktopView({ content }: DesktopViewProps) {
         ))}
       </div>
 
+      {/* Ícono de Papelera en la esquina inferior derecha sobre la barra de tareas */}
+      <div className="absolute bottom-16 right-4 z-10" onClick={(e) => e.stopPropagation()}>
+        <DesktopIcon
+          id="trash"
+          label={{ es: 'Papelera', en: 'Trash' }}
+          icon={<Trash2 className="w-6 h-6 text-slate-400" />}
+          isSelected={selectedIcon === 'trash'}
+          onSelect={() => setSelectedIcon('trash')}
+        />
+      </div>
+
       {/* Capa de ventanas */}
       <div className="absolute inset-0 pb-12 pointer-events-none [&>*]:pointer-events-auto">
         {/* 1. Ventana Sobre mí */}
@@ -161,7 +174,10 @@ export function DesktopView({ content }: DesktopViewProps) {
 
         {/* 5. Ventana de Habilidades */}
         {windows.skills.isOpen && (
-          <Window windowState={windows.skills} iconNode={<Cpu className="w-4 h-4 text-purple-500" />}>
+          <Window
+            windowState={windows.skills}
+            iconNode={<Cpu className="w-4 h-4 text-purple-500" />}
+          >
             <SkillsApp skills={content.skills} />
           </Window>
         )}
@@ -178,7 +194,10 @@ export function DesktopView({ content }: DesktopViewProps) {
 
         {/* 7. Ventana de Contacto */}
         {windows.contact.isOpen && (
-          <Window windowState={windows.contact} iconNode={<Mail className="w-4 h-4 text-rose-500" />}>
+          <Window
+            windowState={windows.contact}
+            iconNode={<Mail className="w-4 h-4 text-rose-500" />}
+          >
             <ContactApp profile={content.profile} />
           </Window>
         )}
@@ -190,6 +209,16 @@ export function DesktopView({ content }: DesktopViewProps) {
             iconNode={<Terminal className="w-4 h-4 text-teal-500" />}
           >
             <TerminalApp content={content} />
+          </Window>
+        )}
+
+        {/* 9. Ventana de Papelera */}
+        {windows.trash.isOpen && (
+          <Window
+            windowState={windows.trash}
+            iconNode={<Trash2 className="w-4 h-4 text-slate-400" />}
+          >
+            <TrashApp />
           </Window>
         )}
       </div>

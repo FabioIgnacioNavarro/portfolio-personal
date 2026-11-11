@@ -19,10 +19,19 @@ export type WindowId =
   | 'skills'
   | 'education'
   | 'contact'
-  | 'terminal';
+  | 'terminal'
+  | 'trash';
 
 export type WindowIconType =
-  'user' | 'briefcase' | 'folder' | 'file-code' | 'cpu' | 'graduation-cap' | 'mail' | 'terminal';
+  | 'user'
+  | 'briefcase'
+  | 'folder'
+  | 'file-code'
+  | 'cpu'
+  | 'graduation-cap'
+  | 'mail'
+  | 'terminal'
+  | 'trash';
 
 export interface WindowState {
   id: WindowId;
@@ -154,6 +163,18 @@ const DEFAULT_WINDOWS: Record<WindowId, WindowState> = {
     position: { x: 200, y: 120 },
     size: { width: 640, height: 400 },
     minSize: { width: 380, height: 260 },
+  },
+  trash: {
+    id: 'trash',
+    title: { es: 'Papelera', en: 'Trash' },
+    icon: 'trash',
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: 13,
+    position: { x: 180, y: 80 },
+    size: { width: 580, height: 390 },
+    minSize: { width: 360, height: 260 },
   },
 };
 

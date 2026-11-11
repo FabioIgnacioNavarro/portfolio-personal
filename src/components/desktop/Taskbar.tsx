@@ -17,6 +17,7 @@ import {
   Mail,
   Terminal,
   FileCode,
+  Trash2,
 } from 'lucide-react';
 
 interface TaskbarProps {
@@ -74,6 +75,8 @@ export function Taskbar({ profile }: TaskbarProps) {
         return <Mail className="w-3.5 h-3.5 text-rose-500" />;
       case 'terminal':
         return <Terminal className="w-3.5 h-3.5 text-teal-500" />;
+      case 'trash':
+        return <Trash2 className="w-3.5 h-3.5 text-slate-400" />;
     }
   };
 
