@@ -1,3 +1,5 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { describe, it, expect } from 'vitest';
 import { loadPortfolioContent } from '@/lib/content';
 
@@ -12,6 +14,15 @@ describe('Real Content Validation', () => {
     expect(content.profile.role.en).toBeDefined();
     expect(content.profile.links.github).toContain('github.com');
     expect(content.profile.links.linkedin).toContain('linkedin.com');
+
+    // Verificar que los archivos locales de CV referenciados existan en public/
+    for (const cvPath of [content.profile.links.cvUrl.es, content.profile.links.cvUrl.en]) {
+      if (cvPath.startsWith('/')) {
+        const publicFile = path.join(process.cwd(), 'public', cvPath.slice(1));
+        expect(fs.existsSync(publicFile)).toBe(true);
+        expect(fs.statSync(publicFile).size).toBeGreaterThan(0);
+      }
+    }
 
     // Validaciones de experiencia
     expect(content.experience.length).toBeGreaterThan(0);

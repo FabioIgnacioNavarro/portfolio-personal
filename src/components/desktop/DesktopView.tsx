@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { PortfolioContent } from '@/lib/content';
 import { useWindowManager, WindowId } from '@/context/WindowManagerContext';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
@@ -15,6 +16,7 @@ import { SkillsApp } from './apps/SkillsApp';
 import { EducationApp } from './apps/EducationApp';
 import { ContactApp } from './apps/ContactApp';
 import { TerminalApp } from './apps/TerminalApp';
+import { TrashApp } from './apps/TrashApp';
 import {
   User,
   Folder,
@@ -24,6 +26,7 @@ import {
   Mail,
   Terminal,
   FileCode,
+  Trash2,
 } from 'lucide-react';
 
 interface DesktopViewProps {
@@ -84,20 +87,21 @@ export function DesktopView({ content }: DesktopViewProps) {
         isTransitioning ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >
-      {/* Fondo de pantalla del escritorio (Unsplash: formación rocosa marrón bajo el cielo azul) */}
-      <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-300"
-        style={{
-          backgroundImage: `url('/images/wallpaper.jpg')`,
-        }}
-        aria-hidden="true"
-      />
+      {/* Fondo de pantalla optimizado con next/image (AVIF/WebP automático) */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <Image
+          src="/images/wallpaper.jpg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          quality={75}
+          className="object-cover object-center"
+        />
+      </div>
 
-      {/* Superposición sutil para legibilidad y contraste en modo claro y oscuro */}
-      <div
-        className="absolute inset-0 bg-black/15 dark:bg-black/35 pointer-events-none"
-        aria-hidden="true"
-      />
+      {/* Superposición oscura fija para legibilidad y contraste */}
+      <div className="absolute inset-0 bg-black/35 pointer-events-none" aria-hidden="true" />
 
       {/* Área de íconos del escritorio */}
       <div className="absolute top-4 left-4 grid grid-flow-col grid-rows-5 gap-2 z-10">
@@ -112,6 +116,17 @@ export function DesktopView({ content }: DesktopViewProps) {
             />
           </div>
         ))}
+      </div>
+
+      {/* Ícono de Papelera en la esquina inferior derecha sobre la barra de tareas */}
+      <div className="absolute bottom-16 right-4 z-10" onClick={(e) => e.stopPropagation()}>
+        <DesktopIcon
+          id="trash"
+          label={{ es: 'Papelera', en: 'Trash' }}
+          icon={<Trash2 className="w-6 h-6 text-slate-400" />}
+          isSelected={selectedIcon === 'trash'}
+          onSelect={() => setSelectedIcon('trash')}
+        />
       </div>
 
       {/* Capa de ventanas */}
@@ -159,7 +174,10 @@ export function DesktopView({ content }: DesktopViewProps) {
 
         {/* 5. Ventana de Habilidades */}
         {windows.skills.isOpen && (
-          <Window windowState={windows.skills} iconNode={<Cpu className="w-4 h-4 text-purple-500" />}>
+          <Window
+            windowState={windows.skills}
+            iconNode={<Cpu className="w-4 h-4 text-purple-500" />}
+          >
             <SkillsApp skills={content.skills} />
           </Window>
         )}
@@ -176,7 +194,10 @@ export function DesktopView({ content }: DesktopViewProps) {
 
         {/* 7. Ventana de Contacto */}
         {windows.contact.isOpen && (
-          <Window windowState={windows.contact} iconNode={<Mail className="w-4 h-4 text-rose-500" />}>
+          <Window
+            windowState={windows.contact}
+            iconNode={<Mail className="w-4 h-4 text-rose-500" />}
+          >
             <ContactApp profile={content.profile} />
           </Window>
         )}
@@ -188,6 +209,16 @@ export function DesktopView({ content }: DesktopViewProps) {
             iconNode={<Terminal className="w-4 h-4 text-teal-500" />}
           >
             <TerminalApp content={content} />
+          </Window>
+        )}
+
+        {/* 9. Ventana de Papelera */}
+        {windows.trash.isOpen && (
+          <Window
+            windowState={windows.trash}
+            iconNode={<Trash2 className="w-4 h-4 text-slate-400" />}
+          >
+            <TrashApp />
           </Window>
         )}
       </div>

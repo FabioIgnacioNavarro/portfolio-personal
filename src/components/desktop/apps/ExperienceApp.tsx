@@ -43,7 +43,7 @@ export function ExperienceApp({ experience }: { experience: Experience[] }) {
 
             {item.achievements.length > 0 && (
               <div className="mb-4 space-y-1.5">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
                   {lang === 'es' ? 'Logros y Responsabilidades:' : 'Achievements & Scope:'}
                 </span>
                 <ul className="space-y-1 text-xs text-slate-600 dark:text-slate-300">

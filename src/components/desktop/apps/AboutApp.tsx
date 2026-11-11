@@ -39,7 +39,7 @@ export function AboutApp({ profile }: { profile: Profile }) {
 
       {/* Stack tecnológico principal */}
       <div>
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
+        <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
           {lang === 'es' ? 'Stack Principal:' : 'Core Stack:'}
         </h4>
         <div className="p-3 bg-slate-100 dark:bg-slate-800/60 rounded-xl font-mono text-xs text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700/60">
@@ -49,7 +49,7 @@ export function AboutApp({ profile }: { profile: Profile }) {
 
       {/* Biografía / Resumen */}
       <div>
-        <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
+        <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
           {lang === 'es' ? 'Resumen Profesional:' : 'Professional Summary:'}
         </h4>
         <p className="text-sm leading-relaxed text-slate-700 dark:text-slate-300">

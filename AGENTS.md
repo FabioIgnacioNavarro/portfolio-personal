@@ -84,6 +84,9 @@ Este documento contiene las reglas, arquitectura, convenciones y flujos de traba
   - `docs(...)`: Cambios en documentación o ADRs.
   - `chore(...)`: Tareas de mantenimiento o configuración.
 - **Dependencias**: No agregar dependencias pesadas sin justificación técnica y confirmación previa del usuario.
+- **Pruebas entre ediciones/commits vs. PRs**:
+  - Entre ediciones y antes de cada commit habitual, ejecutar **solo pruebas unitarias** (`pnpm test`), además de `pnpm typecheck` y `pnpm lint` cuando aplique.
+  - Ejecutar pruebas E2E (`pnpm test:e2e`) o la suite completa **únicamente al probar Pull Requests**.
 
 ---
 
@@ -96,10 +99,10 @@ pnpm install
 # Iniciar servidor de desarrollo
 pnpm dev
 
-# Correr pruebas unitarias (Vitest)
+# Correr pruebas unitarias (Vitest - uso habitual entre ediciones y commits)
 pnpm test
 
-# Correr pruebas E2E (Playwright)
+# Correr pruebas E2E (Playwright - usar solo al probar Pull Requests)
 pnpm test:e2e
 
 # Verificar tipos TypeScript

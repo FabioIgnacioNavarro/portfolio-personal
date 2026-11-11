@@ -1,19 +1,13 @@
 @import 'tailwindcss';
 
-@layer base {
-  :root {
-    --background: #f8fafc;
-    --foreground: #0f172a;
-    --card: #ffffff;
-    --card-foreground: #0f172a;
-    --muted: #f1f5f9;
-    --muted-foreground: #64748b;
-    --border: #e2e8f0;
-    --primary: #2563eb;
-    --primary-foreground: #ffffff;
-  }
+/* Habilita las variantes dark: de Tailwind v4 basadas en la clase .dark fija */
+@custom-variant dark (&:where(.dark, .dark *));
 
+@layer base {
+  /* Apariencia única en modo oscuro para todo el sitio y controles nativos */
+  :root,
   .dark {
+    color-scheme: dark;
     --background: #090d16;
     --foreground: #f8fafc;
     --card: #111827;
@@ -39,9 +33,12 @@
       Cantarell,
       sans-serif;
     min-height: 100vh;
-    transition:
-      background-color 0.2s ease,
-      color 0.2s ease;
+  }
+
+  /* Barra de desplazamiento coherente con la paleta oscura */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(71, 85, 105, 0.7) transparent;
   }
 }
 
@@ -108,13 +105,46 @@
   transform-origin: bottom left;
 }
 
+/* Luz de borde interactiva estilo Modo IA que sigue el cursor, adaptada a la paleta nocturna */
+.ai-spotlight-layer {
+  background: linear-gradient(
+    125deg,
+    #e0f2fe 0%,
+    #38bdf8 26%,
+    #3b82f6 55%,
+    #818cf8 82%,
+    #38bdf8 100%
+  );
+  -webkit-mask-image: radial-gradient(
+    115px circle at var(--mx, 50%) var(--my, 50%),
+    #000 18%,
+    rgba(0, 0, 0, 0.55) 48%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    115px circle at var(--mx, 50%) var(--my, 50%),
+    #000 18%,
+    rgba(0, 0, 0, 0.55) 48%,
+    transparent 100%
+  );
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-window-open,
   .animate-window-minimize,
   .animate-modal-open,
   .animate-start-menu {
     animation: none !important;
-    opacity: 1 !important;
     transform: none !important;
+  }
+
+  .ai-spotlight-layer {
+    transition: none !important;
+  }
+
+  .animate-window-open,
+  .animate-modal-open,
+  .animate-start-menu {
+    opacity: 1 !important;
   }
 }

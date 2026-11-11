@@ -14,7 +14,7 @@ interface HistoryItem {
 }
 
 export function TerminalApp({ content }: { content: PortfolioContent }) {
-  const { lang, setLang, setTheme, setMode } = useViewPreferences();
+  const { lang, setLang, setMode } = useViewPreferences();
   const { openWindow } = useWindowManager();
 
   const [input, setInput] = useState('');
@@ -53,9 +53,6 @@ export function TerminalApp({ content }: { content: PortfolioContent }) {
         setHistory([]);
         setInput('');
         return;
-      }
-      if (result.action.type === 'set-theme' && result.action.payload) {
-        setTheme(result.action.payload as 'light' | 'dark');
       }
       if (result.action.type === 'set-lang' && result.action.payload) {
         setLang(result.action.payload as 'es' | 'en');

@@ -4,7 +4,7 @@ export interface CommandOutput {
   text?: string;
   isError?: boolean;
   action?: {
-    type: 'open-window' | 'set-theme' | 'set-lang' | 'set-mode' | 'clear';
+    type: 'open-window' | 'set-lang' | 'set-mode' | 'clear';
     payload?: string;
   };
 }
@@ -36,7 +36,6 @@ export function executeTerminalCommand(
                 '  education     Formación académica y certificaciones',
                 '  contact       Datos de contacto y enlaces directos',
                 '  open <app>    Abre una aplicación (about, projects, skills, contact)',
-                '  theme <t>     Cambia el tema (dark | light)',
                 '  lang <l>      Cambia el idioma (es | en)',
                 '  mode simple   Regresa al Modo Simple',
                 '  neofetch      Información del sistema y desarrollador',
@@ -52,7 +51,6 @@ export function executeTerminalCommand(
                 '  education     Academic background and certifications',
                 '  contact       Contact info and direct links',
                 '  open <app>    Launch an application window',
-                '  theme <t>     Switch theme (dark | light)',
                 '  lang <l>      Switch language (es | en)',
                 '  mode simple   Switch to Simple Mode',
                 '  neofetch      Developer system specs',
@@ -146,20 +144,6 @@ export function executeTerminalCommand(
       };
     }
 
-    case 'theme': {
-      const targetTheme = args[0]?.toLowerCase();
-      if (targetTheme === 'dark' || targetTheme === 'light') {
-        return {
-          text: `Theme set to ${targetTheme}.`,
-          action: { type: 'set-theme', payload: targetTheme },
-        };
-      }
-      return {
-        text: lang === 'es' ? 'Uso: theme dark | theme light' : 'Usage: theme dark | theme light',
-        isError: true,
-      };
-    }
-
     case 'lang': {
       const targetLang = args[0]?.toLowerCase();
       if (targetLang === 'es' || targetLang === 'en') {
@@ -198,7 +182,7 @@ export function executeTerminalCommand(
         text: [
           '        _nnnn_        fabio@portfolio',
           '       dGGGGMMb       ---------------',
-          '      @p~qp~~qMb      OS: Antigravity Web OS (Next.js 15)',
+          '      @p~qp~~qMb      OS: Antigravity Web OS (Next.js 16)',
           '      M|@||@) M|      Host: Argentina (Chaco)',
           '      @,----.JM|      Kernel: TypeScript 5.9 + Zod',
           '     (\\__/~~\\__/)     Shell: Portfolio Terminal v2.0',
