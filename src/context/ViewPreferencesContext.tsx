@@ -12,11 +12,12 @@ interface ViewPreferencesContextType {
   setLang: (lang: Language) => void;
   mode: ViewMode;
   setMode: (mode: ViewMode) => void;
+  isTransitioning: boolean;
   theme: Theme;
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
   toggleLang: () => void;
-  t: (text: LocalizedText | undefined) => string;
+  t: (text: LocalizedText | string | null | undefined) => string;
 }
 
 const ViewPreferencesContext = createContext<ViewPreferencesContextType | undefined>(undefined);
@@ -26,9 +27,10 @@ export function ViewPreferencesProvider({ children }: { children: React.ReactNod
   const [mode, setModeState] = useState<ViewMode>('simple');
   const [theme, setThemeState] = useState<Theme>('light');
   const [isHydrated, setIsHydrated] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   useEffect(() => {
-    // 1. Language detection
+    // 1. Detección de idioma
     const params = new URLSearchParams(window.location.search);
     const queryLang = params.get('lang') as Language;
     const storedLang = localStorage.getItem('portfolio-lang') as Language;
@@ -42,7 +44,7 @@ export function ViewPreferencesProvider({ children }: { children: React.ReactNod
       setLangState(browserLang.startsWith('es') ? 'es' : 'en');
     }
 
-    // 2. View Mode detection
+    // 2. Detección del modo de visualización
     const queryMode = params.get('mode') as ViewMode;
     const storedMode = localStorage.getItem('portfolio-mode') as ViewMode;
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -55,10 +57,10 @@ export function ViewPreferencesProvider({ children }: { children: React.ReactNod
     } else if (isMobile || prefersReducedMotion) {
       setModeState('simple');
     } else {
-      setModeState('simple'); // Default for Phase 1 is simple mode
+      setModeState('simple'); // El modo simple es el predeterminado en la carga inicial
     }
 
-    // 3. Theme detection
+    // 3. Detección del tema visual
     const storedTheme = localStorage.getItem('portfolio-theme') as Theme;
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const initialTheme: Theme =
@@ -88,8 +90,18 @@ export function ViewPreferencesProvider({ children }: { children: React.ReactNod
   };
 
   const setMode = (newMode: ViewMode) => {
-    setModeState(newMode);
-    localStorage.setItem('portfolio-mode', newMode);
+    if (newMode === mode) return;
+    if (newMode === 'simple' && mode === 'desktop') {
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setModeState(newMode);
+        localStorage.setItem('portfolio-mode', newMode);
+        setIsTransitioning(false);
+      }, 200);
+    } else {
+      setModeState(newMode);
+      localStorage.setItem('portfolio-mode', newMode);
+    }
   };
 
   const setTheme = (newTheme: Theme) => {
@@ -106,8 +118,9 @@ export function ViewPreferencesProvider({ children }: { children: React.ReactNod
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
-  const t = (text: LocalizedText | undefined): string => {
+  const t = (text: LocalizedText | string | null | undefined): string => {
     if (!text) return '';
+    if (typeof text === 'string') return text;
     return text[lang] || text.es || '';
   };
 
@@ -118,6 +131,7 @@ export function ViewPreferencesProvider({ children }: { children: React.ReactNod
         setLang,
         mode,
         setMode,
+        isTransitioning,
         theme,
         setTheme,
         toggleTheme,

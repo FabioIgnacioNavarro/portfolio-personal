@@ -11,6 +11,7 @@ interface EducationSectionProps {
   certifications: Certification[];
 }
 
+// Única fuente de verdad: lee directamente desde content/education.json mediante props
 export function EducationSection({ education, certifications }: EducationSectionProps) {
   const { lang, t } = useViewPreferences();
 
@@ -35,7 +36,7 @@ export function EducationSection({ education, certifications }: EducationSection
       className="py-12 md:py-16 border-b border-slate-200/80 dark:border-slate-800/80"
     >
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        {/* Education Subsection */}
+        {/* Subsección de Educación */}
         <div className="mb-12">
           <div className="flex items-center gap-2 mb-2">
             <GraduationCap className="w-5 h-5 text-blue-600 dark:text-blue-400" />
@@ -64,7 +65,7 @@ export function EducationSection({ education, certifications }: EducationSection
                     <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
                       <Calendar className="w-3.5 h-3.5" />
                       <span>
-                        {item.startDate} {item.endDate ? `— ${item.endDate}` : ''}
+                        {t(item.startDate)} {item.endDate ? `— ${t(item.endDate)}` : ''}
                       </span>
                     </div>
                   </div>
@@ -84,7 +85,7 @@ export function EducationSection({ education, certifications }: EducationSection
           </div>
         </div>
 
-        {/* Certifications Subsection */}
+        {/* Subsección de Certificaciones */}
         <div>
           <div className="flex items-center gap-2 mb-2">
             <Award className="w-5 h-5 text-amber-500" />

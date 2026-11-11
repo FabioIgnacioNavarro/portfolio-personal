@@ -9,7 +9,7 @@ Este documento contiene las reglas, arquitectura, convenciones y flujos de traba
 - **Autor**: Fabio Ignacio Navarro (Desarrollador Full Stack Junior, Argentina).
 - **Audiencia objetivo**: Reclutadores y líderes técnicos (nacionales e internacionales). Debe cargar en milisegundos, verse profesional y poder recorrerse en pocos segundos.
 - **Despliegue**: Vercel (linkeado en CV y LinkedIn).
-- **Idioma del código**: Todo el código, nombres de variables, funciones, tipos y comentarios deben estar en **inglés**.
+- **Idioma del código y comentarios**: Los nombres de variables, funciones, componentes y tipos mantienen el estándar técnico en **inglés**, mientras que **todos los comentarios en el código (`//`, `/* */`, JSDoc) deben redactarse en español** para priorizar la comprensión y revisión del autor.
 - **Idioma del contenido visible**: Estricto soporte bilingüe en **español e inglés** (`{ es: string, en: string }`).
 
 ---
@@ -76,9 +76,10 @@ Este documento contiene las reglas, arquitectura, convenciones y flujos de traba
 ## 4. Convenciones de Desarrollo y Git
 
 - **Ramas**: Trabajar siempre en ramas temáticas (`feat/...`, `fix/...`, `docs/...`).
-- **Commits**: Seguir [Conventional Commits](https://www.conventionalcommits.org/):
+- **Commits y Pull Requests**: Seguir los prefijos de [Conventional Commits](https://www.conventionalcommits.org/), redactando **todos los mensajes de commit y los títulos/descripciones de los PRs en español**:
   - `feat(...)`: Nueva característica.
-  - `fix(...)`: Corrección de bug.
+  - `fix(...)`: Corrección de error.
+  - `perf(...)`: Mejora de rendimiento.
   - `test(...)`: Incorporación o mejora de pruebas.
   - `docs(...)`: Cambios en documentación o ADRs.
   - `chore(...)`: Tareas de mantenimiento o configuración.

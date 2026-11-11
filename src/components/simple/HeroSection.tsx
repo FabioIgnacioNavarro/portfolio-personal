@@ -22,7 +22,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
       className="py-12 md:py-20 border-b border-slate-200/80 dark:border-slate-800/80"
     >
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
-        {/* Availability Badge */}
+        {/* Etiqueta de disponibilidad */}
         <div className="inline-flex items-center gap-2 mb-6">
           <Badge variant="accent" className="py-1 px-3 text-xs">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse inline-block mr-1"></span>
@@ -36,7 +36,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
           </div>
         </div>
 
-        {/* Name and Role */}
+        {/* Nombre y rol */}
         <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-3">
           {profile.name}
         </h1>
@@ -44,17 +44,17 @@ export function HeroSection({ profile }: HeroSectionProps) {
           {t(profile.role)}
         </p>
 
-        {/* Headline Tech stack */}
+        {/* Stack tecnológico principal */}
         <div className="text-sm sm:text-base font-mono text-slate-600 dark:text-slate-300 mb-6 bg-slate-100 dark:bg-slate-800/60 p-3 rounded-lg border border-slate-200 dark:border-slate-700/60 inline-block">
           {t(profile.headline)}
         </div>
 
-        {/* Bio Summary */}
+        {/* Resumen biográfico */}
         <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-8 max-w-3xl">
           {t(profile.summary)}
         </p>
 
-        {/* Primary Action Buttons */}
+        {/* Botones de acción principales */}
         <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-8">
           <a
             href="#projects"
@@ -83,7 +83,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
           </a>
         </div>
 
-        {/* Social & Contact Links */}
+        {/* Redes sociales y enlaces de contacto */}
         <div className="flex items-center gap-4 text-slate-600 dark:text-slate-400">
           <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 dark:text-slate-500">
             {lang === 'es' ? 'Redes & Enlaces:' : 'Links:'}
@@ -92,7 +92,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
             href={profile.links.github}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Perfil de GitHub"
+            aria-label={lang === 'es' ? 'Perfil de GitHub' : 'GitHub profile'}
             className="p-2 rounded-lg hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           >
             <GithubIcon className="w-5 h-5" />
@@ -101,14 +101,14 @@ export function HeroSection({ profile }: HeroSectionProps) {
             href={profile.links.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Perfil de LinkedIn"
+            aria-label={lang === 'es' ? 'Perfil de LinkedIn' : 'LinkedIn profile'}
             className="p-2 rounded-lg hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           >
             <LinkedinIcon className="w-5 h-5" />
           </a>
           <a
             href={`mailto:${profile.links.email}`}
-            aria-label="Enviar correo electrónico"
+            aria-label={lang === 'es' ? 'Enviar correo electrónico' : 'Send email'}
             className="p-2 rounded-lg hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           >
             <Mail className="w-5 h-5" />

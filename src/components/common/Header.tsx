@@ -2,14 +2,14 @@
 
 import React, { useState } from 'react';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
-import { Monitor, FileText, Sun, Moon, Globe, Menu, X } from 'lucide-react';
+import { Monitor, FileText, Globe, Menu, X } from 'lucide-react';
 
 interface HeaderProps {
   onDesktopModeSelect?: () => void;
 }
 
 export function Header({ onDesktopModeSelect }: HeaderProps) {
-  const { lang, setLang, mode, setMode, theme, toggleTheme } = useViewPreferences();
+  const { lang, setLang, mode, setMode } = useViewPreferences();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const navLinks = [
@@ -31,7 +31,7 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md transition-colors">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        {/* Brand / Logo */}
+        {/* Marca / Logo */}
         <a
           href="#about"
           className="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2 hover:opacity-80 transition-opacity"
@@ -40,8 +40,11 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
           <span>Fabio Ignacio Navarro</span>
         </a>
 
-        {/* Desktop Nav Links */}
-        <nav className="hidden md:flex items-center gap-6" aria-label="Navegación principal">
+        {/* Enlaces de navegación en escritorio */}
+        <nav
+          className="hidden md:flex items-center gap-6"
+          aria-label={lang === 'es' ? 'Navegación principal' : 'Main navigation'}
+        >
           {navLinks.map((link) => (
             <a
               key={link.href}
@@ -53,17 +56,17 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
           ))}
         </nav>
 
-        {/* Global Controls */}
+        {/* Controles globales */}
         <div className="flex items-center gap-2 sm:gap-3">
-          {/* Mode Switcher */}
+          {/* Selector de modo */}
           <div
             className="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 rounded-lg border border-slate-200 dark:border-slate-700"
             role="group"
-            aria-label="Selector de modo de visualización"
+            aria-label={lang === 'es' ? 'Selector de modo de visualización' : 'View mode selector'}
           >
             <button
               onClick={() => handleModeChange('simple')}
-              aria-label="Modo Simple (Lectura rápida)"
+              aria-label={lang === 'es' ? 'Modo Simple (Lectura rápida)' : 'Simple Mode (Fast Reading)'}
               title={lang === 'es' ? 'Modo Simple (Lectura rápida)' : 'Simple Mode (Fast Reading)'}
               className={`flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md transition-all ${
                 mode === 'simple'
@@ -76,9 +79,11 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
             </button>
             <button
               onClick={() => handleModeChange('desktop')}
-              aria-label="Modo Escritorio interactivo"
+              aria-label={
+                lang === 'es' ? 'Modo Escritorio interactivo' : 'Interactive Desktop Mode'
+              }
               title={
-                lang === 'es' ? 'Modo Escritorio interactivo' : 'Desktop Mode (Interactive OS)'
+                lang === 'es' ? 'Modo Escritorio interactivo' : 'Interactive Desktop Mode'
               }
               className={`flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md transition-all ${
                 mode === 'desktop'
@@ -91,10 +96,10 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
             </button>
           </div>
 
-          {/* Language Toggle */}
+          {/* Selector de idioma */}
           <button
             onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
-            aria-label={`Cambiar idioma a ${lang === 'es' ? 'Inglés' : 'Español'}`}
+            aria-label={lang === 'es' ? 'Cambiar idioma a Inglés' : 'Switch language to Spanish'}
             title={`Cambiar idioma (${lang.toUpperCase()})`}
             className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
           >
@@ -102,25 +107,11 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
             <span>{lang.toUpperCase()}</span>
           </button>
 
-          {/* Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            aria-label={theme === 'dark' ? 'Activar tema claro' : 'Activar tema oscuro'}
-            title={theme === 'dark' ? 'Modo Claro' : 'Modo Oscuro'}
-            className="p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-          >
-            {theme === 'dark' ? (
-              <Sun className="w-4 h-4 text-amber-400" />
-            ) : (
-              <Moon className="w-4 h-4 text-slate-600" />
-            )}
-          </button>
-
-          {/* Mobile Menu Button */}
+          {/* Botón de menú móvil */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden p-1.5 rounded-lg border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300"
-            aria-label="Abrir menú de navegación"
+            aria-label={lang === 'es' ? 'Abrir menú de navegación' : 'Open navigation menu'}
             aria-expanded={mobileMenuOpen}
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -128,7 +119,7 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
         </div>
       </div>
 
-      {/* Mobile Nav Dropdown */}
+      {/* Menú desplegable en móvil */}
       {mobileMenuOpen && (
         <div className="md:hidden border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 px-4 pt-2 pb-4 space-y-1">
           {navLinks.map((link) => (

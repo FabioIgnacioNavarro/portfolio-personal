@@ -5,7 +5,7 @@ describe('Real Content Validation', () => {
   it('loads and validates all real content files from content/ directory', () => {
     const content = loadPortfolioContent();
 
-    // Profile checks
+    // Validaciones de perfil
     expect(content.profile).toBeDefined();
     expect(content.profile.name).toBe('Fabio Ignacio Navarro');
     expect(content.profile.role.es).toBeDefined();
@@ -13,7 +13,7 @@ describe('Real Content Validation', () => {
     expect(content.profile.links.github).toContain('github.com');
     expect(content.profile.links.linkedin).toContain('linkedin.com');
 
-    // Experience checks
+    // Validaciones de experiencia
     expect(content.experience.length).toBeGreaterThan(0);
     content.experience.forEach((exp) => {
       expect(exp.id).toBeDefined();
@@ -25,7 +25,7 @@ describe('Real Content Validation', () => {
       expect(exp.technologies.length).toBeGreaterThan(0);
     });
 
-    // Education checks
+    // Validaciones de educación
     expect(content.education.length).toBeGreaterThan(0);
     content.education.forEach((edu) => {
       expect(edu.id).toBeDefined();
@@ -34,7 +34,7 @@ describe('Real Content Validation', () => {
       expect(edu.degree.en).toBeDefined();
     });
 
-    // Certifications checks
+    // Validaciones de certificaciones
     expect(content.certifications.length).toBeGreaterThan(0);
     content.certifications.forEach((cert) => {
       expect(cert.id).toBeDefined();
@@ -43,7 +43,7 @@ describe('Real Content Validation', () => {
       expect(cert.issuer).toBeDefined();
     });
 
-    // Skills checks
+    // Validaciones de habilidades
     expect(content.skills.length).toBeGreaterThan(0);
     content.skills.forEach((cat) => {
       expect(cat.id).toBeDefined();
@@ -52,7 +52,7 @@ describe('Real Content Validation', () => {
       expect(cat.skills.length).toBeGreaterThan(0);
     });
 
-    // Languages checks
+    // Validaciones de idiomas
     expect(content.languages.length).toBeGreaterThan(0);
     content.languages.forEach((lang) => {
       expect(lang.id).toBeDefined();
@@ -60,7 +60,7 @@ describe('Real Content Validation', () => {
       expect(lang.proficiency.es).toBeDefined();
     });
 
-    // Projects checks
+    // Validaciones de proyectos
     expect(content.projects.length).toBeGreaterThan(0);
     content.projects.forEach((proj) => {
       expect(proj.id).toBeDefined();

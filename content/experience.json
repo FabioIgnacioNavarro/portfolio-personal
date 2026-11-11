@@ -6,7 +6,10 @@
       "es": "Desarrollador Django",
       "en": "Django Developer"
     },
-    "startDate": "TODO (Confirmar fecha de inicio)",
+    "startDate": {
+      "es": "Mayo 2026",
+      "en": "May 2026"
+    },
     "endDate": null,
     "isCurrent": true,
     "description": {

@@ -6,8 +6,8 @@ export const EducationSchema = z.object({
   institution: z.string().min(1),
   degree: LocalizedTextSchema,
   status: z.enum(['in-progress', 'paused', 'completed']),
-  startDate: z.string().min(1),
-  endDate: z.string().nullable(),
+  startDate: z.union([z.string().min(1), LocalizedTextSchema]),
+  endDate: z.union([z.string().min(1), LocalizedTextSchema]).nullable(),
   description: LocalizedTextSchema.optional(),
 });
 
