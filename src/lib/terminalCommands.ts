@@ -100,7 +100,7 @@ export function executeTerminalCommand(
                 ? 'Actualidad'
                 : 'Present'
               : resolveLocalizedText(e.endDate, lang);
-            return `${e.role[lang]} @ ${e.company} (${startStr} — ${endStr})\n${e.description[lang]}`;
+            return `${e.role[lang]} @ ${resolveLocalizedText(e.company, lang)} (${startStr} — ${endStr})\n${e.description[lang]}`;
           })
           .join('\n\n'),
       };

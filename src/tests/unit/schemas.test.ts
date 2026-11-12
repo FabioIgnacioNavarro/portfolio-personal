@@ -71,6 +71,13 @@ describe('Zod Content Schemas', () => {
       technologies: ['Python', 'Django', 'PostgreSQL', 'Docker'],
     };
     expect(ExperienceSchema.parse(validExperience)).toBeDefined();
+
+    const localizedExperience = {
+      ...validExperience,
+      id: 'game-localization',
+      company: { es: 'Proyectos Independientes', en: 'Independent Projects' },
+    };
+    expect(ExperienceSchema.parse(localizedExperience)).toBeDefined();
   });
 
   it('validates a valid Project with case study', () => {

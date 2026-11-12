@@ -59,6 +59,14 @@ describe('Terminal Command Interpreter', () => {
 
     const eduEn = executeTerminalCommand('education', content, 'en');
     expect(eduEn.text).toContain('(In progress)');
+
+    const expEs = executeTerminalCommand('experience', content, 'es');
+    expect(expEs.text).toContain('Traducción y localización de juegos');
+    expect(expEs.text).toContain('Proyectos Independientes');
+
+    const expEn = executeTerminalCommand('experience', content, 'en');
+    expect(expEn.text).toContain('Game Translation & Localization');
+    expect(expEn.text).toContain('Independent Projects');
   });
 
   it('returns error for invalid command', () => {

@@ -56,7 +56,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                 </div>
 
                 <div className="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-3">
-                  {item.company}
+                  {t(item.company)}
                 </div>
 
                 <p className="text-sm text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">

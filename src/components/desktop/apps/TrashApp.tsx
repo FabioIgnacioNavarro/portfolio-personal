@@ -5,8 +5,10 @@ import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { ArrowLeft, FileText, FolderOpen, Trash2 } from 'lucide-react';
 
 const EASTER_EGG_FILENAME = 'easter_egg.txt';
-const EASTER_EGG_CONTENT =
-  'Bueno no se que poner acá, pero me gustaría mostrar algo interesante o curioso';
+const EASTER_EGG_CONTENT = {
+  es: 'Bueno no se que poner acá, pero me gustaría mostrar algo interesante o curioso',
+  en: "Well, I'm not sure what to put here, but I'd like to show something interesting or fun",
+} as const;
 
 // Explorador de archivos de la Papelera con un único documento de texto oculto
 export function TrashApp() {
@@ -15,7 +17,8 @@ export function TrashApp() {
   const [isFileOpen, setIsFileOpen] = useState(false);
 
   const folderName = lang === 'es' ? 'Papelera' : 'Trash';
-  const fileSizeBytes = new TextEncoder().encode(EASTER_EGG_CONTENT).length;
+  const easterEggText = EASTER_EGG_CONTENT[lang];
+  const fileSizeBytes = new TextEncoder().encode(easterEggText).length;
 
   const handleOpenFile = () => {
     setIsSelected(true);
@@ -59,7 +62,7 @@ export function TrashApp() {
         /* Visor de texto plano para el archivo easter_egg.txt */
         <div className="flex-1 flex flex-col rounded-xl border border-slate-800 bg-slate-950/90 overflow-hidden">
           <div className="flex-1 p-4 sm:p-5 font-mono text-sm leading-relaxed text-slate-200 select-text whitespace-pre-wrap">
-            {EASTER_EGG_CONTENT}
+            {easterEggText}
           </div>
           <div className="px-4 py-2 border-t border-slate-800/90 bg-slate-900/70 flex items-center justify-between text-[11px] font-mono text-slate-400">
             <span>{EASTER_EGG_FILENAME}</span>

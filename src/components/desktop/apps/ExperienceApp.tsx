@@ -34,7 +34,7 @@ export function ExperienceApp({ experience }: { experience: Experience[] }) {
             </div>
 
             <div className="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-3">
-              {item.company}
+              {t(item.company)}
             </div>
 
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">

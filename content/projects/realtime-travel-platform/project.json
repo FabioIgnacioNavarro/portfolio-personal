@@ -5,8 +5,8 @@
     "en": "Real-Time Travel Platform with Microservices & Hexagonal Architecture"
   },
   "summary": {
-    "es": "Sistema backend distribuido de alta concurrencia con Arquitectura Hexagonal, microservicios en Node.js 22 LTS y TypeScript, base de datos PostgreSQL, observabilidad distribuida completa (OpenTelemetry + Jaeger) y autenticación OIDC/JWKS con RBAC.",
-    "en": "High-concurrency distributed backend system built with Hexagonal Architecture, Node.js 22 LTS & TypeScript microservices, PostgreSQL, full distributed observability (OpenTelemetry + Jaeger), and OIDC/JWKS authentication with RBAC."
+    "es": "Proyecto académico (UTN FRRe). Sistema backend distribuido de alta concurrencia con Arquitectura Hexagonal, microservicios en Node.js 22 LTS y TypeScript, base de datos PostgreSQL, observabilidad distribuida completa (OpenTelemetry + Jaeger) y autenticación OIDC/JWKS con RBAC.",
+    "en": "Academic project (UTN FRRe). High-concurrency distributed backend system built with Hexagonal Architecture, Node.js 22 LTS & TypeScript microservices, PostgreSQL, full distributed observability (OpenTelemetry + Jaeger), and OIDC/JWKS authentication with RBAC."
   },
   "role": {
     "es": "Backend y decisiones de arquitectura",

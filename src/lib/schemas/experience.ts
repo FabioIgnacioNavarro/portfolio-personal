@@ -3,7 +3,7 @@ import { LocalizedTextSchema } from './common';
 
 export const ExperienceSchema = z.object({
   id: z.string().min(1),
-  company: z.string().min(1),
+  company: z.union([z.string().min(1), LocalizedTextSchema]),
   role: LocalizedTextSchema,
   startDate: z.union([z.string().min(1), LocalizedTextSchema]),
   endDate: z.union([z.string().min(1), LocalizedTextSchema]).nullable(),
