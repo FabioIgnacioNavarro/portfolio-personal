@@ -3,12 +3,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { Monitor, FileText, Globe, Menu, X } from 'lucide-react';
+import { GithubIcon } from '@/components/common/Icons';
 
 interface HeaderProps {
   onDesktopModeSelect?: () => void;
+  portfolioRepoUrl?: string;
 }
 
-export function Header({ onDesktopModeSelect }: HeaderProps) {
+export function Header({ onDesktopModeSelect, portfolioRepoUrl }: HeaderProps) {
   const { lang, setLang, mode, setMode } = useViewPreferences();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -46,26 +48,26 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-slate-800/80 bg-slate-950 transition-colors">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-2 sm:gap-4">
         {/* Marca / Logo */}
         <a
           href="#about"
-          className="text-sm sm:text-lg font-bold tracking-tight text-white flex items-center gap-2 hover:opacity-80 transition-opacity rounded-md truncate focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+          className="min-w-0 text-sm sm:text-lg font-bold tracking-tight text-white flex items-center gap-2 hover:opacity-80 transition-opacity rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         >
-          <span className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse"></span>
-          <span>Fabio Ignacio Navarro</span>
+          <span className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse shrink-0"></span>
+          <span className="truncate">Fabio Ignacio Navarro</span>
         </a>
 
-        {/* Enlaces de navegación en escritorio */}
+        {/* Enlaces de navegación en escritorio (desde 1024px para evitar solapamiento en tablet) */}
         <nav
-          className="hidden md:flex items-center gap-6"
+          className="hidden lg:flex items-center gap-4 xl:gap-6"
           aria-label={lang === 'es' ? 'Navegación principal' : 'Main navigation'}
         >
           {navLinks.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors rounded-md px-1 py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              className="text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors rounded-md px-1 py-0.5 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             >
               {link.label}
             </a>
@@ -73,7 +75,7 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
         </nav>
 
         {/* Controles globales */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
           {/* Selector de modo */}
           <div
             className="flex items-center bg-slate-800 p-0.5 rounded-lg border border-slate-700"
@@ -130,12 +132,33 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
             <span>{lang.toUpperCase()}</span>
           </button>
 
-          {/* Botón de menú móvil */}
+          {/* Enlace al repositorio fuente del portfolio */}
+          {portfolioRepoUrl && (
+            <a
+              href={portfolioRepoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={
+                lang === 'es'
+                  ? 'Ver repositorio del portfolio en GitHub (abre en nueva pestaña)'
+                  : 'View portfolio repository on GitHub (opens in a new tab)'
+              }
+              title={
+                lang === 'es' ? 'Ver código fuente del portfolio' : 'View portfolio source code'
+              }
+              className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            >
+              <GithubIcon className="w-3.5 h-3.5 text-slate-300 shrink-0" />
+              <span className="hidden xl:inline">{lang === 'es' ? 'Repo' : 'Source'}</span>
+            </a>
+          )}
+
+          {/* Botón de menú móvil / tablet */}
           <button
             ref={menuButtonRef}
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-1.5 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            className="lg:hidden p-1.5 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             aria-label={
               mobileMenuOpen
                 ? lang === 'es'
@@ -152,11 +175,11 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
         </div>
       </div>
 
-      {/* Menú desplegable en móvil */}
+      {/* Menú desplegable en móvil y tablet */}
       {mobileMenuOpen && (
         <nav
           aria-label={lang === 'es' ? 'Navegación móvil' : 'Mobile navigation'}
-          className="md:hidden border-b border-slate-800 bg-slate-900 px-4 pt-2 pb-4 space-y-1"
+          className="lg:hidden border-b border-slate-800 bg-slate-900 px-4 pt-2 pb-4 space-y-1"
         >
           {navLinks.map((link) => (
             <a
@@ -168,6 +191,18 @@ export function Header({ onDesktopModeSelect }: HeaderProps) {
               {link.label}
             </a>
           ))}
+          {portfolioRepoUrl && (
+            <a
+              href={portfolioRepoUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md text-blue-400 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            >
+              <GithubIcon className="w-4 h-4 shrink-0" />
+              <span>{lang === 'es' ? 'Repositorio del portfolio' : 'Portfolio repository'}</span>
+            </a>
+          )}
         </nav>
       )}
     </header>
