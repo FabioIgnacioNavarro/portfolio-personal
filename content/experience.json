@@ -42,10 +42,13 @@
   },
   {
     "id": "game-localization",
-    "company": "Proyectos Independientes",
+    "company": {
+      "es": "Proyectos Independientes",
+      "en": "Independent Projects"
+    },
     "role": {
-      "es": "Especialista en Traducción y Localización de Videojuegos",
-      "en": "Video Game Translation & Localization Specialist"
+      "es": "Traducción y localización de juegos",
+      "en": "Game Translation & Localization"
     },
     "startDate": "2023",
     "endDate": "2025",

@@ -51,7 +51,7 @@ export function PortfolioContainer({ content }: PortfolioContainerProps) {
       </a>
 
       <SimpleBackground />
-      <Header />
+      <Header portfolioRepoUrl={content.profile.links.portfolioRepo} />
 
       <main
         className="relative z-10 flex-1 outline-none py-6 sm:py-8"

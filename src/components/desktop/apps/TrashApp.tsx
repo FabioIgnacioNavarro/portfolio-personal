@@ -3,10 +3,13 @@
 import React, { useState } from 'react';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { ArrowLeft, FileText, FolderOpen, Trash2 } from 'lucide-react';
+import { WindowPathBar } from './WindowPathBar';
 
 const EASTER_EGG_FILENAME = 'easter_egg.txt';
-const EASTER_EGG_CONTENT =
-  'Bueno no se que poner acá, pero me gustaría mostrar algo interesante o curioso';
+const EASTER_EGG_CONTENT = {
+  es: 'Bueno no se que poner acá, pero me gustaría mostrar algo interesante o curioso',
+  en: "Well, I'm not sure what to put here, but I'd like to show something interesting or fun",
+} as const;
 
 // Explorador de archivos de la Papelera con un único documento de texto oculto
 export function TrashApp() {
@@ -15,7 +18,8 @@ export function TrashApp() {
   const [isFileOpen, setIsFileOpen] = useState(false);
 
   const folderName = lang === 'es' ? 'Papelera' : 'Trash';
-  const fileSizeBytes = new TextEncoder().encode(EASTER_EGG_CONTENT).length;
+  const easterEggText = EASTER_EGG_CONTENT[lang];
+  const fileSizeBytes = new TextEncoder().encode(easterEggText).length;
 
   const handleOpenFile = () => {
     setIsSelected(true);
@@ -24,10 +28,9 @@ export function TrashApp() {
 
   return (
     <div className="flex flex-col h-full gap-3">
-      {/* Barra de navegación y ruta estilo explorador de archivos */}
-      <div className="flex items-center justify-between gap-2 pb-3 border-b border-slate-800 text-xs text-slate-400">
-        <div className="flex items-center gap-2 min-w-0">
-          {isFileOpen && (
+      <WindowPathBar
+        leadingAction={
+          isFileOpen && (
             <button
               type="button"
               onClick={() => setIsFileOpen(false)}
@@ -37,29 +40,24 @@ export function TrashApp() {
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>{lang === 'es' ? 'Volver' : 'Back'}</span>
             </button>
-          )}
-          <div className="flex items-center gap-1.5 font-mono bg-slate-800/80 px-2.5 py-1 rounded-md border border-slate-700/60 truncate">
-            {isFileOpen ? (
-              <FileText className="w-3.5 h-3.5 text-sky-400 shrink-0" />
-            ) : (
-              <Trash2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-            )}
-            <span className="truncate">
-              {isFileOpen ? `~/${folderName}/${EASTER_EGG_FILENAME}` : `~/${folderName}/`}
-            </span>
-          </div>
-        </div>
-
-        <span className="shrink-0">
-          {isFileOpen ? `${fileSizeBytes} B` : lang === 'es' ? '1 elemento' : '1 item'}
-        </span>
-      </div>
+          )
+        }
+        path={isFileOpen ? `~/${folderName}/${EASTER_EGG_FILENAME}` : `~/${folderName}/`}
+        icon={
+          isFileOpen ? (
+            <FileText className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+          ) : (
+            <Trash2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+          )
+        }
+        meta={isFileOpen ? `${fileSizeBytes} B` : lang === 'es' ? '1 elemento' : '1 item'}
+      />
 
       {isFileOpen ? (
         /* Visor de texto plano para el archivo easter_egg.txt */
         <div className="flex-1 flex flex-col rounded-xl border border-slate-800 bg-slate-950/90 overflow-hidden">
           <div className="flex-1 p-4 sm:p-5 font-mono text-sm leading-relaxed text-slate-200 select-text whitespace-pre-wrap">
-            {EASTER_EGG_CONTENT}
+            {easterEggText}
           </div>
           <div className="px-4 py-2 border-t border-slate-800/90 bg-slate-900/70 flex items-center justify-between text-[11px] font-mono text-slate-400">
             <span>{EASTER_EGG_FILENAME}</span>

@@ -1,4 +1,5 @@
 import { PortfolioContent } from './content';
+import { resolveLocalizedText } from './schemas/common';
 
 export interface CommandOutput {
   text?: string;
@@ -82,22 +83,25 @@ export function executeTerminalCommand(
     case 'skills':
       return {
         text: content.skills
-          .map((cat) => `${cat.category[lang]}:\n  ${cat.skills.map((s) => s.name).join(' · ')}`)
+          .map(
+            (cat) =>
+              `${cat.category[lang]}:\n  ${cat.skills.map((s) => resolveLocalizedText(s.name, lang)).join(' · ')}`,
+          )
           .join('\n\n'),
       };
 
     case 'experience':
       return {
         text: content.experience
-          .map(
-            (e) => {
-              const startStr = typeof e.startDate === 'object' ? e.startDate[lang] : e.startDate;
-              const endStr = e.isCurrent
-                ? (lang === 'es' ? 'Actualidad' : 'Present')
-                : (typeof e.endDate === 'object' && e.endDate ? e.endDate[lang] : e.endDate);
-              return `${e.role[lang]} @ ${e.company} (${startStr} — ${endStr})\n${e.description[lang]}`;
-            },
-          )
+          .map((e) => {
+            const startStr = resolveLocalizedText(e.startDate, lang);
+            const endStr = e.isCurrent
+              ? lang === 'es'
+                ? 'Actualidad'
+                : 'Present'
+              : resolveLocalizedText(e.endDate, lang);
+            return `${e.role[lang]} @ ${resolveLocalizedText(e.company, lang)} (${startStr} — ${endStr})\n${e.description[lang]}`;
+          })
           .join('\n\n'),
       };
 
@@ -105,15 +109,13 @@ export function executeTerminalCommand(
       return {
         text: [
           lang === 'es' ? 'EDUCACIÓN:' : 'EDUCATION:',
-          ...content.education.map(
-            (edu) => {
-              const startStr = typeof edu.startDate === 'object' ? edu.startDate[lang] : edu.startDate;
-              return `  * ${edu.degree[lang]} — ${edu.institution} (${startStr})`;
-            },
-          ),
+          ...content.education.map((edu) => {
+            const startStr = resolveLocalizedText(edu.startDate, lang);
+            return `  * ${edu.degree[lang]} — ${edu.institution} (${startStr})`;
+          }),
           lang === 'es' ? '\nCERTIFICACIONES:' : '\nCERTIFICATIONS:',
           ...content.certifications.map(
-            (c) => `  * ${c.name[lang]} — ${c.issuer} (${c.issueDate})`,
+            (c) => `  * ${c.name[lang]} — ${c.issuer} (${resolveLocalizedText(c.issueDate, lang)})`,
           ),
         ].join('\n'),
       };

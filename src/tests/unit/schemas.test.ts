@@ -30,6 +30,7 @@ describe('Zod Content Schemas', () => {
         github: 'https://github.com/FabioIgnacioNavarro',
         linkedin: 'https://linkedin.com/in/fabio-ignacio-navarro-245288290',
         email: 'fabio@example.com',
+        portfolioRepo: 'https://github.com/FabioIgnacioNavarro/portfolio-personal',
         cvUrl: {
           es: '/cv-fabio-navarro-es.pdf',
           en: '/cv-fabio-navarro-en.pdf',
@@ -70,6 +71,13 @@ describe('Zod Content Schemas', () => {
       technologies: ['Python', 'Django', 'PostgreSQL', 'Docker'],
     };
     expect(ExperienceSchema.parse(validExperience)).toBeDefined();
+
+    const localizedExperience = {
+      ...validExperience,
+      id: 'game-localization',
+      company: { es: 'Proyectos Independientes', en: 'Independent Projects' },
+    };
+    expect(ExperienceSchema.parse(localizedExperience)).toBeDefined();
   });
 
   it('validates a valid Project with case study', () => {
@@ -111,12 +119,24 @@ describe('Zod Content Schemas', () => {
       issuer: 'Informatorio Nivel 2',
       issueDate: '2024',
     };
-    expect(CertificationSchema.parse(validCert)).toBeDefined();
+    expect(CertificationSchema.parse(validCert).status).toBe('completed');
+
+    const inProgressCert = {
+      id: 'english-b2-cert',
+      name: { es: 'Certificación B2', en: 'B2 Certification' },
+      issuer: 'UNNE',
+      issueDate: { es: 'En progreso', en: 'In progress' },
+      status: 'in-progress' as const,
+    };
+    expect(CertificationSchema.parse(inProgressCert)).toBeDefined();
 
     const validSkillCat = {
       id: 'backend',
       category: { es: 'Backend', en: 'Backend' },
-      skills: [{ name: 'Python' }, { name: 'Django' }],
+      skills: [
+        { name: 'Python' },
+        { name: { es: 'Uso de AI Skills', en: 'AI Skills Usage' }, highlight: true },
+      ],
     };
     expect(SkillCategorySchema.parse(validSkillCat)).toBeDefined();
 

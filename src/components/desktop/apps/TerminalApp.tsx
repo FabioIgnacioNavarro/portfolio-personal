@@ -5,6 +5,8 @@ import { PortfolioContent } from '@/lib/content';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { useWindowManager, WindowId } from '@/context/WindowManagerContext';
 import { executeTerminalCommand } from '@/lib/terminalCommands';
+import { Terminal } from 'lucide-react';
+import { WindowPathBar } from './WindowPathBar';
 
 interface HistoryItem {
   id: string;
@@ -108,46 +110,55 @@ export function TerminalApp({ content }: { content: PortfolioContent }) {
   };
 
   return (
-    <div
-      onClick={() => inputRef.current?.focus()}
-      className="h-full flex flex-col font-mono text-xs sm:text-sm text-slate-100 bg-slate-950 p-3 sm:p-4 rounded-lg select-text overflow-y-auto"
-    >
-      <div className="space-y-3">
-        {history.map((item) => (
-          <div key={item.id} className="space-y-1">
-            {item.command && (
-              <div className="flex items-center gap-2 text-emerald-400">
-                <span className="text-blue-400 font-bold">fabio@portfolio:~$</span>
-                <span className="text-slate-100">{item.command}</span>
-              </div>
-            )}
-            {item.output && (
-              <pre
-                className={`whitespace-pre-wrap leading-relaxed ${
-                  item.isError ? 'text-rose-400' : 'text-slate-300'
-                }`}
-              >
-                {item.output}
-              </pre>
-            )}
-          </div>
-        ))}
-      </div>
+    <div className="h-full flex flex-col gap-3">
+      <WindowPathBar
+        path="~/portfolio/"
+        icon={<Terminal className="w-3.5 h-3.5 text-teal-500 shrink-0" />}
+        meta="shell"
+      />
+      <div
+        onClick={() => inputRef.current?.focus()}
+        className="flex-1 min-h-0 flex flex-col font-mono text-xs sm:text-sm text-slate-100 bg-slate-950 p-3 sm:p-4 rounded-lg select-text overflow-y-auto"
+      >
+        <div className="space-y-3">
+          {history.map((item) => (
+            <div key={item.id} className="space-y-1">
+              {item.command && (
+                <div className="flex items-center gap-2 text-emerald-400">
+                  <span className="text-blue-400 font-bold">fabio@portfolio:~$</span>
+                  <span className="text-slate-100">{item.command}</span>
+                </div>
+              )}
+              {item.output && (
+                <pre
+                  className={`whitespace-pre-wrap leading-relaxed ${
+                    item.isError ? 'text-rose-400' : 'text-slate-300'
+                  }`}
+                >
+                  {item.output}
+                </pre>
+              )}
+            </div>
+          ))}
+        </div>
 
-      <form onSubmit={handleSubmit} className="flex items-center gap-2 mt-3 pt-2">
-        <span className="text-blue-400 font-bold shrink-0">fabio@portfolio:~$</span>
-        <input
-          ref={inputRef}
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          autoFocus
-          className="flex-1 bg-transparent text-slate-100 outline-none border-none p-0 focus:ring-0 font-mono text-xs sm:text-sm"
-          aria-label={lang === 'es' ? 'Entrada de comandos de la terminal' : 'Terminal command input'}
-        />
-      </form>
-      <div ref={bottomRef} />
+        <form onSubmit={handleSubmit} className="flex items-center gap-2 mt-3 pt-2">
+          <span className="text-blue-400 font-bold shrink-0">fabio@portfolio:~$</span>
+          <input
+            ref={inputRef}
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            autoFocus
+            className="flex-1 bg-transparent text-slate-100 outline-none border-none p-0 focus:ring-0 font-mono text-xs sm:text-sm"
+            aria-label={
+              lang === 'es' ? 'Entrada de comandos de la terminal' : 'Terminal command input'
+            }
+          />
+        </form>
+        <div ref={bottomRef} />
+      </div>
     </div>
   );
 }

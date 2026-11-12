@@ -11,7 +11,10 @@
       { "name": "Django REST Framework", "highlight": true },
       { "name": "Node.js (LTS)", "highlight": true },
       { "name": "TypeScript", "highlight": true },
-      { "name": "Microservicios", "highlight": true }
+      {
+        "name": { "es": "Microservicios", "en": "Microservices" },
+        "highlight": true
+      }
     ]
   },
   {
@@ -21,7 +24,10 @@
       "en": "Architecture & Observability"
     },
     "skills": [
-      { "name": "Arquitectura Hexagonal", "highlight": true },
+      {
+        "name": { "es": "Arquitectura Hexagonal", "en": "Hexagonal Architecture" },
+        "highlight": true
+      },
       { "name": "OpenTelemetry & W3C Trace", "highlight": true },
       { "name": "Jaeger Distributed Tracing", "highlight": true },
       { "name": "OIDC / JWKS & RBAC", "highlight": true },
@@ -65,8 +71,48 @@
       { "name": "Git & GitHub", "highlight": true },
       { "name": "RESTful API Design", "highlight": true },
       { "name": "Playwright & Vitest", "highlight": true },
-      { "name": "Pruebas de Carga", "highlight": false },
+      {
+        "name": { "es": "Pruebas de Carga", "en": "Load Testing" },
+        "highlight": false
+      },
       { "name": "Scrum / Kanban", "highlight": false }
+    ]
+  },
+  {
+    "id": "ai-agents",
+    "category": {
+      "es": "IA, LLMs & Agentes",
+      "en": "AI, LLMs & Agents"
+    },
+    "skills": [
+      {
+        "name": {
+          "es": "Manejo de LLMs y Agentes de IA",
+          "en": "LLM & AI Agent Management"
+        },
+        "highlight": true
+      },
+      {
+        "name": {
+          "es": "Uso y Diseño de AI Skills",
+          "en": "AI Skills Usage & Design"
+        },
+        "highlight": true
+      },
+      {
+        "name": {
+          "es": "Ingeniería de Contexto y Prompts",
+          "en": "Context & Prompt Engineering"
+        },
+        "highlight": false
+      },
+      {
+        "name": {
+          "es": "Desarrollo Asistido por Agentes",
+          "en": "Agent-Assisted Development"
+        },
+        "highlight": false
+      }
     ]
   }
 ]

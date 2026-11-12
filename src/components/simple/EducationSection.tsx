@@ -103,11 +103,18 @@ export function EducationSection({ education, certifications }: EducationSection
               className="bg-slate-950/75 p-5 rounded-xl border border-slate-800/90 shadow-sm flex flex-col justify-between"
             >
               <div>
-                <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-1">
-                  {t(cert.name)}
-                </h4>
+                <div className="flex items-start justify-between gap-2 mb-1">
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">
+                    {t(cert.name)}
+                  </h4>
+                  {cert.status === 'in-progress' && (
+                    <Badge variant="warning" className="shrink-0">
+                      {lang === 'es' ? 'En progreso' : 'In progress'}
+                    </Badge>
+                  )}
+                </div>
                 <div className="text-xs text-slate-500 dark:text-slate-400 mb-3">
-                  {cert.issuer} · {cert.issueDate}
+                  {cert.issuer} · {t(cert.issueDate)}
                 </div>
               </div>
 

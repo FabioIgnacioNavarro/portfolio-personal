@@ -29,7 +29,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
           : 'Professional background in software engineering and technical projects.'}
       </p>
 
-      <div className="space-y-8 relative before:absolute before:inset-0 before:left-3.5 before:w-0.5 before:bg-slate-800">
+      <div className="space-y-8 relative before:absolute before:inset-y-0 before:left-3.5 before:-translate-x-1/2 before:w-0.5 before:bg-slate-800">
         {experience.map((item) => {
           const endDateDisplay = item.isCurrent
             ? lang === 'es'
@@ -40,7 +40,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
           return (
             <div key={item.id} className="relative pl-9 sm:pl-10">
               {/* Nodo de la línea de tiempo */}
-              <span className="absolute left-1.5 top-1.5 -translate-x-1/2 w-4 h-4 rounded-full border-2 border-blue-600 bg-slate-950"></span>
+              <span className="absolute left-3.5 top-1.5 -translate-x-1/2 w-4 h-4 rounded-full border-2 border-blue-600 bg-slate-950"></span>
 
               <div className="bg-slate-950/75 p-5 sm:p-6 rounded-xl border border-slate-800/90 shadow-sm hover:border-blue-800 transition-colors">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
@@ -56,7 +56,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                 </div>
 
                 <div className="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-3">
-                  {item.company}
+                  {t(item.company)}
                 </div>
 
                 <p className="text-sm text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">

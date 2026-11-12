@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { SkillCategory } from '@/lib/schemas';
+import { resolveLocalizedText } from '@/lib/schemas/common';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { Cpu } from 'lucide-react';
 import { Badge } from '@/components/common/Badge';
@@ -41,11 +42,11 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
             <div className="flex flex-wrap gap-2">
               {category.skills.map((skill) => (
                 <Badge
-                  key={skill.name}
+                  key={resolveLocalizedText(skill.name, 'en')}
                   variant={skill.highlight ? 'accent' : 'secondary'}
                   className={skill.highlight ? 'font-semibold' : ''}
                 >
-                  {skill.name}
+                  {t(skill.name)}
                 </Badge>
               ))}
             </div>

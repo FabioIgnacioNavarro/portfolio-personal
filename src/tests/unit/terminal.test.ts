@@ -47,6 +47,28 @@ describe('Terminal Command Interpreter', () => {
     expect(res.action?.payload).toBe('en');
   });
 
+  it('renders localized skills and education/certification statuses in both languages', () => {
+    const skillsEs = executeTerminalCommand('skills', content, 'es');
+    expect(skillsEs.text).toContain('Manejo de LLMs y Agentes de IA');
+
+    const skillsEn = executeTerminalCommand('skills', content, 'en');
+    expect(skillsEn.text).toContain('LLM & AI Agent Management');
+
+    const eduEs = executeTerminalCommand('education', content, 'es');
+    expect(eduEs.text).toContain('(En progreso)');
+
+    const eduEn = executeTerminalCommand('education', content, 'en');
+    expect(eduEn.text).toContain('(In progress)');
+
+    const expEs = executeTerminalCommand('experience', content, 'es');
+    expect(expEs.text).toContain('Traducción y localización de juegos');
+    expect(expEs.text).toContain('Proyectos Independientes');
+
+    const expEn = executeTerminalCommand('experience', content, 'en');
+    expect(expEn.text).toContain('Game Translation & Localization');
+    expect(expEn.text).toContain('Independent Projects');
+  });
+
   it('returns error for invalid command', () => {
     const res = executeTerminalCommand('nonexistent_command', content, 'es');
     expect(res.isError).toBe(true);
