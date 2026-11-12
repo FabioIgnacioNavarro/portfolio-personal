@@ -5,6 +5,7 @@ import { WindowState, useWindowManager } from '@/context/WindowManagerContext';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { useDraggable } from '@/hooks/useDraggable';
 import { useResizable, ResizeDirection } from '@/hooks/useResizable';
+import { TASKBAR_HEIGHT_PX } from '@/lib/windowGeometry';
 import { Minus, Square, Copy, X } from 'lucide-react';
 
 interface WindowProps {
@@ -34,10 +35,13 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
     updatePosition,
     updateSize,
     activeWindowId,
+    isMobile,
   } = useWindowManager();
   const { t, lang } = useViewPreferences();
 
   const isActive = activeWindowId === id;
+  // En teléfonos (< 768px) toda ventana se comporta como aplicación a pantalla completa
+  const effectiveMaximized = isMaximized || isMobile;
 
   // Permite cerrar la ventana activa con Escape aunque el foco esté en barra de título o contenido
   useEffect(() => {
@@ -61,7 +65,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
     handleDoubleClick,
   } = useDraggable({
     position,
-    isMaximized,
+    isMaximized: effectiveMaximized,
     onPositionChange: (newPos) => updatePosition(id, newPos),
     onMaximizeToggle: () => toggleMaximize(id),
   });
@@ -75,7 +79,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
     position,
     size,
     minSize,
-    isMaximized,
+    isMaximized: effectiveMaximized,
     onResize: (newSize, newPos) => updateSize(id, newSize, newPos),
   });
 
@@ -128,13 +132,13 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
       tabIndex={-1}
       onPointerDown={() => focusWindow(id)}
       style={
-        isMaximized
+        effectiveMaximized
           ? {
               position: 'fixed',
               top: 0,
               left: 0,
               right: 0,
-              bottom: 48, // Espacio reservado para la barra de tareas
+              bottom: TASKBAR_HEIGHT_PX, // Espacio reservado para la barra de tareas
               zIndex,
             }
           : {
@@ -150,25 +154,23 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
       {/* Marco interior animado de la ventana */}
       <div
         className={`w-full h-full flex flex-col bg-white dark:bg-slate-900 border ${
-          isMaximized ? 'rounded-none border-0' : 'rounded-xl shadow-2xl'
+          effectiveMaximized ? 'rounded-none border-0' : 'rounded-xl shadow-2xl'
         } ${
           isActive
             ? 'border-blue-500/70 dark:border-blue-400/60 shadow-blue-900/20 ring-1 ring-blue-500/40'
             : 'border-slate-300 dark:border-slate-800 opacity-95'
-        } ${
-          isMinimizing
-            ? 'animate-window-minimize pointer-events-none'
-            : 'animate-window-open'
-        }`}
+        } ${isMinimizing ? 'animate-window-minimize pointer-events-none' : 'animate-window-open'}`}
       >
         {/* Barra de título */}
         <div
           onPointerDown={handlePointerDown}
           onPointerMove={onDragMove}
           onPointerUp={onDragUp}
-          onDoubleClick={handleDoubleClick}
-          className={`h-10 px-3 flex items-center justify-between border-b cursor-grab active:cursor-grabbing transition-colors shrink-0 ${
-            isMaximized ? 'rounded-none' : 'rounded-t-xl'
+          onDoubleClick={isMobile ? undefined : handleDoubleClick}
+          className={`h-10 px-3 flex items-center justify-between border-b transition-colors shrink-0 ${
+            effectiveMaximized
+              ? 'rounded-none cursor-default'
+              : 'rounded-t-xl cursor-grab active:cursor-grabbing'
           } ${
             isActive
               ? 'bg-slate-100 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700'
@@ -200,26 +202,28 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
               <Minus className="w-3.5 h-3.5" />
             </button>
 
-            {/* Maximizar / Restaurar */}
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                toggleMaximize(id);
-              }}
-              aria-label={
-                isMaximized
-                  ? lang === 'es'
-                    ? 'Restaurar ventana'
-                    : 'Restore window'
-                  : lang === 'es'
-                    ? 'Maximizar ventana'
-                    : 'Maximize window'
-              }
-              className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-slate-700 text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
-            >
-              {isMaximized ? <Copy className="w-3 h-3" /> : <Square className="w-3 h-3" />}
-            </button>
+            {/* Maximizar / Restaurar (solo en escritorio y tablet) */}
+            {!isMobile && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleMaximize(id);
+                }}
+                aria-label={
+                  isMaximized
+                    ? lang === 'es'
+                      ? 'Restaurar ventana'
+                      : 'Restore window'
+                    : lang === 'es'
+                      ? 'Maximizar ventana'
+                      : 'Maximize window'
+                }
+                className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-slate-700 text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+              >
+                {isMaximized ? <Copy className="w-3 h-3" /> : <Square className="w-3 h-3" />}
+              </button>
+            )}
 
             {/* Cerrar */}
             <button
@@ -242,8 +246,8 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
         </div>
       </div>
 
-      {/* Controladores de redimensionamiento (8 direcciones) */}
-      {!isMaximized &&
+      {/* Controladores de redimensionamiento (8 direcciones, deshabilitados en móvil) */}
+      {!effectiveMaximized &&
         !isMinimizing &&
         resizeHandles.map((dir) => (
           <div
