@@ -44,6 +44,8 @@ test.describe('Desktop Mode (PC Navegable & Window Manager)', () => {
     // Verificar que la ventana de detalle del proyecto esté abierta
     const detailWindow = page.locator('div[role="dialog"][aria-label*="Detalle de Proyecto"]');
     await expect(detailWindow).toBeVisible();
+    await expect(detailWindow).toContainText('~/portfolio/projects/');
+    await expect(detailWindow).toContainText('.case-study.md');
     await expect(detailWindow).toContainText(/Problema|Problem/);
   });
 
@@ -176,7 +178,40 @@ test.describe('Desktop Mode (PC Navegable & Window Manager)', () => {
       await trashBtnEn.press('Enter');
     }
     await expect(trashWindowEn).toBeVisible();
+    await expect(trashWindowEn).toContainText('~/Trash/');
     await trashWindowEn.getByRole('button', { name: 'Open', exact: true }).click();
+    await expect(trashWindowEn).toContainText('~/Trash/easter_egg.txt');
     await expect(trashWindowEn).toContainText("Well, I'm not sure what to put here");
+  });
+
+  test('renders consistent virtual path bars across all desktop application windows', async ({
+    page,
+  }) => {
+    await page.goto('/?mode=desktop&lang=es');
+    await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
+
+    const expectedWindows = [
+      { iconName: 'Sobre mí', dialogMatch: 'Sobre mí', path: '~/portfolio/about.md' },
+      { iconName: 'Proyectos', dialogMatch: 'Proyectos', path: '~/portfolio/projects/' },
+      { iconName: 'Experiencia', dialogMatch: 'Experiencia', path: '~/portfolio/experience/' },
+      { iconName: 'Habilidades', dialogMatch: 'Habilidades', path: '~/portfolio/skills/' },
+      { iconName: 'Educación', dialogMatch: 'Educación', path: '~/portfolio/education/' },
+      { iconName: 'Contacto', dialogMatch: 'Contacto', path: '~/portfolio/contact.vcf' },
+      { iconName: 'Terminal', dialogMatch: 'Terminal', path: '~/portfolio/' },
+      { iconName: 'Papelera', dialogMatch: 'Papelera', path: '~/Papelera/' },
+    ];
+
+    for (const item of expectedWindows) {
+      const iconBtn = page.getByRole('button', { name: item.iconName, exact: true });
+      await iconBtn.click();
+      const dialog = page.locator(`div[role="dialog"][aria-label*="${item.dialogMatch}"]`);
+      if (!(await dialog.isVisible())) {
+        await iconBtn.press('Enter');
+      }
+      await expect(dialog).toBeVisible();
+      await expect(dialog).toContainText(item.path);
+      await dialog.locator('button[aria-label*="Cerrar"], button[aria-label*="Close"]').click();
+      await expect(dialog).not.toBeVisible();
+    }
   });
 });
