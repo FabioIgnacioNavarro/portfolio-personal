@@ -7,6 +7,7 @@ import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { FileCode, FolderOpen, ArrowRight } from 'lucide-react';
 import { GithubIcon } from '@/components/common/Icons';
 import { Badge } from '@/components/common/Badge';
+import { WindowPathBar } from './WindowPathBar';
 
 export function ProjectsFolderApp({ projects }: { projects: Project[] }) {
   const { openWindow } = useWindowManager();
@@ -19,16 +20,11 @@ export function ProjectsFolderApp({ projects }: { projects: Project[] }) {
 
   return (
     <div className="flex flex-col h-full space-y-4">
-      {/* Encabezado de ruta del explorador */}
-      <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
-        <div className="flex items-center gap-1.5 font-mono bg-slate-100 dark:bg-slate-800/80 px-2.5 py-1 rounded-md border border-slate-200/60 dark:border-slate-700/60">
-          <FolderOpen className="w-3.5 h-3.5 text-amber-500" />
-          <span>~/portfolio/projects/</span>
-        </div>
-        <span>
-          {projects.length} {lang === 'es' ? 'archivos' : 'files'}
-        </span>
-      </div>
+      <WindowPathBar
+        path="~/portfolio/projects/"
+        icon={<FolderOpen className="w-3.5 h-3.5 text-amber-500 shrink-0" />}
+        meta={`${projects.length} ${lang === 'es' ? 'archivos' : 'files'}`}
+      />
 
       {/* Grilla de archivos del explorador */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 flex-1">

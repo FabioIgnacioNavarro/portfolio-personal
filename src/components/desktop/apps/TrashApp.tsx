@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { ArrowLeft, FileText, FolderOpen, Trash2 } from 'lucide-react';
+import { WindowPathBar } from './WindowPathBar';
 
 const EASTER_EGG_FILENAME = 'easter_egg.txt';
 const EASTER_EGG_CONTENT = {
@@ -27,10 +28,9 @@ export function TrashApp() {
 
   return (
     <div className="flex flex-col h-full gap-3">
-      {/* Barra de navegación y ruta estilo explorador de archivos */}
-      <div className="flex items-center justify-between gap-2 pb-3 border-b border-slate-800 text-xs text-slate-400">
-        <div className="flex items-center gap-2 min-w-0">
-          {isFileOpen && (
+      <WindowPathBar
+        leadingAction={
+          isFileOpen && (
             <button
               type="button"
               onClick={() => setIsFileOpen(false)}
@@ -40,23 +40,18 @@ export function TrashApp() {
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>{lang === 'es' ? 'Volver' : 'Back'}</span>
             </button>
-          )}
-          <div className="flex items-center gap-1.5 font-mono bg-slate-800/80 px-2.5 py-1 rounded-md border border-slate-700/60 truncate">
-            {isFileOpen ? (
-              <FileText className="w-3.5 h-3.5 text-sky-400 shrink-0" />
-            ) : (
-              <Trash2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
-            )}
-            <span className="truncate">
-              {isFileOpen ? `~/${folderName}/${EASTER_EGG_FILENAME}` : `~/${folderName}/`}
-            </span>
-          </div>
-        </div>
-
-        <span className="shrink-0">
-          {isFileOpen ? `${fileSizeBytes} B` : lang === 'es' ? '1 elemento' : '1 item'}
-        </span>
-      </div>
+          )
+        }
+        path={isFileOpen ? `~/${folderName}/${EASTER_EGG_FILENAME}` : `~/${folderName}/`}
+        icon={
+          isFileOpen ? (
+            <FileText className="w-3.5 h-3.5 text-sky-400 shrink-0" />
+          ) : (
+            <Trash2 className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+          )
+        }
+        meta={isFileOpen ? `${fileSizeBytes} B` : lang === 'es' ? '1 elemento' : '1 item'}
+      />
 
       {isFileOpen ? (
         /* Visor de texto plano para el archivo easter_egg.txt */
