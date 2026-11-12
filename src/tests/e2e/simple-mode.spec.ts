@@ -45,12 +45,12 @@ test.describe('Simple Mode, Accessibility, SEO & Dual-Language Navigation', () =
 
     if (newText?.includes('EN')) {
       await expect(page.locator('html')).toHaveAttribute('lang', 'en');
-      await expect(page.locator('text=Work Experience')).toBeVisible();
-      await expect(page.locator('text=Featured Projects')).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'Work Experience' })).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'Featured Projects' })).toBeVisible();
     } else {
       await expect(page.locator('html')).toHaveAttribute('lang', 'es');
-      await expect(page.locator('text=Experiencia Laboral')).toBeVisible();
-      await expect(page.locator('text=Proyectos Destacados')).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'Experiencia Laboral' })).toBeVisible();
+      await expect(page.getByRole('heading', { name: 'Proyectos Destacados' })).toBeVisible();
     }
   });
 
@@ -137,5 +137,55 @@ test.describe('Simple Mode, Accessibility, SEO & Dual-Language Navigation', () =
     // Verificar que se rendericen los elementos del Modo Escritorio
     const taskbar = page.locator('nav[aria-label*="Barra de tareas"], nav[aria-label*="taskbar"]');
     await expect(taskbar).toBeVisible();
+  });
+
+  test('displays updated portfolio repo link, centered timeline nodes, and bilingual updates', async ({
+    page,
+  }) => {
+    // Validar en Español
+    await page.goto('/?lang=es');
+    await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
+
+    const headerRepoLink = page.locator(
+      'header a[href="https://github.com/FabioIgnacioNavarro/portfolio-personal"]',
+    );
+    await expect(headerRepoLink).toBeVisible();
+
+    // Verificar alineación horizontal entre línea de tiempo y nodos circulares en Experiencia
+    const timelineAligned = await page
+      .locator('#experience .relative.pl-9')
+      .first()
+      .evaluate((node) => {
+        const parent = node.parentElement;
+        const circle = node.querySelector('span.rounded-full');
+        if (!parent || !circle) return false;
+        const beforeStyle = window.getComputedStyle(parent, '::before');
+        const parentRect = parent.getBoundingClientRect();
+        const beforeLeft = parseFloat(beforeStyle.left || '0');
+        const lineCenterX = parentRect.left + beforeLeft;
+        const circleRect = circle.getBoundingClientRect();
+        const circleCenterX = circleRect.left + circleRect.width / 2;
+        return Math.abs(lineCenterX - circleCenterX) <= 1.5;
+      });
+    expect(timelineAligned).toBe(true);
+
+    // Proyectos, Habilidades IA, Educación y Certificación B2 en español
+    await expect(page.locator('#projects')).toContainText('Backend y decisiones de arquitectura');
+    await expect(page.locator('#projects')).toContainText('Desarrollador full stack');
+    await expect(page.locator('#skills')).toContainText('Manejo de LLMs y Agentes de IA');
+    await expect(page.locator('#skills')).toContainText('Uso y Diseño de AI Skills');
+    await expect(page.locator('#education')).toContainText('luego de dos años');
+    await expect(page.locator('#education')).toContainText('En progreso');
+
+    // Validar en Inglés
+    await page.goto('/?lang=en');
+    await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
+
+    await expect(page.locator('#projects')).toContainText('Backend & Architectural Decisions');
+    await expect(page.locator('#projects')).toContainText('Full Stack Developer');
+    await expect(page.locator('#skills')).toContainText('LLM & AI Agent Management');
+    await expect(page.locator('#skills')).toContainText('AI Skills Usage & Design');
+    await expect(page.locator('#education')).toContainText('after two years');
+    await expect(page.locator('#education')).toContainText('In progress');
   });
 });
