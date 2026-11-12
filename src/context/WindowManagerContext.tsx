@@ -10,6 +10,7 @@ import React, {
   useEffect,
 } from 'react';
 import { LocalizedText } from '@/lib/schemas';
+import { clampFloatingWindow, isMobileViewportWidth } from '@/lib/windowGeometry';
 
 export type WindowId =
   | 'about'
@@ -51,6 +52,7 @@ export interface WindowState {
 interface WindowManagerContextType {
   windows: Record<WindowId, WindowState>;
   activeWindowId: WindowId | null;
+  isMobile: boolean;
   openWindow: (id: WindowId, options?: { projectSlug?: string }) => void;
   closeWindow: (id: WindowId) => void;
   minimizeWindow: (id: WindowId) => void;
@@ -183,22 +185,68 @@ const WindowManagerContext = createContext<WindowManagerContextType | undefined>
 export function WindowManagerProvider({ children }: { children: React.ReactNode }) {
   const [windows, setWindows] = useState<Record<WindowId, WindowState>>(DEFAULT_WINDOWS);
   const [activeWindowId, setActiveWindowId] = useState<WindowId | null>('about');
+  const [isMobile, setIsMobile] = useState(false);
   const highestZIndexRef = useRef(15);
 
-  // Ajustes responsivos al montar en el cliente
+  // Sincroniza modo móvil (< 768px) al montar y al redimensionar la ventana del navegador
   useEffect(() => {
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
+    if (typeof window === 'undefined') return;
+
+    const initialMobile = isMobileViewportWidth(window.innerWidth);
+    setIsMobile(initialMobile);
+
+    if (initialMobile) {
       setWindows((prev) => ({
         ...prev,
         about: {
           ...prev.about,
           isOpen: false,
-          position: { x: 10, y: 10 },
-          size: { width: window.innerWidth - 20, height: window.innerHeight - 80 },
         },
       }));
       setActiveWindowId(null);
+    } else {
+      // Asegurar que la ventana inicial quepa dentro de viewports tablet (768px–1024px)
+      setWindows((prev) => {
+        const clamped = clampFloatingWindow(prev.about, window.innerWidth, window.innerHeight);
+        return {
+          ...prev,
+          about: {
+            ...prev.about,
+            ...clamped,
+          },
+        };
+      });
     }
+
+    const handleResize = () => {
+      const mobileNow = isMobileViewportWidth(window.innerWidth);
+      setIsMobile(mobileNow);
+
+      if (!mobileNow) {
+        setWindows((prev) => {
+          let changed = false;
+          const next = { ...prev };
+          (Object.keys(prev) as WindowId[]).forEach((winId) => {
+            const win = prev[winId];
+            if (!win.isOpen || win.isMaximized) return;
+            const clamped = clampFloatingWindow(win, window.innerWidth, window.innerHeight);
+            if (
+              clamped.position.x !== win.position.x ||
+              clamped.position.y !== win.position.y ||
+              clamped.size.width !== win.size.width ||
+              clamped.size.height !== win.size.height
+            ) {
+              next[winId] = { ...win, ...clamped };
+              changed = true;
+            }
+          });
+          return changed ? next : prev;
+        });
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const focusWindow = useCallback((id: WindowId) => {
@@ -229,10 +277,16 @@ export function WindowManagerProvider({ children }: { children: React.ReactNode 
       const current = prevWindows[id];
       if (!current) return prevWindows;
 
+      const clamped =
+        typeof window !== 'undefined' && !isMobileViewportWidth(window.innerWidth)
+          ? clampFloatingWindow(current, window.innerWidth, window.innerHeight)
+          : null;
+
       return {
         ...prevWindows,
         [id]: {
           ...current,
+          ...(clamped ?? {}),
           isOpen: true,
           isMinimized: false,
           isMinimizing: false,
@@ -384,6 +438,7 @@ export function WindowManagerProvider({ children }: { children: React.ReactNode 
     () => ({
       windows,
       activeWindowId,
+      isMobile,
       openWindow,
       closeWindow,
       minimizeWindow,
@@ -397,6 +452,7 @@ export function WindowManagerProvider({ children }: { children: React.ReactNode 
     [
       windows,
       activeWindowId,
+      isMobile,
       openWindow,
       closeWindow,
       minimizeWindow,

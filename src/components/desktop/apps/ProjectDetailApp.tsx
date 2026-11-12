@@ -36,7 +36,10 @@ export function ProjectDetailApp({ projects, activeSlug, onBackToFolder }: Proje
               className="inline-flex items-center gap-1 px-2 py-1 rounded-md border border-slate-700/80 bg-slate-800/80 text-slate-200 hover:bg-slate-700 transition-colors shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>{lang === 'es' ? 'Volver al explorador' : 'Back to projects'}</span>
+              <span className="sm:hidden">{lang === 'es' ? 'Volver' : 'Back'}</span>
+              <span className="hidden sm:inline">
+                {lang === 'es' ? 'Volver al explorador' : 'Back to projects'}
+              </span>
             </button>
           )
         }

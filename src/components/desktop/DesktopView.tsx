@@ -83,7 +83,7 @@ export function DesktopView({ content }: DesktopViewProps) {
   return (
     <div
       onClick={() => setSelectedIcon(null)}
-      className={`relative w-screen h-screen overflow-hidden select-none pb-12 bg-slate-950 transition-opacity duration-200 ${
+      className={`relative w-full h-[100dvh] overflow-hidden select-none pb-12 bg-slate-950 transition-opacity duration-200 ${
         isTransitioning ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >
@@ -103,8 +103,8 @@ export function DesktopView({ content }: DesktopViewProps) {
       {/* Superposición oscura fija para legibilidad y contraste */}
       <div className="absolute inset-0 bg-black/35 pointer-events-none" aria-hidden="true" />
 
-      {/* Área de íconos del escritorio */}
-      <div className="absolute top-4 left-4 grid grid-flow-col grid-rows-5 gap-2 z-10">
+      {/* Área de íconos del escritorio: grilla compacta tipo launcher en móvil y columnas en desktop */}
+      <div className="absolute top-4 inset-x-3 md:inset-x-auto md:left-4 grid grid-cols-3 sm:grid-cols-4 md:grid-flow-col md:grid-rows-5 gap-2 justify-items-center md:justify-items-start z-10">
         {desktopIcons.map((item) => (
           <div key={item.id} onClick={(e) => e.stopPropagation()}>
             <DesktopIcon

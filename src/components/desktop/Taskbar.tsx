@@ -124,14 +124,14 @@ export function Taskbar({ profile }: TaskbarProps) {
         </div>
 
         {/* Centro: Pestañas de ventanas abiertas */}
-        <div className="flex-1 flex items-center gap-1.5 overflow-x-auto px-2 no-scrollbar">
+        <div className="flex-1 min-w-0 flex items-center gap-1.5 overflow-x-auto px-1 sm:px-2 no-scrollbar">
           {openWindows.map((w) => {
             const isActive = activeWindowId === w.id && !w.isMinimized;
             return (
               <button
                 key={w.id}
                 onClick={() => handleTabClick(w.id)}
-                className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium max-w-[170px] truncate transition-all shrink-0 border ${
+                className={`flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-medium max-w-[118px] sm:max-w-[170px] truncate transition-all shrink-0 border ${
                   isActive
                     ? 'bg-white dark:bg-slate-800 text-blue-600 dark:text-blue-400 border-blue-500/50 shadow-xs'
                     : w.isMinimized

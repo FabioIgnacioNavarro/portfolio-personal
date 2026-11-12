@@ -110,7 +110,7 @@ export function StartMenu({ isOpen, onClose, profile, returnFocusRef }: StartMen
   return (
     <div
       ref={menuRef}
-      className="absolute bottom-14 left-2 w-80 sm:w-96 rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-800 shadow-2xl z-50 overflow-hidden animate-start-menu"
+      className="absolute bottom-14 left-2 w-[calc(100vw-1rem)] max-w-sm max-h-[calc(100dvh-4.5rem)] overflow-y-auto rounded-2xl bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border border-slate-200 dark:border-slate-800 shadow-2xl z-50 animate-start-menu"
     >
       {/* Encabezado superior con datos del perfil */}
       <div className="p-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white flex items-center justify-between">
