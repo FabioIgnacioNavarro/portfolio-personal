@@ -214,4 +214,75 @@ test.describe('Desktop Mode (PC Navegable & Window Manager)', () => {
       await expect(dialog).not.toBeVisible();
     }
   });
+
+  test('renders mobile desktop windows fullscreen with single-tap launch and clamps tablet windows', async ({
+    page,
+  }) => {
+    // 1. Teléfono (< 768px): íconos en cuadrícula sin superposición y ventanas fullscreen sobre la barra de tareas
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/?mode=desktop&lang=es');
+    await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
+
+    const desktopHasNoOverflow = await page.evaluate(
+      () => document.documentElement.scrollWidth <= window.innerWidth,
+    );
+    expect(desktopHasNoOverflow).toBe(true);
+
+    // Abrir Proyectos con un solo toque y luego Detalle de Proyecto (antes excedía 390px)
+    await page.getByRole('button', { name: 'Proyectos', exact: true }).click();
+    const projectsWindow = page.locator('div[role="dialog"][aria-label*="Proyectos"]');
+    await expect(projectsWindow).toBeVisible();
+
+    const projectsFullscreen = await projectsWindow.evaluate((el) => {
+      const r = el.getBoundingClientRect();
+      return (
+        Math.abs(r.left) <= 1 &&
+        Math.abs(r.top) <= 1 &&
+        Math.abs(r.right - window.innerWidth) <= 1 &&
+        r.bottom <= window.innerHeight - 47
+      );
+    });
+    expect(projectsFullscreen).toBe(true);
+
+    // En móvil el botón Maximizar no debe renderizarse y Cerrar debe ser accesible dentro del viewport
+    await expect(
+      projectsWindow.locator('button[aria-label*="Maximizar"], button[aria-label*="Restaurar"]'),
+    ).toHaveCount(0);
+
+    await projectsWindow
+      .locator('button:has-text("Abrir caso"), button:has-text("Open")')
+      .first()
+      .click();
+    const detailWindow = page.locator('div[role="dialog"][aria-label*="Detalle de Proyecto"]');
+    await expect(detailWindow).toBeVisible();
+    const detailFits = await detailWindow.evaluate((el) => {
+      const r = el.getBoundingClientRect();
+      return (
+        r.left >= 0 &&
+        r.right <= window.innerWidth &&
+        document.documentElement.scrollWidth <= window.innerWidth
+      );
+    });
+    expect(detailFits).toBe(true);
+    await detailWindow.locator('button[aria-label*="Cerrar"]').click();
+
+    // 2. Tablet (768px): ventanas flotantes clamped dentro del ancho visible
+    await page.setViewportSize({ width: 768, height: 900 });
+    await page.goto('/?mode=desktop&lang=es');
+    await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
+
+    const tabletAbout = page.locator('div[role="dialog"][aria-label*="Sobre mí"]');
+    await expect(tabletAbout).toBeVisible();
+    await tabletAbout.locator('button[aria-label*="Cerrar"]').click();
+    await expect(tabletAbout).not.toBeVisible();
+
+    await page.getByRole('button', { name: 'Terminal', exact: true }).dblclick();
+    const terminalWin = page.locator('div[role="dialog"][aria-label*="Terminal"]');
+    await expect(terminalWin).toBeVisible();
+    const tabletFits = await terminalWin.evaluate((el) => {
+      const r = el.getBoundingClientRect();
+      return r.left >= 0 && r.right <= window.innerWidth;
+    });
+    expect(tabletFits).toBe(true);
+  });
 });
