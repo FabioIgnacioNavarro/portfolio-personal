@@ -17,6 +17,29 @@ test.describe('Desktop Mode (PC Navegable & Window Manager)', () => {
     await expect(page.getByRole('button', { name: 'Sobre mí', exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Proyectos', exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Terminal', exact: true })).toBeVisible();
+
+    // Verificar que el logo/portal de desarrollo de Next.js no sea visible en el escritorio emulado
+    const isNextDevLogoVisible = await page.evaluate(() => {
+      const portal = document.querySelector<HTMLElement>('nextjs-portal');
+      if (!portal) return false;
+      const portalStyle = window.getComputedStyle(portal);
+      if (portalStyle.display === 'none' || portalStyle.visibility === 'hidden') {
+        return false;
+      }
+      const logo = portal.shadowRoot?.querySelector<HTMLElement>(
+        '#next-logo, [data-next-badge-root], [data-nextjs-dev-tools-button]',
+      );
+      if (!logo) return false;
+      const logoStyle = window.getComputedStyle(logo);
+      const rect = logo.getBoundingClientRect();
+      return (
+        logoStyle.display !== 'none' &&
+        logoStyle.visibility !== 'hidden' &&
+        rect.width > 0 &&
+        rect.height > 0
+      );
+    });
+    expect(isNextDevLogoVisible).toBe(false);
   });
 
   test('opens projects folder and launches case study detail window', async ({ page }) => {

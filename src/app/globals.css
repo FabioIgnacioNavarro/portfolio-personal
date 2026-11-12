@@ -148,3 +148,21 @@
     opacity: 1 !important;
   }
 }
+
+/* Oculta de forma definitiva el portal y el logo flotante de desarrollo de Next.js en todas las vistas */
+nextjs-portal,
+[data-nextjs-dev-overlay],
+[data-nextjs-toast],
+[data-nextjs-dialog-overlay],
+[data-next-badge-root],
+[data-next-badge],
+#next-logo,
+#__next-build-watcher {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+}

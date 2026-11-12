@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { PortfolioContent } from '@/lib/content';
 import { useWindowManager, WindowId } from '@/context/WindowManagerContext';
@@ -37,6 +37,58 @@ export function DesktopView({ content }: DesktopViewProps) {
   const { windows, openWindow } = useWindowManager();
   const { isTransitioning } = useViewPreferences();
   const [selectedIcon, setSelectedIcon] = useState<WindowId | null>(null);
+
+  // Asegura que el portal y el logo de desarrollo de Next.js (incluyendo su Shadow DOM) no se vean en el escritorio emulado
+  useEffect(() => {
+    const hideNextDevPortal = () => {
+      const portals = document.querySelectorAll<HTMLElement>(
+        'nextjs-portal, [data-nextjs-dev-overlay], [data-nextjs-toast], [data-nextjs-dialog-overlay]',
+      );
+
+      portals.forEach((portal) => {
+        portal.style.setProperty('display', 'none', 'important');
+        portal.style.setProperty('visibility', 'hidden', 'important');
+        portal.style.setProperty('opacity', '0', 'important');
+        portal.style.setProperty('pointer-events', 'none', 'important');
+
+        if (
+          portal.shadowRoot &&
+          !portal.shadowRoot.querySelector('style[data-hide-next-dev-indicator="true"]')
+        ) {
+          const styleEl = document.createElement('style');
+          styleEl.setAttribute('data-hide-next-dev-indicator', 'true');
+          styleEl.textContent = `
+            :host,
+            [data-next-badge-root],
+            [data-next-badge],
+            #next-logo,
+            [data-nextjs-dev-tools-button],
+            [data-nextjs-toast],
+            #data-devtools-indicator {
+              display: none !important;
+              visibility: hidden !important;
+              opacity: 0 !important;
+              pointer-events: none !important;
+            }
+          `;
+          portal.shadowRoot.appendChild(styleEl);
+        }
+      });
+    };
+
+    hideNextDevPortal();
+
+    const observer = new MutationObserver(() => {
+      hideNextDevPortal();
+    });
+
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   const desktopIcons: {
     id: WindowId;
