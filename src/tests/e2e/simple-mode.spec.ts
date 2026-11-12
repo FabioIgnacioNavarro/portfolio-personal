@@ -169,7 +169,11 @@ test.describe('Simple Mode, Accessibility, SEO & Dual-Language Navigation', () =
       });
     expect(timelineAligned).toBe(true);
 
-    // Proyectos, Habilidades IA, Educación y Certificación B2 en español
+    // Experiencia, Proyectos, Habilidades IA, Educación y Certificación B2 en español
+    await expect(page.locator('#experience')).toContainText('Traducción y localización de juegos');
+    await expect(page.locator('#experience')).toContainText('Proyectos Independientes');
+    await expect(page.locator('#experience')).not.toContainText('Especialista');
+    await expect(page.locator('#projects')).toContainText('Proyecto académico (UTN FRRe)');
     await expect(page.locator('#projects')).toContainText('Backend y decisiones de arquitectura');
     await expect(page.locator('#projects')).toContainText('Desarrollador full stack');
     await expect(page.locator('#skills')).toContainText('Manejo de LLMs y Agentes de IA');
@@ -181,6 +185,9 @@ test.describe('Simple Mode, Accessibility, SEO & Dual-Language Navigation', () =
     await page.goto('/?lang=en');
     await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
 
+    await expect(page.locator('#experience')).toContainText('Game Translation & Localization');
+    await expect(page.locator('#experience')).toContainText('Independent Projects');
+    await expect(page.locator('#projects')).toContainText('Academic project (UTN FRRe)');
     await expect(page.locator('#projects')).toContainText('Backend & Architectural Decisions');
     await expect(page.locator('#projects')).toContainText('Full Stack Developer');
     await expect(page.locator('#skills')).toContainText('LLM & AI Agent Management');

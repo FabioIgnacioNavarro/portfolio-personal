@@ -164,5 +164,19 @@ test.describe('Desktop Mode (PC Navegable & Window Manager)', () => {
     await expect(trashWindow).toContainText(
       'Bueno no se que poner acá, pero me gustaría mostrar algo interesante o curioso',
     );
+
+    // Validar traducción al inglés de easter_egg.txt en Papelera
+    await page.goto('/?mode=desktop&lang=en');
+    await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
+
+    const trashBtnEn = page.locator('button[aria-label="Trash"]');
+    await trashBtnEn.click();
+    const trashWindowEn = page.locator('div[role="dialog"][aria-label*="Trash"]');
+    if (!(await trashWindowEn.isVisible())) {
+      await trashBtnEn.press('Enter');
+    }
+    await expect(trashWindowEn).toBeVisible();
+    await trashWindowEn.getByRole('button', { name: 'Open', exact: true }).click();
+    await expect(trashWindowEn).toContainText("Well, I'm not sure what to put here");
   });
 });
