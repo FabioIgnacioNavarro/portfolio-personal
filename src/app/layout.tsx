@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import './globals.css';
 import { ViewPreferencesProvider } from '@/context/ViewPreferencesContext';
 import { loadPortfolioContent } from '@/lib/content';
+import { resolveLocalizedText } from '@/lib/schemas/common';
 import { getSiteUrl } from '@/lib/site';
 
 // Metadatos SEO y de compartición social construidos desde content/profile.json
@@ -13,7 +14,16 @@ export function generateMetadata(): Metadata {
   const highlightedSkills = skills
     .flatMap((cat) => cat.skills)
     .filter((skill) => skill.highlight)
-    .map((skill) => skill.name);
+    .flatMap((skill) =>
+      typeof skill.name === 'string'
+        ? [skill.name]
+        : Array.from(
+            new Set([
+              resolveLocalizedText(skill.name, 'es'),
+              resolveLocalizedText(skill.name, 'en'),
+            ]),
+          ),
+    );
 
   return {
     metadataBase: siteUrl,

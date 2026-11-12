@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { SkillCategory } from '@/lib/schemas';
+import { resolveLocalizedText } from '@/lib/schemas/common';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { Badge } from '@/components/common/Badge';
 
@@ -22,11 +23,11 @@ export function SkillsApp({ skills }: { skills: SkillCategory[] }) {
           <div className="flex flex-wrap gap-1.5">
             {category.skills.map((s) => (
               <Badge
-                key={s.name}
+                key={resolveLocalizedText(s.name, 'en')}
                 variant={s.highlight ? 'accent' : 'secondary'}
                 className={s.highlight ? 'font-semibold' : ''}
               >
-                {s.name}
+                {t(s.name)}
               </Badge>
             ))}
           </div>

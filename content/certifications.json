@@ -7,6 +7,7 @@
     },
     "issuer": "Gobierno de la Provincia del Chaco / Informatorio",
     "issueDate": "2023",
+    "status": "completed",
     "credentialUrl": ""
   },
   {
@@ -16,7 +17,11 @@
       "en": "B2 English Certification (Upper-Intermediate / Professional)"
     },
     "issuer": "UNNE / Entidad Evaluadora de Idiomas",
-    "issueDate": "2023",
+    "issueDate": {
+      "es": "En progreso",
+      "en": "In progress"
+    },
+    "status": "in-progress",
     "credentialUrl": ""
   }
 ]

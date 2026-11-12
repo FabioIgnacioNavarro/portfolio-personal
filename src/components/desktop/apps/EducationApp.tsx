@@ -95,11 +95,16 @@ export function EducationApp({
               className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs flex flex-col justify-between"
             >
               <div>
-                <h5 className="text-xs font-bold text-slate-900 dark:text-white mb-1">
-                  {t(c.name)}
-                </h5>
+                <div className="flex items-start justify-between gap-2 mb-1">
+                  <h5 className="text-xs font-bold text-slate-900 dark:text-white">{t(c.name)}</h5>
+                  {c.status === 'in-progress' && (
+                    <Badge variant="warning" className="text-[10px] shrink-0">
+                      {lang === 'es' ? 'En progreso' : 'In progress'}
+                    </Badge>
+                  )}
+                </div>
                 <p className="text-[11px] text-slate-500 dark:text-slate-400 mb-2">
-                  {c.issuer} · {c.issueDate}
+                  {c.issuer} · {t(c.issueDate)}
                 </p>
               </div>
 

@@ -1,4 +1,5 @@
 import { loadPortfolioContent } from '@/lib/content';
+import { resolveLocalizedText } from '@/lib/schemas/common';
 import { getSiteUrl } from '@/lib/site';
 import { PortfolioContainer } from '@/components/PortfolioContainer';
 
@@ -22,7 +23,9 @@ export default function HomePage() {
       addressCountry: 'AR',
     },
     sameAs: [content.profile.links.github, content.profile.links.linkedin],
-    knowsAbout: content.skills.flatMap((category) => category.skills.map((skill) => skill.name)),
+    knowsAbout: content.skills.flatMap((category) =>
+      category.skills.map((skill) => resolveLocalizedText(skill.name, 'en')),
+    ),
   };
 
   return (

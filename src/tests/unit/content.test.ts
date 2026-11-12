@@ -13,6 +13,7 @@ describe('Real Content Validation', () => {
     expect(content.profile.role.es).toBeDefined();
     expect(content.profile.role.en).toBeDefined();
     expect(content.profile.links.github).toContain('github.com');
+    expect(content.profile.links.portfolioRepo).toContain('github.com');
     expect(content.profile.links.linkedin).toContain('linkedin.com');
 
     // Verificar que los archivos locales de CV referenciados existan en public/
@@ -53,6 +54,8 @@ describe('Real Content Validation', () => {
       expect(cert.name.en).toBeDefined();
       expect(cert.issuer).toBeDefined();
     });
+    const b2Cert = content.certifications.find((c) => c.id === 'english-b2-cert');
+    expect(b2Cert?.status).toBe('in-progress');
 
     // Validaciones de habilidades
     expect(content.skills.length).toBeGreaterThan(0);
@@ -62,6 +65,7 @@ describe('Real Content Validation', () => {
       expect(cat.category.en).toBeDefined();
       expect(cat.skills.length).toBeGreaterThan(0);
     });
+    expect(content.skills.some((cat) => cat.id === 'ai-agents')).toBe(true);
 
     // Validaciones de idiomas
     expect(content.languages.length).toBeGreaterThan(0);
@@ -80,5 +84,7 @@ describe('Real Content Validation', () => {
       expect(proj.caseStudy.es).toContain('### 1. Problema');
       expect(proj.caseStudy.en).toContain('### 1. Problem');
     });
+    const travelProj = content.projects.find((p) => p.id === 'realtime-travel-platform');
+    expect(travelProj?.status).toBe('in-progress');
   });
 });

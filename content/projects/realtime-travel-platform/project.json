@@ -9,14 +9,14 @@
     "en": "High-concurrency distributed backend system built with Hexagonal Architecture, Node.js 22 LTS & TypeScript microservices, PostgreSQL, full distributed observability (OpenTelemetry + Jaeger), and OIDC/JWKS authentication with RBAC."
   },
   "role": {
-    "es": "Backend Engineer & Co-Autor de Arquitectura",
-    "en": "Backend Engineer & Architecture Co-Author"
+    "es": "Backend y decisiones de arquitectura",
+    "en": "Backend & Architectural Decisions"
   },
-  "status": "completed",
+  "status": "in-progress",
   "technologies": [
     "TypeScript",
     "Node.js 22",
-    "Arquitectura Hexagonal",
+    "Hexagonal Architecture",
     "PostgreSQL",
     "OpenTelemetry",
     "Jaeger",

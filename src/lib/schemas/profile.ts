@@ -11,6 +11,7 @@ export const ProfileSchema = z.object({
     github: z.string().url(),
     linkedin: z.string().url(),
     email: z.string().email(),
+    portfolioRepo: z.string().url().optional(),
     cvUrl: z.object({
       es: z.string(),
       en: z.string(),
