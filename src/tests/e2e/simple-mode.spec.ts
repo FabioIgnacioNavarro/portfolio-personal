@@ -170,6 +170,12 @@ test.describe('Simple Mode, Accessibility, SEO & Dual-Language Navigation', () =
     expect(timelineAligned).toBe(true);
 
     // Experiencia, Proyectos, Habilidades IA, Educación y Certificación B2 en español
+    await expect(page.locator('#about')).not.toContainText('Junior');
+    await expect(page.locator('#about')).not.toContainText('sector público');
+    await expect(page.locator('#about')).toContainText('1 año de experiencia');
+    await expect(page.locator('#about ul li')).toHaveCount(7);
+    await expect(page.locator('#experience')).toContainText('Responsabilidades:');
+    await expect(page.locator('#experience')).not.toContainText('Logros:');
     await expect(page.locator('#experience')).toContainText('Traducción y localización de juegos');
     await expect(page.locator('#experience')).toContainText('Proyectos Independientes');
     await expect(page.locator('#experience')).not.toContainText('Especialista');
@@ -180,11 +186,21 @@ test.describe('Simple Mode, Accessibility, SEO & Dual-Language Navigation', () =
     await expect(page.locator('#skills')).toContainText('Uso y Diseño de AI Skills');
     await expect(page.locator('#education')).toContainText('luego de dos años');
     await expect(page.locator('#education')).toContainText('En progreso');
+    const credentialLinksEs = page.locator('#education a', { hasText: 'Mostrar credencial' });
+    await expect(credentialLinksEs).toHaveCount(1);
+    await expect(credentialLinksEs.first()).toHaveAttribute(
+      'href',
+      'https://drive.google.com/file/d/1g0upewkTFriiEQWD02LJR_cb01RyVqjv/view',
+    );
 
     // Validar en Inglés
     await page.goto('/?lang=en');
     await expect(page.locator('[data-hydrated="true"]')).toBeVisible();
 
+    await expect(page.locator('#about')).not.toContainText('Junior');
+    await expect(page.locator('#about')).not.toContainText('public sector');
+    await expect(page.locator('#about')).toContainText('1 Year of Experience');
+    await expect(page.locator('#experience')).toContainText('Responsibilities:');
     await expect(page.locator('#experience')).toContainText('Game Translation & Localization');
     await expect(page.locator('#experience')).toContainText('Independent Projects');
     await expect(page.locator('#projects')).toContainText('Academic project (UTN FRRe)');
@@ -194,5 +210,7 @@ test.describe('Simple Mode, Accessibility, SEO & Dual-Language Navigation', () =
     await expect(page.locator('#skills')).toContainText('AI Skills Usage & Design');
     await expect(page.locator('#education')).toContainText('after two years');
     await expect(page.locator('#education')).toContainText('In progress');
+    const credentialLinksEn = page.locator('#education a', { hasText: 'Show credential' });
+    await expect(credentialLinksEn).toHaveCount(1);
   });
 });

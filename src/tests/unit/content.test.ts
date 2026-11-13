@@ -12,6 +12,10 @@ describe('Real Content Validation', () => {
     expect(content.profile.name).toBe('Fabio Ignacio Navarro');
     expect(content.profile.role.es).toBeDefined();
     expect(content.profile.role.en).toBeDefined();
+    expect(content.profile.role.es).not.toContain('Junior');
+    expect(content.profile.role.en).not.toContain('Junior');
+    expect(content.profile.summary.es).not.toContain('sector público');
+    expect(content.profile.summary.en).not.toContain('public sector');
     expect(content.profile.links.github).toContain('github.com');
     expect(content.profile.links.portfolioRepo).toContain('github.com');
     expect(content.profile.links.linkedin).toContain('linkedin.com');
@@ -56,6 +60,11 @@ describe('Real Content Validation', () => {
     });
     const b2Cert = content.certifications.find((c) => c.id === 'english-b2-cert');
     expect(b2Cert?.status).toBe('in-progress');
+    expect(b2Cert?.credentialUrl).toBe('');
+    const informatorioCert = content.certifications.find((c) => c.id === 'informatorio-django');
+    expect(informatorioCert?.credentialUrl).toBe(
+      'https://drive.google.com/file/d/1g0upewkTFriiEQWD02LJR_cb01RyVqjv/view',
+    );
 
     // Validaciones de habilidades
     expect(content.skills.length).toBeGreaterThan(0);
