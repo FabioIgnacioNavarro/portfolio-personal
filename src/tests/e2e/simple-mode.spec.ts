@@ -84,7 +84,7 @@ test.describe('Simple Mode, Accessibility, SEO & Dual-Language Navigation', () =
 
     await page.goto('/?lang=en');
     const cvEnHref = await page
-      .getByRole('link', { name: 'Download Resume' })
+      .getByRole('link', { name: 'Download CV' })
       .first()
       .getAttribute('href');
     expect(cvEnHref).toBeTruthy();
@@ -212,5 +212,10 @@ test.describe('Simple Mode, Accessibility, SEO & Dual-Language Navigation', () =
     await expect(page.locator('#education')).toContainText('In progress');
     const credentialLinksEn = page.locator('#education a', { hasText: 'Show credential' });
     await expect(credentialLinksEn).toHaveCount(1);
+
+    // Verificar sección de Idiomas y diagramas de arquitectura en tarjetas de proyectos
+    await expect(page.locator('#languages')).toContainText('Spanish');
+    await expect(page.locator('#languages')).toContainText('English');
+    expect(await page.locator('#projects svg[aria-label]').count()).toBeGreaterThanOrEqual(2);
   });
 });
