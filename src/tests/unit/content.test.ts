@@ -74,6 +74,9 @@ describe('Real Content Validation', () => {
       expect(lang.language.es).toBeDefined();
       expect(lang.proficiency.es).toBeDefined();
     });
+    const englishLang = content.languages.find((l) => l.id === 'en');
+    expect(englishLang?.proficiency.es).toContain('Certificación en curso');
+    expect(englishLang?.proficiency.en).toContain('Certification in progress');
 
     // Validaciones de proyectos
     expect(content.projects.length).toBeGreaterThan(0);
