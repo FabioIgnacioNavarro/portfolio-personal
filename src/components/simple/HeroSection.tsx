@@ -6,6 +6,7 @@ import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { Mail, Download, MapPin, ArrowRight } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '@/components/common/Icons';
 import { Badge } from '@/components/common/Badge';
+import { TechStackBubbles } from '@/components/common/TechStackBubbles';
 import { SectionPanel } from './SectionPanel';
 
 interface HeroSectionProps {
@@ -95,9 +96,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
       </p>
 
       {/* Stack tecnológico principal */}
-      <div className="text-sm sm:text-base font-mono text-slate-300 mb-6 bg-slate-950/75 p-3 rounded-lg border border-slate-800/90 inline-block">
-        {t(profile.headline)}
-      </div>
+      <TechStackBubbles headline={t(profile.headline)} variant="hero" className="mb-6" />
 
       {/* Resumen biográfico */}
       <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-8 max-w-3xl">

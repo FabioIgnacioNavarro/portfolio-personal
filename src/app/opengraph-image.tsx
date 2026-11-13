@@ -121,12 +121,12 @@ export default function OpenGraphImage() {
         <div
           style={{
             display: 'flex',
-            fontSize: '32px',
+            fontSize: '30px',
             fontWeight: 700,
             color: '#60a5fa',
           }}
         >
-          {`${profile.role.es} · ${profile.role.en}`}
+          {profile.role.en}
         </div>
       </div>
 

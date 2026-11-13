@@ -122,10 +122,10 @@ export function EducationApp({
                     href={c.credentialUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+                    className="mt-1.5 inline-flex w-fit items-center gap-1.5 rounded-full border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/80 px-3 py-1.5 text-[11px] font-semibold text-slate-700 dark:text-slate-200 transition-colors hover:border-blue-500/60 hover:bg-slate-100 dark:hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                   >
-                    <span>{lang === 'es' ? 'Ver credencial' : 'Verify'}</span>
-                    <ExternalLink className="w-3 h-3" />
+                    <span>{lang === 'es' ? 'Mostrar credencial' : 'Show credential'}</span>
+                    <ExternalLink className="w-3 h-3" aria-hidden="true" />
                   </a>
                 )}
               </div>
