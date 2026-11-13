@@ -7,6 +7,7 @@ import { renderMarkdown } from '@/lib/markdown';
 import { ExternalLink, CheckCircle, ArrowLeft, FileCode } from 'lucide-react';
 import { GithubIcon } from '@/components/common/Icons';
 import { Badge } from '@/components/common/Badge';
+import { ProjectArchitecturePreview } from '@/components/common/ProjectArchitecturePreview';
 import { WindowPathBar } from './WindowPathBar';
 
 interface ProjectDetailAppProps {
@@ -50,7 +51,7 @@ export function ProjectDetailApp({ projects, activeSlug, onBackToFolder }: Proje
 
       <div className="space-y-6 max-w-3xl mx-auto">
         {/* Información del encabezado */}
-        <div className="space-y-2 pb-4 border-b border-slate-200 dark:border-slate-800">
+        <div className="space-y-2 pb-4 border-b border-slate-800">
           <div className="flex items-center gap-2">
             <Badge variant={project.status === 'completed' ? 'primary' : 'warning'}>
               {project.status === 'completed'
@@ -61,18 +62,14 @@ export function ProjectDetailApp({ projects, activeSlug, onBackToFolder }: Proje
                   ? 'En Desarrollo'
                   : 'In Progress'}
             </Badge>
-            <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
-              {t(project.role)}
-            </span>
+            <span className="text-xs font-medium text-slate-400">{t(project.role)}</span>
           </div>
 
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white leading-snug">
+          <h2 className="text-xl sm:text-2xl font-bold text-white leading-snug">
             {t(project.title)}
           </h2>
 
-          <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-            {t(project.summary)}
-          </p>
+          <p className="text-sm text-slate-300 leading-relaxed">{t(project.summary)}</p>
 
           {/* Stack tecnológico */}
           <div className="flex flex-wrap gap-1.5 pt-2">
@@ -91,7 +88,7 @@ export function ProjectDetailApp({ projects, activeSlug, onBackToFolder }: Proje
                   href={project.links.repo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 transition-colors shadow-xs"
+                  className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-slate-200 transition-colors shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                 >
                   <GithubIcon className="w-4 h-4" />
                   <span>{lang === 'es' ? 'Repositorio' : 'Repository'}</span>
@@ -102,7 +99,7 @@ export function ProjectDetailApp({ projects, activeSlug, onBackToFolder }: Proje
                   href={project.links.demo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors shadow-xs"
+                  className="inline-flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors shadow-xs focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
                 >
                   <ExternalLink className="w-4 h-4" />
                   <span>{lang === 'es' ? 'Demo en Vivo' : 'Live Demo'}</span>
@@ -112,9 +109,11 @@ export function ProjectDetailApp({ projects, activeSlug, onBackToFolder }: Proje
           )}
         </div>
 
+        <ProjectArchitecturePreview project={project} />
+
         {/* Sección de Caso de Estudio */}
         <div>
-          <h3 className="text-sm font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-4 flex items-center gap-2">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-blue-400 mb-4 flex items-center gap-2">
             <CheckCircle className="w-4 h-4" />
             <span>
               {lang === 'es' ? 'Caso de Estudio Arquitectónico' : 'Architectural Case Study'}
@@ -122,7 +121,7 @@ export function ProjectDetailApp({ projects, activeSlug, onBackToFolder }: Proje
           </h3>
 
           <div
-            className="prose dark:prose-invert max-w-none text-sm leading-relaxed text-slate-700 dark:text-slate-300 space-y-4 [&>h3]:text-base [&>h3]:font-bold [&>h3]:text-slate-900 dark:[&>h3]:text-white [&>h3]:mt-6 [&>h3]:mb-2 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1.5"
+            className="prose prose-invert max-w-none text-sm leading-relaxed text-slate-300 space-y-4 [&>h3]:text-base [&>h3]:font-bold [&>h3]:text-white [&>h3]:mt-6 [&>h3]:mb-2 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1.5"
             dangerouslySetInnerHTML={{ __html: renderedHtml }}
           />
         </div>

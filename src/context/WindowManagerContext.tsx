@@ -19,6 +19,7 @@ export type WindowId =
   | 'project-detail'
   | 'skills'
   | 'education'
+  | 'languages'
   | 'contact'
   | 'terminal'
   | 'trash';
@@ -30,6 +31,7 @@ export type WindowIconType =
   | 'file-code'
   | 'cpu'
   | 'graduation-cap'
+  | 'languages'
   | 'mail'
   | 'terminal'
   | 'trash';
@@ -77,7 +79,7 @@ const DEFAULT_WINDOWS: Record<WindowId, WindowState> = {
     isMinimized: false,
     isMaximized: false,
     zIndex: 10,
-    position: { x: 230, y: 30 },
+    position: { x: 268, y: 30 },
     size: { width: 580, height: 460 },
     minSize: { width: 360, height: 320 },
   },
@@ -141,6 +143,18 @@ const DEFAULT_WINDOWS: Record<WindowId, WindowState> = {
     position: { x: 110, y: 70 },
     size: { width: 600, height: 450 },
     minSize: { width: 360, height: 280 },
+  },
+  languages: {
+    id: 'languages',
+    title: { es: 'Idiomas', en: 'Languages' },
+    icon: 'languages',
+    isOpen: false,
+    isMinimized: false,
+    isMaximized: false,
+    zIndex: 6,
+    position: { x: 150, y: 90 },
+    size: { width: 460, height: 340 },
+    minSize: { width: 320, height: 260 },
   },
   contact: {
     id: 'contact',
@@ -249,9 +263,9 @@ export function WindowManagerProvider({ children }: { children: React.ReactNode 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const focusWindow = useCallback((id: WindowId) => {
-    setActiveWindowId((prevActive) => {
-      if (prevActive === id) return prevActive;
+  const focusWindow = useCallback(
+    (id: WindowId) => {
+      if (activeWindowId === id) return;
       highestZIndexRef.current += 1;
       const nextZ = highestZIndexRef.current;
       setWindows((prevWindows) => {
@@ -266,9 +280,10 @@ export function WindowManagerProvider({ children }: { children: React.ReactNode 
           },
         };
       });
-      return id;
-    });
-  }, []);
+      setActiveWindowId(id);
+    },
+    [activeWindowId],
+  );
 
   const openWindow = useCallback((id: WindowId, options?: { projectSlug?: string }) => {
     highestZIndexRef.current += 1;

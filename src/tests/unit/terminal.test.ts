@@ -24,10 +24,32 @@ describe('Terminal Command Interpreter', () => {
     expect(res.text).toContain('realtime-travel-platform');
   });
 
-  it('handles open command with action', () => {
+  it('handles open command with action and rejects unknown targets', () => {
     const res = executeTerminalCommand('open projects', content, 'es');
     expect(res.action?.type).toBe('open-window');
     expect(res.action?.payload).toBe('projects');
+
+    const resLang = executeTerminalCommand('open languages', content, 'en');
+    expect(resLang.action?.type).toBe('open-window');
+    expect(resLang.action?.payload).toBe('languages');
+
+    const resUnknown = executeTerminalCommand('open nonexistent', content, 'es');
+    expect(resUnknown.isError).toBe(true);
+    expect(resUnknown.action).toBeUndefined();
+
+    const resEmpty = executeTerminalCommand('open', content, 'en');
+    expect(resEmpty.isError).toBe(true);
+    expect(resEmpty.action).toBeUndefined();
+  });
+
+  it('handles languages command in Spanish and English', () => {
+    const langEs = executeTerminalCommand('languages', content, 'es');
+    expect(langEs.isError).toBeFalsy();
+    expect(langEs.text).toContain('Español');
+
+    const langEn = executeTerminalCommand('languages', content, 'en');
+    expect(langEn.isError).toBeFalsy();
+    expect(langEn.text).toContain('Spanish');
   });
 
   it('rejects removed theme command in dark-only mode', () => {
@@ -36,8 +58,9 @@ describe('Terminal Command Interpreter', () => {
     expect(res.action).toBeUndefined();
   });
 
-  it('reports updated Next.js runtime in neofetch command', () => {
+  it('reports branded OS and updated Next.js runtime in neofetch command', () => {
     const res = executeTerminalCommand('neofetch', content, 'es');
+    expect(res.text).toContain('Fabio Portfolio OS');
     expect(res.text).toContain('Next.js 16');
   });
 

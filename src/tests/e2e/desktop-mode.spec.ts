@@ -187,7 +187,7 @@ test.describe('Desktop Mode (PC Navegable & Window Manager)', () => {
     const openFileBtn = trashWindow.getByRole('button', { name: 'Abrir', exact: true });
     await openFileBtn.click();
     await expect(trashWindow).toContainText(
-      'Bueno no se que poner acá, pero me gustaría mostrar algo interesante o curioso',
+      '¡Gracias por explorar hasta acá! Este escritorio interactivo nació para demostrar que incluso un portfolio estático puede sentirse como un sistema vivo, rápido y cuidado en cada detalle.',
     );
 
     // Validar traducción al inglés de easter_egg.txt en Papelera
@@ -204,7 +204,7 @@ test.describe('Desktop Mode (PC Navegable & Window Manager)', () => {
     await expect(trashWindowEn).toContainText('~/Trash/');
     await trashWindowEn.getByRole('button', { name: 'Open', exact: true }).click();
     await expect(trashWindowEn).toContainText('~/Trash/easter_egg.txt');
-    await expect(trashWindowEn).toContainText("Well, I'm not sure what to put here");
+    await expect(trashWindowEn).toContainText('Thanks for exploring this far!');
   });
 
   test('renders consistent virtual path bars across all desktop application windows', async ({
@@ -219,6 +219,7 @@ test.describe('Desktop Mode (PC Navegable & Window Manager)', () => {
       { iconName: 'Experiencia', dialogMatch: 'Experiencia', path: '~/portfolio/experience/' },
       { iconName: 'Habilidades', dialogMatch: 'Habilidades', path: '~/portfolio/skills/' },
       { iconName: 'Educación', dialogMatch: 'Educación', path: '~/portfolio/education/' },
+      { iconName: 'Idiomas', dialogMatch: 'Idiomas', path: '~/portfolio/languages/' },
       { iconName: 'Contacto', dialogMatch: 'Contacto', path: '~/portfolio/contact.vcf' },
       { iconName: 'Terminal', dialogMatch: 'Terminal', path: '~/portfolio/' },
       { iconName: 'Papelera', dialogMatch: 'Papelera', path: '~/Papelera/' },

@@ -8,6 +8,7 @@ import { renderMarkdown } from '@/lib/markdown';
 import { X, ExternalLink, CheckCircle } from 'lucide-react';
 import { GithubIcon } from '@/components/common/Icons';
 import { Badge } from '@/components/common/Badge';
+import { ProjectArchitecturePreview } from '@/components/common/ProjectArchitecturePreview';
 
 interface ProjectCaseStudyModalProps {
   project: Project | null;
@@ -17,24 +18,63 @@ interface ProjectCaseStudyModalProps {
 export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModalProps) {
   const { lang, t } = useViewPreferences();
   const modalRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
+  const onCloseRef = useRef(onClose);
+
+  useEffect(() => {
+    onCloseRef.current = onClose;
+  }, [onClose]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onClose();
+        onCloseRef.current();
+        return;
+      }
+
+      if (e.key === 'Tab' && modalRef.current) {
+        const focusables = modalRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        );
+        if (focusables.length === 0) return;
+
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+
+        if (e.shiftKey) {
+          if (
+            document.activeElement === first ||
+            !modalRef.current.contains(document.activeElement)
+          ) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else if (
+          document.activeElement === last ||
+          !modalRef.current.contains(document.activeElement)
+        ) {
+          e.preventDefault();
+          first.focus();
+        }
       }
     };
 
     if (project) {
+      previousFocusRef.current = document.activeElement as HTMLElement | null;
       document.body.style.overflow = 'hidden';
       window.addEventListener('keydown', handleKeyDown);
+      requestAnimationFrame(() => closeButtonRef.current?.focus());
+    } else if (previousFocusRef.current) {
+      previousFocusRef.current.focus();
+      previousFocusRef.current = null;
     }
 
     return () => {
       document.body.style.overflow = '';
       window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [project, onClose]);
+  }, [project]);
 
   const caseStudyMd = project ? (lang === 'es' ? project.caseStudy.es : project.caseStudy.en) : '';
   const renderedHtml = useMemo(() => renderMarkdown(caseStudyMd), [caseStudyMd]);
@@ -78,12 +118,13 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
               </Badge>
               <span className="text-xs text-slate-400 font-medium">{t(project.role)}</span>
             </div>
-            <h3 id="modal-project-title" className="text-lg sm:text-2xl font-bold text-white">
+            <h2 id="modal-project-title" className="text-lg sm:text-2xl font-bold text-white">
               {t(project.title)}
-            </h3>
+            </h2>
           </div>
 
           <button
+            ref={closeButtonRef}
             type="button"
             onClick={onClose}
             aria-label={lang === 'es' ? 'Cerrar modal' : 'Close modal'}
@@ -96,15 +137,17 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
         {/* Cuerpo desplazable del modal acotado al alto de pantalla */}
         <div className="flex-1 min-h-0 p-4 sm:p-6 overflow-y-auto space-y-6 overscroll-contain">
           {/* Resumen */}
-          <div className="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-xl border border-slate-200/60 dark:border-slate-800 text-sm sm:text-base text-slate-700 dark:text-slate-300">
+          <ProjectArchitecturePreview project={project} />
+
+          <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-800 text-sm sm:text-base text-slate-300">
             {t(project.summary)}
           </div>
 
           {/* Stack tecnológico */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">
               {lang === 'es' ? 'Tecnologías utilizadas:' : 'Technologies used:'}
-            </h4>
+            </h3>
             <div className="flex flex-wrap gap-1.5">
               {project.technologies.map((tech) => (
                 <Badge key={tech} variant="secondary">
@@ -122,7 +165,7 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
                   href={project.links.repo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-lg border border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                  className="inline-flex items-center gap-2 text-xs font-medium px-3 py-2 rounded-lg border border-slate-700 text-slate-200 hover:bg-slate-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
                 >
                   <GithubIcon className="w-4 h-4" />
                   <span>{lang === 'es' ? 'Repositorio' : 'Repository'}</span>
@@ -133,7 +176,7 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
                   href={project.links.demo}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-xs font-medium px-3 py-1.5 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+                  className="inline-flex items-center gap-2 text-xs font-medium px-3 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
                 >
                   <ExternalLink className="w-4 h-4" />
                   <span>{lang === 'es' ? 'Ver Demo' : 'Live Demo'}</span>
@@ -143,15 +186,15 @@ export function ProjectCaseStudyModal({ project, onClose }: ProjectCaseStudyModa
           )}
 
           {/* Caso de estudio renderizado desde Markdown */}
-          <div className="border-t border-slate-200 dark:border-slate-800 pt-6">
-            <h4 className="text-sm font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 mb-4 flex items-center gap-2">
+          <div className="border-t border-slate-800 pt-6">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-blue-400 mb-4 flex items-center gap-2">
               <CheckCircle className="w-4 h-4" />
               <span>
                 {lang === 'es' ? 'Caso de Estudio de Arquitectura' : 'Architectural Case Study'}
               </span>
-            </h4>
+            </h3>
             <div
-              className="prose dark:prose-invert max-w-none text-sm sm:text-base space-y-4 text-slate-700 dark:text-slate-300 [&>h3]:text-base [&>h3]:font-bold [&>h3]:text-slate-900 dark:[&>h3]:text-white [&>h3]:mt-6 [&>h3]:mb-2 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1.5 [&>p]:leading-relaxed"
+              className="prose prose-invert max-w-none text-sm sm:text-base space-y-4 text-slate-300 [&>h3]:text-base [&>h3]:font-bold [&>h3]:text-white [&>h3]:mt-6 [&>h3]:mb-2 [&>ul]:list-disc [&>ul]:pl-5 [&>ul]:space-y-1.5 [&>p]:leading-relaxed"
               dangerouslySetInnerHTML={{ __html: renderedHtml }}
             />
           </div>

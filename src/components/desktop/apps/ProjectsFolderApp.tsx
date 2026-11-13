@@ -33,31 +33,27 @@ export function ProjectsFolderApp({ projects }: { projects: Project[] }) {
           const fileName = `${p.id}.case-study.md`;
 
           return (
-            <div
+            <article
               key={p.id}
-              tabIndex={0}
               onClick={() => setSelectedId(p.id)}
               onDoubleClick={() => handleOpenFile(p.id)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleOpenFile(p.id);
-              }}
-              className={`p-4 rounded-xl border cursor-pointer select-none transition-all flex flex-col justify-between ${
+              className={`p-4 rounded-xl border select-none transition-all flex flex-col justify-between ${
                 isSelected
-                  ? 'bg-blue-50/80 dark:bg-blue-950/40 border-blue-400 ring-1 ring-blue-400'
-                  : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-blue-300 dark:hover:border-blue-700 hover:shadow-xs'
+                  ? 'bg-blue-950/40 border-blue-400 ring-1 ring-blue-400'
+                  : 'bg-slate-900 border-slate-800 hover:border-blue-700 hover:shadow-xs'
               }`}
             >
               <div>
                 <div className="flex items-center justify-between gap-2 mb-2">
-                  <div className="flex items-center gap-2">
-                    <FileCode className="w-4 h-4 text-blue-500" />
-                    <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-200">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <FileCode className="w-4 h-4 text-blue-500 shrink-0" />
+                    <span className="font-mono text-xs font-bold text-slate-200 truncate">
                       {fileName}
                     </span>
                   </div>
                   <Badge
                     variant={p.status === 'completed' ? 'primary' : 'warning'}
-                    className="text-[10px]"
+                    className="text-[10px] shrink-0"
                   >
                     {p.status === 'completed'
                       ? lang === 'es'
@@ -69,13 +65,11 @@ export function ProjectsFolderApp({ projects }: { projects: Project[] }) {
                   </Badge>
                 </div>
 
-                <h4 className="text-sm font-semibold text-slate-900 dark:text-white mb-1.5 leading-snug">
+                <h3 className="text-sm font-semibold text-white mb-1.5 leading-snug">
                   {t(p.title)}
-                </h4>
+                </h3>
 
-                <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mb-3">
-                  {t(p.summary)}
-                </p>
+                <p className="text-xs text-slate-400 line-clamp-2 mb-3">{t(p.summary)}</p>
 
                 <div className="flex flex-wrap gap-1 mb-3">
                   {p.technologies.slice(0, 4).map((tech) => (
@@ -89,35 +83,34 @@ export function ProjectsFolderApp({ projects }: { projects: Project[] }) {
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
+              <div className="pt-2 border-t border-slate-800/80 flex items-center justify-between">
                 {p.links.repo ? (
                   <a
                     href={p.links.repo}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={(e) => e.stopPropagation()}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded"
                   >
                     <GithubIcon className="w-3.5 h-3.5" />
                     <span>{lang === 'es' ? 'Repositorio' : 'Repository'}</span>
                   </a>
                 ) : (
-                  <span className="text-[10px] text-slate-400 font-mono">
-                    {lang === 'es' ? 'Doble clic para abrir' : 'Double click to read'}
-                  </span>
+                  <span className="text-[11px] text-slate-400 font-mono">Markdown</span>
                 )}
                 <button
+                  type="button"
                   onClick={(e) => {
                     e.stopPropagation();
                     handleOpenFile(p.id);
                   }}
-                  className="inline-flex items-center gap-1 text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline"
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-blue-400 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 rounded"
                 >
                   <span>{lang === 'es' ? 'Abrir caso' : 'Open'}</span>
                   <ArrowRight className="w-3 h-3" />
                 </button>
               </div>
-            </div>
+            </article>
           );
         })}
       </div>

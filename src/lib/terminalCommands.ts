@@ -1,6 +1,18 @@
 import { PortfolioContent } from './content';
 import { resolveLocalizedText } from './schemas/common';
 
+export const VALID_TERMINAL_WINDOW_TARGETS = [
+  'about',
+  'projects',
+  'experience',
+  'skills',
+  'education',
+  'languages',
+  'contact',
+  'terminal',
+  'trash',
+] as const;
+
 export interface CommandOutput {
   text?: string;
   isError?: boolean;
@@ -35,8 +47,9 @@ export function executeTerminalCommand(
                 '  skills        Habilidades técnicas y stack',
                 '  experience    Experiencia laboral y roles',
                 '  education     Formación académica y certificaciones',
+                '  languages     Idiomas y nivel de competencia',
                 '  contact       Datos de contacto y enlaces directos',
-                '  open <app>    Abre una aplicación (about, projects, skills, contact)',
+                '  open <app>    Abre una app o proyecto (ej: open projects)',
                 '  lang <l>      Cambia el idioma (es | en)',
                 '  mode simple   Regresa al Modo Simple',
                 '  neofetch      Información del sistema y desarrollador',
@@ -50,8 +63,9 @@ export function executeTerminalCommand(
                 '  skills        Technical skills and stack',
                 '  experience    Work history and engineering roles',
                 '  education     Academic background and certifications',
+                '  languages     Languages and proficiency levels',
                 '  contact       Contact info and direct links',
-                '  open <app>    Launch an application window',
+                '  open <app>    Launch an app or project (e.g. open projects)',
                 '  lang <l>      Switch language (es | en)',
                 '  mode simple   Switch to Simple Mode',
                 '  neofetch      Developer system specs',
@@ -120,6 +134,16 @@ export function executeTerminalCommand(
         ].join('\n'),
       };
 
+    case 'languages':
+      return {
+        text: [
+          lang === 'es' ? 'IDIOMAS:' : 'LANGUAGES:',
+          ...content.languages.map(
+            (item) => `  * ${item.language[lang]} — ${item.proficiency[lang]}`,
+          ),
+        ].join('\n'),
+      };
+
     case 'contact':
       return {
         text: [
@@ -131,15 +155,29 @@ export function executeTerminalCommand(
 
     case 'open': {
       const target = args[0]?.toLowerCase();
+      const projectSlugs = content.projects.map((p) => p.id);
+      const validTargets = [...VALID_TERMINAL_WINDOW_TARGETS, ...projectSlugs];
+
       if (!target) {
         return {
           text:
             lang === 'es'
-              ? 'Uso: open <about|projects|skills|experience|contact|terminal|<slug>>'
-              : 'Usage: open <app>',
+              ? `Uso: open <${VALID_TERMINAL_WINDOW_TARGETS.join('|')}|<slug>>`
+              : `Usage: open <${VALID_TERMINAL_WINDOW_TARGETS.join('|')}|<slug>>`,
           isError: true,
         };
       }
+
+      if (!validTargets.includes(target)) {
+        return {
+          text:
+            lang === 'es'
+              ? `Destino no encontrado: '${target}'. Válidos: ${validTargets.join(', ')}`
+              : `Unknown target: '${target}'. Valid targets: ${validTargets.join(', ')}`,
+          isError: true,
+        };
+      }
+
       return {
         text: lang === 'es' ? `Abriendo ventana '${target}'...` : `Opening window '${target}'...`,
         action: { type: 'open-window', payload: target },
@@ -184,7 +222,7 @@ export function executeTerminalCommand(
         text: [
           '        _nnnn_        fabio@portfolio',
           '       dGGGGMMb       ---------------',
-          '      @p~qp~~qMb      OS: Antigravity Web OS (Next.js 16)',
+          '      @p~qp~~qMb      OS: Fabio Portfolio OS (Next.js 16)',
           '      M|@||@) M|      Host: Argentina (Chaco)',
           '      @,----.JM|      Kernel: TypeScript 5.9 + Zod',
           '     (\\__/~~\\__/)     Shell: Portfolio Terminal v2.0',

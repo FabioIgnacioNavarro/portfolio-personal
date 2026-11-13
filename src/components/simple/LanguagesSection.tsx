@@ -32,7 +32,7 @@ export function LanguagesSection({ languages }: LanguagesSectionProps) {
         {languages.map((l) => (
           <div
             key={l.id}
-            className="bg-slate-950/75 p-5 rounded-xl border border-slate-800/90 shadow-sm"
+            className="bg-slate-900/70 p-5 rounded-xl border border-slate-800/90 shadow-sm"
           >
             <div className="flex items-center justify-between gap-2 mb-2">
               <h3 className="text-base font-bold text-white">{t(l.language)}</h3>

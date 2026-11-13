@@ -6,6 +6,7 @@ import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { FolderGit2, BookOpen, ExternalLink } from 'lucide-react';
 import { GithubIcon } from '@/components/common/Icons';
 import { Badge } from '@/components/common/Badge';
+import { ProjectArchitecturePreview } from '@/components/common/ProjectArchitecturePreview';
 import { ProjectCaseStudyModal } from './ProjectCaseStudyModal';
 import { SectionPanel } from './SectionPanel';
 
@@ -35,7 +36,7 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
         {projects.map((project) => (
           <div
             key={project.id}
-            className="bg-slate-950/75 rounded-xl border border-slate-800/90 p-6 shadow-sm hover:shadow-md hover:border-blue-700 transition-all flex flex-col justify-between"
+            className="bg-slate-900/70 rounded-xl border border-slate-800/90 p-6 hover:border-blue-700 transition-colors flex flex-col justify-between"
           >
             <div>
               {/* Estado y rol en encabezado */}
@@ -49,28 +50,30 @@ export function ProjectsSection({ projects }: ProjectsSectionProps) {
                       ? 'En Desarrollo'
                       : 'In Progress'}
                 </Badge>
-                <span className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                  {t(project.role)}
-                </span>
+                <span className="text-xs text-slate-400 font-medium">{t(project.role)}</span>
               </div>
 
               {/* Título */}
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2 leading-snug">
-                {t(project.title)}
-              </h3>
+              <h3 className="text-lg font-bold text-white mb-2 leading-snug">{t(project.title)}</h3>
 
               {/* Resumen */}
-              <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4">
-                {t(project.summary)}
-              </p>
+              <p className="text-sm text-slate-300 leading-relaxed mb-4">{t(project.summary)}</p>
 
-              {/* Etiquetas de tecnologías */}
-              <div className="flex flex-wrap gap-1.5 mb-6">
-                {project.technologies.map((tech) => (
+              {/* Diagrama esquemático de arquitectura o captura */}
+              <ProjectArchitecturePreview project={project} compact />
+
+              {/* Etiquetas acotadas del stack (el stack completo se muestra en el caso de estudio) */}
+              <div className="flex flex-wrap items-center gap-1.5 mb-6">
+                {project.technologies.slice(0, 4).map((tech) => (
                   <Badge key={tech} variant="secondary">
                     {tech}
                   </Badge>
                 ))}
+                {project.technologies.length > 4 && (
+                  <span className="text-xs font-medium text-slate-400 px-1">
+                    +{project.technologies.length - 4}
+                  </span>
+                )}
               </div>
             </div>
 

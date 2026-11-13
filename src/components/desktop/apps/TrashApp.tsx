@@ -7,8 +7,8 @@ import { WindowPathBar } from './WindowPathBar';
 
 const EASTER_EGG_FILENAME = 'easter_egg.txt';
 const EASTER_EGG_CONTENT = {
-  es: 'Bueno no se que poner acá, pero me gustaría mostrar algo interesante o curioso',
-  en: "Well, I'm not sure what to put here, but I'd like to show something interesting or fun",
+  es: '¡Gracias por explorar hasta acá! Este escritorio interactivo nació para demostrar que incluso un portfolio estático puede sentirse como un sistema vivo, rápido y cuidado en cada detalle.',
+  en: 'Thanks for exploring this far! This interactive desktop was built to show that even a static portfolio can feel like a fast, living system crafted down to the smallest detail.',
 } as const;
 
 // Explorador de archivos de la Papelera con un único documento de texto oculto
@@ -79,28 +79,14 @@ export function TrashApp() {
 
           {/* Fila única: easter_egg.txt */}
           <div className="p-2 flex-1">
-            <div
-              role="button"
-              tabIndex={0}
+            <button
+              type="button"
               onClick={(e) => {
-                e.stopPropagation();
-                setIsSelected(true);
-                if (typeof window !== 'undefined' && window.innerWidth < 768) {
-                  handleOpenFile();
-                }
-              }}
-              onDoubleClick={(e) => {
                 e.stopPropagation();
                 handleOpenFile();
               }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  handleOpenFile();
-                }
-              }}
               aria-label={EASTER_EGG_FILENAME}
-              className={`grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_10rem_5rem] items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer select-none transition-colors outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
+              className={`w-full text-left grid grid-cols-[1fr_auto] sm:grid-cols-[1fr_10rem_5rem] items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer select-none transition-colors outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
                 isSelected
                   ? 'bg-blue-950/60 border border-blue-500/70 text-white'
                   : 'border border-transparent hover:bg-slate-800/70 text-slate-200'
@@ -116,14 +102,14 @@ export function TrashApp() {
                 {lang === 'es' ? 'Documento de texto' : 'Text Document'}
               </span>
               <span className="text-xs font-mono text-slate-400 text-right">{fileSizeBytes} B</span>
-            </div>
+            </button>
           </div>
 
           {/* Barra inferior del explorador con acceso directo de apertura */}
           <div className="px-3.5 py-2 border-t border-slate-800/90 bg-slate-900/70 flex items-center justify-between gap-2 text-xs text-slate-400">
             <span className="truncate flex items-center gap-1.5">
               <FolderOpen className="w-3.5 h-3.5 text-slate-500 shrink-0" />
-              {lang === 'es' ? 'Doble clic para abrir el archivo' : 'Double click to open file'}
+              {lang === 'es' ? 'Haz clic para abrir el archivo' : 'Click to open file'}
             </span>
             <button
               type="button"

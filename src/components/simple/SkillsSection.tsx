@@ -33,22 +33,31 @@ export function SkillsSection({ skills }: SkillsSectionProps) {
         {skills.map((category) => (
           <div
             key={category.id}
-            className="bg-slate-950/75 rounded-xl border border-slate-800/90 p-5 shadow-sm"
+            className="bg-slate-900/70 rounded-xl border border-slate-800/90 p-5"
           >
             <h3 className="text-sm font-bold uppercase tracking-wider text-slate-200 mb-4 pb-2 border-b border-slate-800">
               {t(category.category)}
             </h3>
 
             <div className="flex flex-wrap gap-2">
-              {category.skills.map((skill) => (
-                <Badge
-                  key={resolveLocalizedText(skill.name, 'en')}
-                  variant={skill.highlight ? 'accent' : 'secondary'}
-                  className={skill.highlight ? 'font-semibold' : ''}
-                >
-                  {t(skill.name)}
-                </Badge>
-              ))}
+              {category.skills.map((skill) =>
+                skill.highlight ? (
+                  <Badge
+                    key={resolveLocalizedText(skill.name, 'en')}
+                    variant="accent"
+                    className="font-semibold"
+                  >
+                    {t(skill.name)}
+                  </Badge>
+                ) : (
+                  <span
+                    key={resolveLocalizedText(skill.name, 'en')}
+                    className="inline-flex items-center rounded-lg border border-slate-800 bg-slate-950/70 px-2.5 py-1 text-xs font-medium text-slate-300"
+                  >
+                    {t(skill.name)}
+                  </span>
+                ),
+              )}
             </div>
           </div>
         ))}

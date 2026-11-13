@@ -51,15 +51,13 @@ export function EducationSection({ education, certifications }: EducationSection
           {education.map((item) => (
             <div
               key={item.id}
-              className="bg-slate-950/75 p-5 rounded-xl border border-slate-800/90 shadow-sm"
+              className="bg-slate-900/70 p-5 rounded-xl border border-slate-800/90"
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-                  {t(item.degree)}
-                </h3>
+                <h3 className="text-base sm:text-lg font-bold text-white">{t(item.degree)}</h3>
                 <div className="flex items-center gap-2">
                   {getStatusBadge(item.status)}
-                  <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
+                  <div className="flex items-center gap-1 text-xs text-slate-400">
                     <Calendar className="w-3.5 h-3.5" />
                     <span>
                       {t(item.startDate)} {item.endDate ? `— ${t(item.endDate)}` : ''}
@@ -68,14 +66,10 @@ export function EducationSection({ education, certifications }: EducationSection
                 </div>
               </div>
 
-              <div className="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-2">
-                {item.institution}
-              </div>
+              <div className="text-sm font-semibold text-blue-400 mb-2">{item.institution}</div>
 
               {item.description && (
-                <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                  {t(item.description)}
-                </p>
+                <p className="text-sm text-slate-300 leading-relaxed">{t(item.description)}</p>
               )}
             </div>
           ))}
@@ -86,11 +80,11 @@ export function EducationSection({ education, certifications }: EducationSection
       <div>
         <div className="flex items-center gap-2 mb-2">
           <Award className="w-5 h-5 text-amber-500" />
-          <h3 className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+          <h3 className="text-xl font-bold tracking-tight text-white">
             {lang === 'es' ? 'Certificaciones' : 'Certifications'}
           </h3>
         </div>
-        <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
+        <p className="text-sm text-slate-400 mb-6">
           {lang === 'es'
             ? 'Cursos de especialización y certificaciones de competencia.'
             : 'Specialization courses and certified credentials.'}
@@ -100,20 +94,18 @@ export function EducationSection({ education, certifications }: EducationSection
           {certifications.map((cert) => (
             <div
               key={cert.id}
-              className="bg-slate-950/75 p-5 rounded-xl border border-slate-800/90 shadow-sm flex flex-col justify-between"
+              className="bg-slate-900/70 p-5 rounded-xl border border-slate-800/90 flex flex-col justify-between"
             >
               <div>
                 <div className="flex items-start justify-between gap-2 mb-1">
-                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">
-                    {t(cert.name)}
-                  </h4>
+                  <h4 className="text-sm font-bold text-white">{t(cert.name)}</h4>
                   {cert.status === 'in-progress' && (
                     <Badge variant="warning" className="shrink-0">
                       {lang === 'es' ? 'En progreso' : 'In progress'}
                     </Badge>
                   )}
                 </div>
-                <div className="text-xs text-slate-500 dark:text-slate-400 mb-3">
+                <div className="text-xs text-slate-400 mb-3">
                   {cert.issuer} · {t(cert.issueDate)}
                 </div>
               </div>

@@ -9,12 +9,10 @@ interface BadgeProps {
 export function Badge({ children, variant = 'secondary', className = '' }: BadgeProps) {
   const variantStyles = {
     primary: 'bg-blue-600 text-white font-medium',
-    secondary: 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium',
-    accent:
-      'bg-blue-100 dark:bg-blue-950/60 text-blue-800 dark:text-blue-300 font-medium border border-blue-200 dark:border-blue-900',
-    outline: 'border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300',
-    warning:
-      'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-300 dark:border-amber-800',
+    secondary: 'bg-slate-800/90 text-slate-200 font-medium border border-slate-700/70',
+    accent: 'bg-blue-950/70 text-blue-300 font-medium border border-blue-800/80',
+    outline: 'border border-slate-700 text-slate-300',
+    warning: 'bg-amber-950/70 text-amber-300 border border-amber-800/80',
   };
 
   return (

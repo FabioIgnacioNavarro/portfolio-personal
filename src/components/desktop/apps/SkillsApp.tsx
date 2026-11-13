@@ -22,22 +22,31 @@ export function SkillsApp({ skills }: { skills: SkillCategory[] }) {
         {skills.map((category) => (
           <div
             key={category.id}
-            className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs"
+            className="p-4 rounded-xl border border-slate-800 bg-slate-900 shadow-xs"
           >
-            <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 pb-2 mb-3 border-b border-slate-100 dark:border-slate-800">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300 pb-2 mb-3 border-b border-slate-800">
               {t(category.category)}
-            </h4>
+            </h3>
 
             <div className="flex flex-wrap gap-1.5">
-              {category.skills.map((s) => (
-                <Badge
-                  key={resolveLocalizedText(s.name, 'en')}
-                  variant={s.highlight ? 'accent' : 'secondary'}
-                  className={s.highlight ? 'font-semibold' : ''}
-                >
-                  {t(s.name)}
-                </Badge>
-              ))}
+              {category.skills.map((s) =>
+                s.highlight ? (
+                  <Badge
+                    key={resolveLocalizedText(s.name, 'en')}
+                    variant="accent"
+                    className="font-semibold"
+                  >
+                    {t(s.name)}
+                  </Badge>
+                ) : (
+                  <span
+                    key={resolveLocalizedText(s.name, 'en')}
+                    className="inline-flex items-center px-2.5 py-0.5 rounded-lg text-xs font-medium border border-slate-800 bg-slate-950/70 text-slate-300"
+                  >
+                    {t(s.name)}
+                  </span>
+                ),
+              )}
             </div>
           </div>
         ))}

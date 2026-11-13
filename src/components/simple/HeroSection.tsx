@@ -72,7 +72,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
   const cvHref = lang === 'es' ? profile.links.cvUrl.es : profile.links.cvUrl.en;
 
   return (
-    <SectionPanel id="about" panelClassName="sm:p-10">
+    <SectionPanel id="about" variant="surface" panelClassName="sm:p-10">
       {/* Etiqueta de disponibilidad */}
       <div className="flex flex-wrap items-center gap-2 sm:gap-3 mb-6">
         <Badge variant="accent" className="py-1 px-3 text-xs whitespace-nowrap">
@@ -81,25 +81,23 @@ export function HeroSection({ profile }: HeroSectionProps) {
             ? 'Disponible para nuevas oportunidades'
             : 'Available for new opportunities'}
         </Badge>
-        <div className="flex items-center gap-1 text-xs text-slate-500 dark:text-slate-400">
+        <div className="flex items-center gap-1 text-xs text-slate-400">
           <MapPin className="w-3.5 h-3.5" />
           <span>{t(profile.location)}</span>
         </div>
       </div>
 
       {/* Nombre y rol */}
-      <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white mb-3">
+      <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-white mb-3">
         {profile.name}
       </h1>
-      <p className="text-xl sm:text-2xl font-semibold text-blue-600 dark:text-blue-400 mb-4">
-        {t(profile.role)}
-      </p>
+      <p className="text-xl sm:text-2xl font-semibold text-blue-400 mb-4">{t(profile.role)}</p>
 
       {/* Stack tecnológico principal */}
       <TechStackBubbles headline={t(profile.headline)} variant="hero" className="mb-6" />
 
       {/* Resumen biográfico */}
-      <p className="text-base sm:text-lg text-slate-600 dark:text-slate-300 leading-relaxed mb-8 max-w-3xl">
+      <p className="text-base sm:text-lg text-slate-300 leading-relaxed mb-8 max-w-3xl">
         {t(profile.summary)}
       </p>
 
@@ -112,7 +110,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
 
         <HeroActionButton href={cvHref} external>
           <Download className="w-4 h-4" />
-          <span>{lang === 'es' ? 'Descargar CV' : 'Download Resume'}</span>
+          <span>{lang === 'es' ? 'Descargar CV' : 'Download CV'}</span>
         </HeroActionButton>
 
         <HeroActionButton href={`mailto:${profile.links.email}`}>
@@ -121,9 +119,9 @@ export function HeroSection({ profile }: HeroSectionProps) {
         </HeroActionButton>
       </div>
 
-      {/* Redes sociales y enlaces de contacto */}
-      <div className="flex items-center gap-4 text-slate-400">
-        <span className="text-xs uppercase tracking-wider font-semibold text-slate-400">
+      {/* Redes sociales y enlaces de contacto (objetivos táctiles mínimos de 44×44px) */}
+      <div className="flex items-center gap-2 text-slate-400">
+        <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 mr-1">
           {lang === 'es' ? 'Redes & Enlaces:' : 'Links:'}
         </span>
         <a
@@ -131,7 +129,7 @@ export function HeroSection({ profile }: HeroSectionProps) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={lang === 'es' ? 'Perfil de GitHub' : 'GitHub profile'}
-          className="p-2 rounded-lg hover:text-white hover:bg-slate-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg hover:text-white hover:bg-slate-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         >
           <GithubIcon className="w-5 h-5" />
         </a>
@@ -140,14 +138,14 @@ export function HeroSection({ profile }: HeroSectionProps) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label={lang === 'es' ? 'Perfil de LinkedIn' : 'LinkedIn profile'}
-          className="p-2 rounded-lg hover:text-blue-400 hover:bg-slate-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg hover:text-blue-400 hover:bg-slate-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         >
           <LinkedinIcon className="w-5 h-5" />
         </a>
         <a
           href={`mailto:${profile.links.email}`}
           aria-label={lang === 'es' ? 'Enviar correo electrónico' : 'Send email'}
-          className="p-2 rounded-lg hover:text-white hover:bg-slate-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+          className="inline-flex h-11 w-11 items-center justify-center rounded-lg hover:text-white hover:bg-slate-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         >
           <Mail className="w-5 h-5" />
         </a>

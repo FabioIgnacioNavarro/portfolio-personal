@@ -153,12 +153,12 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
     >
       {/* Marco interior animado de la ventana */}
       <div
-        className={`w-full h-full flex flex-col bg-white dark:bg-slate-900 border ${
+        className={`w-full h-full flex flex-col bg-slate-900 border ${
           effectiveMaximized ? 'rounded-none border-0' : 'rounded-xl shadow-2xl'
         } ${
           isActive
-            ? 'border-blue-500/70 dark:border-blue-400/60 shadow-blue-900/20 ring-1 ring-blue-500/40'
-            : 'border-slate-300 dark:border-slate-800 opacity-95'
+            ? 'border-blue-400/60 shadow-blue-900/20 ring-1 ring-blue-500/40'
+            : 'border-slate-800 opacity-95'
         } ${isMinimizing ? 'animate-window-minimize pointer-events-none' : 'animate-window-open'}`}
       >
         {/* Barra de título */}
@@ -167,22 +167,16 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
           onPointerMove={onDragMove}
           onPointerUp={onDragUp}
           onDoubleClick={isMobile ? undefined : handleDoubleClick}
-          className={`h-10 px-3 flex items-center justify-between border-b transition-colors shrink-0 ${
+          className={`h-11 md:h-10 px-3 flex items-center justify-between border-b transition-colors shrink-0 ${
             effectiveMaximized
               ? 'rounded-none cursor-default'
               : 'rounded-t-xl cursor-grab active:cursor-grabbing'
-          } ${
-            isActive
-              ? 'bg-slate-100 dark:bg-slate-800/90 border-slate-200 dark:border-slate-700'
-              : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800'
-          }`}
+          } ${isActive ? 'bg-slate-800/90 border-slate-700' : 'bg-slate-900 border-slate-800'}`}
         >
           {/* Izquierda: Ícono y título */}
           <div className="flex items-center gap-2 overflow-hidden">
-            {iconNode && (
-              <span className="w-4 h-4 shrink-0 text-blue-600 dark:text-blue-400">{iconNode}</span>
-            )}
-            <span className="text-xs sm:text-sm font-semibold truncate text-slate-800 dark:text-slate-100">
+            {iconNode && <span className="w-4 h-4 shrink-0 text-blue-400">{iconNode}</span>}
+            <span className="text-xs sm:text-sm font-semibold truncate text-slate-100">
               {t(title)}
             </span>
           </div>
@@ -197,7 +191,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
                 minimizeWindow(id);
               }}
               aria-label={lang === 'es' ? 'Minimizar ventana' : 'Minimize window'}
-              className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-slate-700 text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+              className="w-9 h-9 md:w-7 md:h-7 flex items-center justify-center rounded-md hover:bg-slate-700 text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
             >
               <Minus className="w-3.5 h-3.5" />
             </button>
@@ -219,7 +213,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
                       ? 'Maximizar ventana'
                       : 'Maximize window'
                 }
-                className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-slate-700 text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
+                className="w-9 h-9 md:w-7 md:h-7 flex items-center justify-center rounded-md hover:bg-slate-700 text-slate-400 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400"
               >
                 {isMaximized ? <Copy className="w-3 h-3" /> : <Square className="w-3 h-3" />}
               </button>
@@ -233,7 +227,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
                 closeWindow(id);
               }}
               aria-label={lang === 'es' ? 'Cerrar ventana' : 'Close window'}
-              className="w-7 h-7 flex items-center justify-center rounded-md hover:bg-rose-500 hover:text-white text-slate-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+              className="w-9 h-9 md:w-7 md:h-7 flex items-center justify-center rounded-md hover:bg-rose-500 hover:text-white text-slate-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
             >
               <X className="w-3.5 h-3.5" />
             </button>
@@ -241,7 +235,7 @@ export function Window({ windowState, iconNode, children }: WindowProps) {
         </div>
 
         {/* Cuerpo de la ventana */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 bg-slate-50 dark:bg-slate-950 select-text overscroll-contain">
+        <div className="flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 bg-slate-950 select-text overscroll-contain">
           {children}
         </div>
       </div>
