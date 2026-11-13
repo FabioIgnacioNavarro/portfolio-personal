@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Profile } from '@/lib/schemas';
+import { copyTextToClipboard } from '@/lib/clipboard';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { Mail, Download, Copy, Check } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from '@/components/common/Icons';
@@ -13,12 +14,12 @@ interface ContactSectionProps {
 
 export function ContactSection({ profile }: ContactSectionProps) {
   const { lang } = useViewPreferences();
-  const [copied, setCopied] = useState(false);
+  const [copyState, setCopyState] = useState<'idle' | 'copied' | 'error'>('idle');
 
-  const copyEmail = () => {
-    navigator.clipboard.writeText(profile.links.email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const copyEmail = async () => {
+    const ok = await copyTextToClipboard(profile.links.email);
+    setCopyState(ok ? 'copied' : 'error');
+    setTimeout(() => setCopyState('idle'), 2400);
   };
 
   const cvHref = lang === 'es' ? profile.links.cvUrl.es : profile.links.cvUrl.en;
@@ -26,6 +27,7 @@ export function ContactSection({ profile }: ContactSectionProps) {
   return (
     <SectionPanel
       id="contact"
+      variant="surface"
       panelClassName="bg-gradient-to-br from-slate-900/70 to-slate-800/50 sm:p-10 text-center"
     >
       <h2 className="text-2xl sm:text-3xl font-extrabold text-white mb-3">
@@ -56,8 +58,22 @@ export function ContactSection({ profile }: ContactSectionProps) {
             lang === 'es' ? 'Copiar correo electrónico al portapapeles' : 'Copy email to clipboard'
           }
         >
-          {copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
-          <span>{copied ? (lang === 'es' ? '¡Copiado!' : 'Copied!') : profile.links.email}</span>
+          {copyState === 'copied' ? (
+            <Check className="w-4 h-4 text-emerald-500" />
+          ) : (
+            <Copy className="w-4 h-4" />
+          )}
+          <span>
+            {copyState === 'copied'
+              ? lang === 'es'
+                ? '¡Copiado!'
+                : 'Copied!'
+              : copyState === 'error'
+                ? lang === 'es'
+                  ? 'No se pudo copiar'
+                  : 'Copy unavailable'
+                : profile.links.email}
+          </span>
         </button>
 
         <a
@@ -71,12 +87,12 @@ export function ContactSection({ profile }: ContactSectionProps) {
         </a>
       </div>
 
-      <div className="flex items-center justify-center gap-6 pt-6 border-t border-slate-800 text-slate-400">
+      <div className="flex items-center justify-center gap-4 pt-6 border-t border-slate-800 text-slate-400">
         <a
           href={profile.links.linkedin}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-sm font-medium hover:text-blue-400 transition-colors rounded-md px-1 py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+          className="inline-flex items-center gap-2 text-sm font-medium hover:text-blue-400 transition-colors rounded-lg px-2.5 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         >
           <LinkedinIcon className="w-4 h-4" />
           <span>LinkedIn</span>
@@ -85,7 +101,7 @@ export function ContactSection({ profile }: ContactSectionProps) {
           href={profile.links.github}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-sm font-medium hover:text-white transition-colors rounded-md px-1 py-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+          className="inline-flex items-center gap-2 text-sm font-medium hover:text-white transition-colors rounded-lg px-2.5 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         >
           <GithubIcon className="w-4 h-4" />
           <span>GitHub</span>

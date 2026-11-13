@@ -42,12 +42,10 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
               {/* Nodo de la línea de tiempo */}
               <span className="absolute left-3.5 top-1.5 -translate-x-1/2 w-4 h-4 rounded-full border-2 border-blue-600 bg-slate-950"></span>
 
-              <div className="bg-slate-950/75 p-5 sm:p-6 rounded-xl border border-slate-800/90 shadow-sm hover:border-blue-800 transition-colors">
+              <div className="bg-slate-900/70 p-5 sm:p-6 rounded-xl border border-slate-800/90 hover:border-blue-800 transition-colors">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">
-                    {t(item.role)}
-                  </h3>
-                  <div className="flex items-center gap-1.5 text-xs font-medium text-slate-500 dark:text-slate-400">
+                  <h3 className="text-lg font-bold text-white">{t(item.role)}</h3>
+                  <div className="flex items-center gap-1.5 text-xs font-medium text-slate-400">
                     <Calendar className="w-3.5 h-3.5 text-slate-400" />
                     <span>
                       {t(item.startDate)} — {endDateDisplay}
@@ -55,13 +53,9 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                   </div>
                 </div>
 
-                <div className="text-sm font-semibold text-blue-600 dark:text-blue-400 mb-3">
-                  {t(item.company)}
-                </div>
+                <div className="text-sm font-semibold text-blue-400 mb-3">{t(item.company)}</div>
 
-                <p className="text-sm text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
-                  {t(item.description)}
-                </p>
+                <p className="text-sm text-slate-300 mb-4 leading-relaxed">{t(item.description)}</p>
 
                 {/* Responsabilidades */}
                 {item.achievements.length > 0 && (
@@ -69,7 +63,7 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                     <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400">
                       {lang === 'es' ? 'Responsabilidades:' : 'Responsibilities:'}
                     </h4>
-                    <ul className="space-y-1.5 text-sm text-slate-600 dark:text-slate-300">
+                    <ul className="space-y-1.5 text-sm text-slate-300">
                       {item.achievements.map((ach, idx) => (
                         <li key={idx} className="flex items-start gap-2">
                           <CheckCircle2 className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />

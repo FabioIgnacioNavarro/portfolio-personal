@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 interface SectionPanelProps {
   id: string;
   children: React.ReactNode;
+  variant?: 'band' | 'surface';
   className?: string;
   panelClassName?: string;
 }
@@ -13,6 +14,7 @@ interface SectionPanelProps {
 export function SectionPanel({
   id,
   children,
+  variant = 'band',
   className = '',
   panelClassName = '',
 }: SectionPanelProps) {
@@ -71,11 +73,16 @@ export function SectionPanel({
     };
   }, [id]);
 
+  const containerStyle =
+    variant === 'surface'
+      ? 'rounded-2xl border border-slate-800/80 bg-slate-900/60 p-5 sm:p-8 shadow-lg'
+      : 'border-t border-slate-800/75 pt-8 sm:pt-10 pb-2';
+
   return (
     <section ref={sectionRef} id={id} className={`scroll-mt-20 py-3 sm:py-4 ${className}`.trim()}>
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div
-          className={`rounded-2xl border border-slate-800/80 bg-slate-900/55 p-5 sm:p-8 shadow-lg transition-[opacity,translate,scale] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none motion-reduce:opacity-100 motion-reduce:translate-none motion-reduce:scale-none ${
+          className={`${containerStyle} transition-[opacity,translate,scale] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none motion-reduce:opacity-100 motion-reduce:translate-none motion-reduce:scale-none ${
             isVisible ? 'opacity-100' : 'opacity-[0.03] translate-y-7 scale-[0.985]'
           } ${panelClassName}`.trim()}
         >

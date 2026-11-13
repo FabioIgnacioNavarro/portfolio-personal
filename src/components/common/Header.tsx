@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useViewPreferences } from '@/context/ViewPreferencesContext';
 import { Monitor, FileText, Globe, Menu, X } from 'lucide-react';
 import { GithubIcon } from '@/components/common/Icons';
+import { BrandMark } from '@/components/common/BrandMark';
 
 interface HeaderProps {
   onDesktopModeSelect?: () => void;
@@ -13,16 +14,52 @@ interface HeaderProps {
 export function Header({ onDesktopModeSelect, portfolioRepoUrl }: HeaderProps) {
   const { lang, setLang, mode, setMode } = useViewPreferences();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<string>('about');
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   const navLinks = [
-    { href: '#about', label: lang === 'es' ? 'Sobre mí' : 'About' },
-    { href: '#experience', label: lang === 'es' ? 'Experiencia' : 'Experience' },
-    { href: '#projects', label: lang === 'es' ? 'Proyectos' : 'Projects' },
-    { href: '#skills', label: lang === 'es' ? 'Habilidades' : 'Skills' },
-    { href: '#education', label: lang === 'es' ? 'Educación' : 'Education' },
-    { href: '#contact', label: lang === 'es' ? 'Contacto' : 'Contact' },
+    { href: '#experience', id: 'experience', label: lang === 'es' ? 'Experiencia' : 'Experience' },
+    { href: '#projects', id: 'projects', label: lang === 'es' ? 'Proyectos' : 'Projects' },
+    { href: '#skills', id: 'skills', label: lang === 'es' ? 'Habilidades' : 'Skills' },
+    { href: '#education', id: 'education', label: lang === 'es' ? 'Educación' : 'Education' },
+    { href: '#contact', id: 'contact', label: lang === 'es' ? 'Contacto' : 'Contact' },
   ];
+
+  // Rastrea la sección visible para resaltar la ubicación actual en la barra de navegación
+  useEffect(() => {
+    if (typeof IntersectionObserver === 'undefined') return;
+    const sectionIds = [
+      'about',
+      'experience',
+      'projects',
+      'skills',
+      'education',
+      'languages',
+      'contact',
+    ];
+    const elements = sectionIds
+      .map((secId) => document.getElementById(secId))
+      .filter((el): el is HTMLElement => el !== null);
+
+    if (elements.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const intersecting = entries.filter((entry) => entry.isIntersecting);
+        if (intersecting.length === 0) return;
+        const topmost = intersecting.reduce((best, cur) =>
+          cur.boundingClientRect.top < best.boundingClientRect.top ? cur : best,
+        );
+        if (topmost.target.id) {
+          setActiveSection(topmost.target.id);
+        }
+      },
+      { rootMargin: '-25% 0px -60% 0px', threshold: 0.01 },
+    );
+
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 
   // Permite cerrar el menú móvil con la tecla Escape restaurando el foco al botón disparador
   useEffect(() => {
@@ -52,9 +89,9 @@ export function Header({ onDesktopModeSelect, portfolioRepoUrl }: HeaderProps) {
         {/* Marca / Logo */}
         <a
           href="#about"
-          className="min-w-0 text-sm sm:text-lg font-bold tracking-tight text-white flex items-center gap-2 hover:opacity-80 transition-opacity rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+          className="min-w-0 text-sm sm:text-base font-bold tracking-tight text-white flex items-center gap-2.5 hover:opacity-85 transition-opacity rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         >
-          <span className="w-2.5 h-2.5 rounded-full bg-blue-500 animate-pulse shrink-0"></span>
+          <BrandMark size="sm" />
           <span className="truncate">Fabio Ignacio Navarro</span>
         </a>
 
@@ -63,15 +100,21 @@ export function Header({ onDesktopModeSelect, portfolioRepoUrl }: HeaderProps) {
           className="hidden lg:flex items-center gap-4 xl:gap-6"
           aria-label={lang === 'es' ? 'Navegación principal' : 'Main navigation'}
         >
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors rounded-md px-1 py-0.5 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
-            >
-              {link.label}
-            </a>
-          ))}
+          {navLinks.map((link) => {
+            const isCurrent = activeSection === link.id;
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                aria-current={isCurrent ? 'location' : undefined}
+                className={`text-sm font-medium transition-colors rounded-md px-1.5 py-1 whitespace-nowrap focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 ${
+                  isCurrent ? 'text-sky-400' : 'text-slate-300 hover:text-blue-400'
+                }`}
+              >
+                {link.label}
+              </a>
+            );
+          })}
         </nav>
 
         {/* Controles globales */}
@@ -85,11 +128,12 @@ export function Header({ onDesktopModeSelect, portfolioRepoUrl }: HeaderProps) {
             <button
               type="button"
               onClick={() => handleModeChange('simple')}
+              aria-pressed={mode === 'simple'}
               aria-label={
                 lang === 'es' ? 'Modo Simple (Lectura rápida)' : 'Simple Mode (Fast Reading)'
               }
               title={lang === 'es' ? 'Modo Simple (Lectura rápida)' : 'Simple Mode (Fast Reading)'}
-              className={`flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
+              className={`flex items-center gap-1.5 min-h-[38px] sm:min-h-0 px-2.5 py-1.5 sm:py-1 text-xs font-medium rounded-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
                 mode === 'simple'
                   ? 'bg-slate-700 text-blue-400 shadow-sm'
                   : 'text-slate-400 hover:text-white'
@@ -101,11 +145,12 @@ export function Header({ onDesktopModeSelect, portfolioRepoUrl }: HeaderProps) {
             <button
               type="button"
               onClick={() => handleModeChange('desktop')}
+              aria-pressed={mode === 'desktop'}
               aria-label={
                 lang === 'es' ? 'Modo Escritorio interactivo' : 'Interactive Desktop Mode'
               }
               title={lang === 'es' ? 'Modo Escritorio interactivo' : 'Interactive Desktop Mode'}
-              className={`flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
+              className={`flex items-center gap-1.5 min-h-[38px] sm:min-h-0 px-2.5 py-1.5 sm:py-1 text-xs font-medium rounded-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
                 mode === 'desktop'
                   ? 'bg-slate-700 text-blue-400 shadow-sm'
                   : 'text-slate-400 hover:text-white'
@@ -126,7 +171,7 @@ export function Header({ onDesktopModeSelect, portfolioRepoUrl }: HeaderProps) {
                 ? `Cambiar idioma (${lang.toUpperCase()})`
                 : `Switch language (${lang.toUpperCase()})`
             }
-            className="flex items-center gap-1 px-2.5 py-1 text-xs font-semibold rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            className="flex items-center gap-1 min-h-[40px] sm:min-h-0 px-2.5 py-1.5 sm:py-1 text-xs font-semibold rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
           >
             <Globe className="w-3.5 h-3.5 text-blue-400" />
             <span>{lang.toUpperCase()}</span>
@@ -146,10 +191,10 @@ export function Header({ onDesktopModeSelect, portfolioRepoUrl }: HeaderProps) {
               title={
                 lang === 'es' ? 'Ver código fuente del portfolio' : 'View portfolio source code'
               }
-              className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+              className="flex items-center gap-1.5 min-h-[40px] sm:min-h-0 px-2.5 py-1.5 sm:py-1 text-xs font-semibold rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             >
               <GithubIcon className="w-3.5 h-3.5 text-slate-300 shrink-0" />
-              <span className="hidden xl:inline">{lang === 'es' ? 'Repo' : 'Source'}</span>
+              <span className="hidden md:inline">{lang === 'es' ? 'Repo' : 'Source'}</span>
             </a>
           )}
 
@@ -158,7 +203,7 @@ export function Header({ onDesktopModeSelect, portfolioRepoUrl }: HeaderProps) {
             ref={menuButtonRef}
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="lg:hidden p-1.5 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
+            className="lg:hidden min-h-[44px] min-w-[44px] flex items-center justify-center p-2 rounded-lg border border-slate-700 text-slate-300 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
             aria-label={
               mobileMenuOpen
                 ? lang === 'es'

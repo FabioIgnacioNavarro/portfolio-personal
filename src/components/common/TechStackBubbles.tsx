@@ -159,7 +159,7 @@ export function TechStackBubbles({
   const chipClass =
     variant === 'hero'
       ? 'inline-flex items-center gap-2 rounded-full border border-slate-700/80 bg-slate-900/90 px-3.5 py-1.5 text-xs sm:text-[13px] font-medium text-slate-100 transition-colors hover:border-blue-500/50 hover:bg-slate-800/90'
-      : 'inline-flex items-center gap-1.5 rounded-full border border-slate-200 dark:border-slate-700/80 bg-slate-100/90 dark:bg-slate-800/85 px-3 py-1 text-xs font-medium text-slate-800 dark:text-slate-100 transition-colors hover:border-blue-500/50';
+      : 'inline-flex items-center gap-1.5 rounded-full border border-slate-700/80 bg-slate-800/85 px-3 py-1 text-xs font-medium text-slate-100 transition-colors hover:border-blue-500/50';
 
   return (
     <ul className={`flex flex-wrap items-center gap-2 ${className}`.trim()}>

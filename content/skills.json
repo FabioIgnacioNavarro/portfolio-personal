@@ -8,12 +8,12 @@
     "skills": [
       { "name": "Python", "highlight": true },
       { "name": "Django", "highlight": true },
-      { "name": "Django REST Framework", "highlight": true },
-      { "name": "Node.js (LTS)", "highlight": true },
+      { "name": "Django REST Framework", "highlight": false },
+      { "name": "Node.js (LTS)", "highlight": false },
       { "name": "TypeScript", "highlight": true },
       {
         "name": { "es": "Microservicios", "en": "Microservices" },
-        "highlight": true
+        "highlight": false
       }
     ]
   },
@@ -26,12 +26,12 @@
     "skills": [
       {
         "name": { "es": "Arquitectura Hexagonal", "en": "Hexagonal Architecture" },
-        "highlight": true
+        "highlight": false
       },
-      { "name": "OpenTelemetry & W3C Trace", "highlight": true },
-      { "name": "Jaeger Distributed Tracing", "highlight": true },
-      { "name": "OIDC / JWKS & RBAC", "highlight": true },
-      { "name": "Architecture Decision Records (ADRs)", "highlight": true }
+      { "name": "OpenTelemetry & W3C Trace", "highlight": false },
+      { "name": "Jaeger Distributed Tracing", "highlight": false },
+      { "name": "OIDC / JWKS & RBAC", "highlight": false },
+      { "name": "Architecture Decision Records (ADRs)", "highlight": false }
     ]
   },
   {
@@ -42,9 +42,9 @@
     },
     "skills": [
       { "name": "React", "highlight": true },
-      { "name": "React Native", "highlight": true },
+      { "name": "React Native", "highlight": false },
       { "name": "Expo", "highlight": false },
-      { "name": "Tailwind CSS", "highlight": true },
+      { "name": "Tailwind CSS", "highlight": false },
       { "name": "HTML5 & CSS3", "highlight": false }
     ]
   },
@@ -56,7 +56,7 @@
     },
     "skills": [
       { "name": "PostgreSQL", "highlight": true },
-      { "name": "Supabase", "highlight": true },
+      { "name": "Supabase", "highlight": false },
       { "name": "Docker & Docker Compose", "highlight": true },
       { "name": "Nginx Reverse Proxy", "highlight": false }
     ]
@@ -68,9 +68,9 @@
       "en": "Tools & Engineering Practices"
     },
     "skills": [
-      { "name": "Git & GitHub", "highlight": true },
-      { "name": "RESTful API Design", "highlight": true },
-      { "name": "Playwright & Vitest", "highlight": true },
+      { "name": "Git & GitHub", "highlight": false },
+      { "name": "RESTful API Design", "highlight": false },
+      { "name": "Playwright & Vitest", "highlight": false },
       {
         "name": { "es": "Pruebas de Carga", "en": "Load Testing" },
         "highlight": false
@@ -90,14 +90,14 @@
           "es": "Manejo de LLMs y Agentes de IA",
           "en": "LLM & AI Agent Management"
         },
-        "highlight": true
+        "highlight": false
       },
       {
         "name": {
           "es": "Uso y Diseño de AI Skills",
           "en": "AI Skills Usage & Design"
         },
-        "highlight": true
+        "highlight": false
       },
       {
         "name": {

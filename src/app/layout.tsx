@@ -1,9 +1,22 @@
 import type { Metadata, Viewport } from 'next';
+import { Plus_Jakarta_Sans, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { ViewPreferencesProvider } from '@/context/ViewPreferencesContext';
 import { loadPortfolioContent } from '@/lib/content';
 import { resolveLocalizedText } from '@/lib/schemas/common';
 import { getSiteUrl } from '@/lib/site';
+
+const plusJakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
+  display: 'swap',
+});
 
 // Metadatos SEO y de compartición social construidos desde content/profile.json
 export function generateMetadata(): Metadata {
@@ -75,7 +88,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning className="dark scroll-smooth">
+    <html
+      lang="es"
+      suppressHydrationWarning
+      className={`dark scroll-smooth ${plusJakarta.variable} ${jetbrainsMono.variable}`}
+    >
       <body className="bg-slate-950 text-slate-100 antialiased selection:bg-blue-600 selection:text-white">
         <ViewPreferencesProvider>{children}</ViewPreferencesProvider>
       </body>
