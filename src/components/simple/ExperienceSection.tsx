@@ -63,11 +63,11 @@ export function ExperienceSection({ experience }: ExperienceSectionProps) {
                   {t(item.description)}
                 </p>
 
-                {/* Logros */}
+                {/* Responsabilidades */}
                 {item.achievements.length > 0 && (
                   <div className="mb-4 space-y-2">
                     <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                      {lang === 'es' ? 'Responsabilidades y Logros:' : 'Key Achievements:'}
+                      {lang === 'es' ? 'Responsabilidades:' : 'Responsibilities:'}
                     </h4>
                     <ul className="space-y-1.5 text-sm text-slate-600 dark:text-slate-300">
                       {item.achievements.map((ach, idx) => (
