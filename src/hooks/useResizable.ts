@@ -1,4 +1,5 @@
 import { useRef, useCallback } from 'react';
+import { TASKBAR_HEIGHT_PX } from '@/lib/windowGeometry';
 
 export type ResizeDirection = 'n' | 's' | 'e' | 'w' | 'ne' | 'nw' | 'se' | 'sw';
 
@@ -85,32 +86,43 @@ export function useResizable({
         let newPosX = startPosX;
         let newPosY = startPosY;
 
-        // Redimensionamiento horizontal
+        const maxViewportWidth = Math.max(minSize.width, window.innerWidth - 8);
+        const maxViewportHeight = Math.max(
+          minSize.height,
+          window.innerHeight - TASKBAR_HEIGHT_PX - 8,
+        );
+
+        // Redimensionamiento horizontal dentro de límites visibles manteniendo fijo el borde opuesto
         if (direction.includes('e')) {
-          newWidth = Math.max(minSize.width, startWidth + deltaX);
+          const clampedWidth = Math.min(startWidth + deltaX, window.innerWidth - startPosX - 4);
+          newWidth = Math.max(minSize.width, Math.min(maxViewportWidth, clampedWidth));
         } else if (direction.includes('w')) {
-          const potentialWidth = startWidth - deltaX;
-          if (potentialWidth >= minSize.width) {
-            newWidth = potentialWidth;
-            newPosX = startPosX + deltaX;
-          } else {
-            newWidth = minSize.width;
-            newPosX = startPosX + (startWidth - minSize.width);
-          }
+          const anchoredRight = startPosX + startWidth;
+          const clampedLeft = Math.max(
+            0,
+            Math.min(startPosX + deltaX, anchoredRight - minSize.width),
+          );
+          const boundedWidth = Math.min(maxViewportWidth, anchoredRight - clampedLeft);
+          newWidth = Math.max(minSize.width, boundedWidth);
+          newPosX = anchoredRight - newWidth;
         }
 
-        // Redimensionamiento vertical
+        // Redimensionamiento vertical evitando que la barra de título suba fuera del viewport (y >= 0)
         if (direction.includes('s')) {
-          newHeight = Math.max(minSize.height, startHeight + deltaY);
+          const clampedHeight = Math.min(
+            startHeight + deltaY,
+            window.innerHeight - TASKBAR_HEIGHT_PX - startPosY,
+          );
+          newHeight = Math.max(minSize.height, Math.min(maxViewportHeight, clampedHeight));
         } else if (direction.includes('n')) {
-          const potentialHeight = startHeight - deltaY;
-          if (potentialHeight >= minSize.height) {
-            newHeight = potentialHeight;
-            newPosY = startPosY + deltaY;
-          } else {
-            newHeight = minSize.height;
-            newPosY = startPosY + (startHeight - minSize.height);
-          }
+          const anchoredBottom = startPosY + startHeight;
+          const clampedTop = Math.max(
+            0,
+            Math.min(startPosY + deltaY, anchoredBottom - minSize.height),
+          );
+          const boundedHeight = Math.min(maxViewportHeight, anchoredBottom - clampedTop);
+          newHeight = Math.max(minSize.height, boundedHeight);
+          newPosY = anchoredBottom - newHeight;
         }
 
         onResize({ width: newWidth, height: newHeight }, { x: newPosX, y: newPosY });

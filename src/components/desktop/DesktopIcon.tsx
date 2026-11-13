@@ -23,10 +23,7 @@ export function DesktopIcon({ id, label, icon, isSelected = false, onSelect }: D
 
   const handleClick = () => {
     onSelect?.();
-    // En pantallas táctiles o móviles, abrir con un solo toque
-    if (typeof window !== 'undefined' && window.innerWidth < 768) {
-      handleOpen();
-    }
+    handleOpen();
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -40,14 +37,13 @@ export function DesktopIcon({ id, label, icon, isSelected = false, onSelect }: D
     <button
       type="button"
       onClick={handleClick}
-      onDoubleClick={handleOpen}
       onKeyDown={handleKeyDown}
       aria-label={t(label)}
-      className={`group w-full max-w-[6.25rem] md:w-28 p-2 md:p-2.5 flex flex-col items-center gap-1.5 rounded-xl cursor-pointer text-center select-none transition-all outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
+      className={`group w-full max-w-[6.25rem] md:w-28 min-h-[88px] p-2 md:p-2.5 flex flex-col items-center gap-1.5 rounded-xl cursor-pointer text-center select-none transition-all outline-none focus-visible:ring-2 focus-visible:ring-blue-400 ${
         isSelected ? 'bg-blue-600/40 ring-1 ring-blue-300 shadow-sm' : 'hover:bg-white/15'
       }`}
     >
-      <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-xl bg-gradient-to-b from-white/95 to-slate-100/90 dark:from-slate-800/95 dark:to-slate-900/90 shadow-md border border-white/40 dark:border-slate-700/60 group-hover:scale-105 transition-transform text-blue-600 dark:text-blue-400">
+      <div className="w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-xl bg-gradient-to-b from-slate-800/95 to-slate-900/90 shadow-md border border-slate-700/60 group-hover:scale-105 transition-transform text-blue-400">
         {icon}
       </div>
       <span className="text-xs font-semibold text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)] line-clamp-2 px-1 rounded leading-tight">

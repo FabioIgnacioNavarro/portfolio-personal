@@ -1,4 +1,5 @@
 import { useRef, useCallback } from 'react';
+import { TASKBAR_HEIGHT_PX } from '@/lib/windowGeometry';
 
 interface Position {
   x: number;
@@ -73,15 +74,14 @@ export function useDraggable({
         const deltaX = clientX - dragStartRef.current.pointerX;
         const deltaY = clientY - dragStartRef.current.pointerY;
 
-        // Limitar las coordenadas para que la barra de título no salga completamente de la pantalla
+        // Limitar coordenadas para mantener la barra de título accesible encima de la barra de tareas
+        const minVisibleX = 120;
+        const maxY = Math.max(0, window.innerHeight - TASKBAR_HEIGHT_PX - 40);
         const newX = Math.max(
-          -200,
-          Math.min(window.innerWidth - 100, dragStartRef.current.windowX + deltaX),
+          -minVisibleX,
+          Math.min(window.innerWidth - minVisibleX, dragStartRef.current.windowX + deltaX),
         );
-        const newY = Math.max(
-          0,
-          Math.min(window.innerHeight - 100, dragStartRef.current.windowY + deltaY),
-        );
+        const newY = Math.max(0, Math.min(maxY, dragStartRef.current.windowY + deltaY));
 
         onPositionChange({ x: newX, y: newY });
       });
